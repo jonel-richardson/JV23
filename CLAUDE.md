@@ -44,6 +44,7 @@ src/
 │   ├── Nav.tsx                 — Sticky nav + mobile menu
 │   ├── scenes/
 │   │   ├── Hero.tsx            — Scene 01
+│   │   ├── HeroDrone.tsx       — Inline SVG quadcopter for Hero
 │   │   ├── About.tsx           — Scene 02
 │   │   ├── FeaturedWork.tsx    — Scene 03
 │   │   ├── TrustedBy.tsx       — Scene 04
@@ -86,7 +87,6 @@ src/
 └── public/
     ├── images/
     │   ├── jack-nathan.jpg     — Static portrait (do not move to Sanity)
-    │   ├── drone-hero.png      — Hero drone image
     │   └── og-cover.jpg        — 1200×630 social share image
     └── videos/
         └── camera-pan-viewfinder.mp4  — From v1, see Phase 8

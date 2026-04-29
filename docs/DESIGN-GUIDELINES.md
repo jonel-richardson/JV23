@@ -2,7 +2,7 @@
 
 > Visual and UX decisions for this project. Reference this before building any UI component.
 > Hand this to Claude Code alongside CLAUDE.md so it builds to spec, not defaults.
-> Source: `Jack_Visuals_-_Standalone_1_.html` mockup (v2). Repo: `jonel-richardson/JV23`.
+> Source: `docs/mockup.html` (v2). Repo: `jonel-richardson/JV23`.
 
 ## Brand / Visual Direction
 
@@ -11,7 +11,7 @@
 **One-liner:** "Director's monitor, not a marketing page."
 
 **References:**
-- The mockup itself (`Jack_Visuals_-_Standalone_1_.html`) — single source of truth
+- The mockup itself (`docs/mockup.html`) — single source of truth
 - Aesthetic adjacent: A24 film studio sites, Apple's product launch microsites, professional camera UI (Blackmagic, ARRI)
 
 **Anti-patterns (do not build like):**
@@ -363,6 +363,7 @@ The decision is logged in the change log below regardless of outcome.
 | 2026-04-29 | Reviews | None | New `review` schema with auto-publish + approval gate | Social proof scene added to design |
 | 2026-04-29 | Video field | `vimeoUrl` | `videoUrl` (platform-agnostic) | Hosting decision deferred to Phase 9, schema does not change either way |
 | 2026-04-29 | Layout system | Viewport media queries | Container queries on `.frame` | Mockup uses container queries; portable, iframe-safe |
+| 2026-04-29 | Hero drone asset | `public/images/drone-hero.png` (planned PNG) | Inline SVG component (`src/components/scenes/HeroDrone.tsx`) | Mockup ships the drone as detailed inline SVG — no PNG export exists, and inline SVG matches the cinema-tech motif while keeping the asset payload zero. Accent fills (`#0066ff`, `#00ffa3`) are raw hex per the SVG fill-attribute compatibility constraint, mapped to `--color-accent-primary` and `--color-accent-secondary` in inline comments. |
 
 > After logging a change here, update the relevant section above so the current spec is always accurate.
 

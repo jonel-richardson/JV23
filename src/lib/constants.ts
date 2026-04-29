@@ -73,3 +73,48 @@ export const NAV_CTA = {
   label: 'Start a project',
   href: '#inquire',
 } as const
+
+// --- Phase 3: Hero Scene -------------------------------------------------
+
+export interface HeroStat {
+  label: string
+  value: string
+  accent?: boolean
+}
+
+export const HERO_STATS: readonly HeroStat[] = [
+  { label: 'EST.', value: '2023', accent: true },
+  { label: 'PROJECTS', value: '47+' },
+  { label: 'REGION', value: 'CARIBBEAN' },
+] as const
+
+export interface HeroDronePosition {
+  width: number
+  top: number
+  right: number
+  opacity: number
+}
+
+// Authoritative spec for the drone's three breakpoint positions.
+// Mobile and opacity values verbatim from docs/mockup.html .hero-drone CSS;
+// 768px+ and 1024px+ position values per Phase 3 prompt approval (the mockup's
+// own desktop positions were superseded). HeroDrone.tsx mirrors these values
+// as Tailwind utility classes since Tailwind cannot statically detect runtime
+// values in arbitrary-value class strings — keep this constant and the
+// component classes in sync if either changes.
+export const HERO_DRONE_SIZE = {
+  mobile: { width: 180, top: 100, right: -40, opacity: 0.5 },
+  tablet: { width: 220, top: 90, right: 0, opacity: 0.7 },
+  desktop: { width: 280, top: 80, right: 40, opacity: 0.85 },
+} as const satisfies Record<'mobile' | 'tablet' | 'desktop', HeroDronePosition>
+
+// rgba(0,102,255,...) is --color-accent-primary at 12% alpha. Position
+// values are pixel-exact from the mockup. Single-state (no breakpoint
+// changes) so the component applies these via inline style.
+export const HERO_GLOW = {
+  width: 400,
+  height: 400,
+  bottom: -150,
+  left: -100,
+  gradient: 'radial-gradient(circle, rgba(0,102,255,0.12) 0%, transparent 70%)',
+} as const
