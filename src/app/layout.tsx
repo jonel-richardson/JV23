@@ -38,9 +38,7 @@ export default function RootLayout({
       lang="en"
       className={`${bebasNeue.variable} ${inter.variable} ${jetBrainsMono.variable}`}
     >
-      <body>
-        <div className="frame">{children}</div>
-      </body>
+      <body>{children}</body>
     </html>
   )
 }
