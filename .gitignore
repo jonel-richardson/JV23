@@ -1,0 +1,74 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# Testing
+/coverage
+/.nyc_output
+
+# Next.js
+/.next/
+/out/
+next-env.d.ts
+
+# Production builds
+/build
+/dist
+
+# Environment variables (keys, tokens, secrets — NEVER commit)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env*.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+*.log
+
+# IDE / Editor
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Sanity
+.sanity/
+sanity-studio/dist/
+
+# TypeScript
+*.tsbuildinfo
+
+# Vercel
+.vercel/
+
+# Claude — local-only files (never commit)
+claude.local.md
+
+# Generated assets (regenerate via FFmpeg, see CLAUDE.md)
+/public/videos/frames/
+
+# Misc
+.cache/
+.parcel-cache/
+*.pem
+.env.vault
