@@ -69,11 +69,21 @@ Gives a temporary public URL. No domain or deployment required.
 - **kit** — name, description, image, order
 - **review** — clientName, role, project (reference), reviewText, email, submittedAt, approved
 
-**Initialize Sanity in the project:**
+**Initialize Sanity in the project (embedded studio pattern — no Sanity CLI):**
+
+The Sanity Studio is embedded directly inside this Next.js app at `/studio`. We do NOT use `npx sanity init`, which scaffolds a standalone studio in its own directory. Instead, we install `next-sanity` and hand-write the config + route file.
+
 ```bash
-npm install @sanity/client @sanity/image-url next-sanity
-npx sanity init --project yqj0dj48
+npm install next-sanity sanity @sanity/vision @sanity/client @sanity/image-url
 ```
+
+Then create three files by hand:
+
+1. `sanity.config.ts` at the **repo root** — defines projectId, dataset, plugins, and registers the five schema types. Imports schemas from `src/sanity/schemas/index.ts`.
+2. `src/sanity/schemas/*.ts` — one file per document type (`project`, `service`, `trustedBy`, `kit`, `review`) plus an `index.ts` barrel.
+3. `src/app/studio/[[...tool]]/page.tsx` — mounts the studio using `NextStudio` from `next-sanity/studio`, passing the root `sanity.config.ts`. This makes the studio available at `localhost:3000/studio` (and `jackvisuals23.com/studio` once the domain is connected).
+
+No separate `sanity-studio/` directory. No Sanity CLI scaffold. Single Next.js app, single deploy.
 
 **Sanity client config:**
 ```ts
@@ -109,11 +119,17 @@ export const writeClient = createClient({
 6. **Never commit this token. Never import it into a component file. It lives only in the API route at `app/api/reviews/route.ts`.**
 
 **Deploy Sanity Studio** (Phase 8):
+
+The primary access path for Nathan is the embedded studio at **`jackvisuals23.com/studio`** — it ships automatically with every Vercel deploy of the Next.js app, no separate deploy step. This is what we want him using day-to-day.
+
+The standalone Sanity-hosted studio (`*.sanity.studio`) is optional and only used as a fallback before the production domain is connected. If we need it during Phase 8 development:
+
 ```bash
 npx sanity deploy
 # Choose studio hostname — e.g. jack-visuals-studio.sanity.studio
-# Studio is also embedded at jackvisuals23.com/studio post-launch
 ```
+
+Once the production domain is live, point Nathan at `jackvisuals23.com/studio` and the standalone hostname can be retired or left dormant.
 
 **Invite Nathan as editor** (Phase 8 / launch):
 1. Go to sanity.io/manage → select the project

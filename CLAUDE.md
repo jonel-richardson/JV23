@@ -116,7 +116,7 @@ npm test                    # Unit + integration (Jest + RTL)
 
 ### Styling
 - **Tailwind utility classes only.** No inline styles for layout. No CSS modules unless a scene's animation needs them.
-- Design tokens (colors, fonts, spacing) defined in `globals.css` as CSS variables and exposed in `tailwind.config.ts`.
+- Design tokens (colors, fonts, spacing) defined in `globals.css` using Tailwind v4's `@theme` block. No `tailwind.config.ts` — v4 is CSS-first, single source of truth.
 - **Container queries for scene-internal layout, viewport media queries outside the frame.** When you write a container query, add a brief inline comment on first use in each component (e.g. `/* @container frame: when scene container is 768px+ */`) so Jo can read along during review.
 - **Responsive: mobile-first.** Base styles target mobile. Use container queries (`@container frame (min-width: 768px)` and `(min-width: 1024px)`) for tablet/desktop overrides inside scenes.
 - **Color tokens are non-negotiable.** Never hardcode a hex value in a component. If a color is needed and not in DESIGN-GUIDELINES, stop and ask.
@@ -174,10 +174,10 @@ Reference `PROJECT-CHECKLIST.md` for the operational steps Jo runs between phase
 
 ### Phase 1 — Scaffold
 - [ ] Next.js 16 project initialized with TypeScript and App Router
-- [ ] Tailwind CSS v4 configured
+- [ ] Tailwind CSS v4 configured with @theme block in globals.css (no tailwind.config.ts — v4 is CSS-first)
 - [ ] DESIGN-GUIDELINES color tokens added to `globals.css` as CSS variables
 - [ ] Three fonts loaded via `next/font/google`: Bebas Neue, Inter, JetBrains Mono — exposed as `--font-display`, `--font-body`, `--font-mono`
-- [ ] Font variables wired into `tailwind.config.ts` as `font-display`, `font-body`, `font-mono`
+- [ ] Font variables exposed via @theme in globals.css and usable as `font-display`, `font-body`, `font-mono` utilities
 - [ ] Container query setup on the root layout `.frame` element
 - [ ] Sanity initialized with project ID `yqj0dj48`, dataset `production`
 - [ ] All five schemas created: `project`, `service`, `trustedBy`, `kit`, `review` (specs in DESIGN-GUIDELINES section "Sanity Schemas")

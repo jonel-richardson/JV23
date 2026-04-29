@@ -195,7 +195,7 @@ You're not obligated to approve every review you receive. Be picky — your home
 
 ## Need Help?
 
-Contact **Jonel Richardson** at **generatenyc@gmail.com**
+Contact **Jonel Richardson** at **jonelrichardson@gmail.com**
 Response time: 24 hours.
 
 For urgent issues (site down, data missing): text Jonel directly.
