@@ -63,6 +63,7 @@ sanity-studio/dist/
 
 # Claude — local-only files (never commit)
 claude.local.md
+.claude/
 
 # Generated assets (regenerate via FFmpeg, see CLAUDE.md)
 /public/videos/frames/
