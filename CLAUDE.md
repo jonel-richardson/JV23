@@ -1,8 +1,8 @@
 # CLAUDE.md — Jack Visuals 2.0
 
 > Instructions for Claude Code when building this project.
-> Read PRD.md and DESIGN-GUIDELINES.md before writing any code.
-> Operational checklist (what Jo does between phases) lives in PROJECT-CHECKLIST.md.
+> Read `docs/PRD.md` and `docs/DESIGN-GUIDELINES.md` before writing any code.
+> Operational checklist (what Jo does between phases) lives outside the repo — Jo manages it personally.
 
 ## 1. Project Overview
 - **Name:** Jack Visuals 2.0
@@ -186,7 +186,7 @@ Reference `PROJECT-CHECKLIST.md` for the operational steps Jo runs between phase
 - [ ] `lib/types.ts` with TypeScript interfaces matching every Sanity schema
 - [ ] `lib/sanity.ts` with client and all GROQ queries from DESIGN-GUIDELINES
 - [ ] `.env.local` and `.env.example` set up with Sanity vars + Turnstile keys + Formspree endpoint
-- [ ] All docs (CLAUDE.md, PRD.md, DESIGN-GUIDELINES.md, SETUP.md, SEO.md, NATHAN_GUIDE.md, PROJECT-CHECKLIST.md) committed to repo
+- [ ] All docs committed to repo: `CLAUDE.md` and `claude.local.md` at root, `docs/PRD.md`, `docs/DESIGN-GUIDELINES.md`, `docs/SETUP.md`, `docs/SEO.md`, `docs/NATHAN_GUIDE.md`
 
 ### Phase 2 — Nav Component
 - [ ] `Nav.tsx` built — logo left, links + Inquire CTA right
@@ -427,15 +427,15 @@ These are non-negotiable. If any rule conflicts with a request, flag it.
 
 ## 13. Documentation Cross-References
 
-- **PRD.md** — Why we're building this, success metrics, scope, risks
-- **DESIGN-GUIDELINES.md** — Visual system, component patterns, Sanity schemas (the visual + data spec)
-- **PROJECT-CHECKLIST.md** — Operational checklist Jo runs through (the human-side workflow)
-- **SETUP.md** — External accounts, deployment, environment variables
-- **SEO.md** — Meta tags, OG, structured data, performance rules
-- **NATHAN_GUIDE.md** — Nathan-facing CMS instructions
-- **claude.local.md** — Session logs, machine-specific notes (gitignored)
+- **`docs/PRD.md`** — Why we're building this, success metrics, scope, risks
+- **`docs/DESIGN-GUIDELINES.md`** — Visual system, component patterns, Sanity schemas (the visual + data spec)
+- **`docs/SETUP.md`** — External accounts, deployment, environment variables
+- **`docs/SEO.md`** — Meta tags, OG, structured data, performance rules
+- **`docs/NATHAN_GUIDE.md`** — Nathan-facing CMS instructions
+- **`README.md`** — Public-facing project description (root)
+- **`claude.local.md`** — Session logs, machine-specific notes (gitignored, root)
 
-When in doubt, check in this order: CLAUDE.md → PRD.md → DESIGN-GUIDELINES.md → SETUP.md/SEO.md → ask Jo.
+When in doubt, check in this order: `CLAUDE.md` → `docs/PRD.md` → `docs/DESIGN-GUIDELINES.md` → `docs/SETUP.md` / `docs/SEO.md` → ask Jo.
 
 ---
 
