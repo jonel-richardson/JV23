@@ -138,3 +138,29 @@ export const FEATURED_VIEW_ALL_LABEL = 'All Projects →'
 export const FEATURED_VIEW_ALL_HREF = '/work'
 
 export const FEATURED_EMPTY_STATE = 'Featured work coming soon.'
+
+// --- Phase 5: About Scene -----------------------------------------------
+
+// Display headline rendered one line per array entry — block layout in JSX
+// avoids <br> in the source content per typography rules.
+export const ABOUT_TITLE: readonly string[] = ['MEET', 'NATHAN.'] as const
+
+// Locked literal copy from docs/mockup.html. Two paragraphs, plain Inter
+// body, no inline styling. Edits go through DESIGN-GUIDELINES change log.
+export const ABOUT_BODY_PARAGRAPHS: readonly string[] = [
+  'A Trinidad-based cinematographer building cinematic stories for brands and events across the Caribbean. Single drone, small team, sharp eye for the moment.',
+  'Nine years behind the lens. Self-taught. Trained on weddings, refined on commercials, currently focused on brand films that move at the speed of a story.',
+] as const
+
+export const ABOUT_LOCATION = '// PORT OF SPAIN · TRINIDAD & TOBAGO'
+
+// Portrait card photo. Phase 9 will add a scroll-driven camera-pan
+// animation as a one-time intro flourish layered ON TOP of this image —
+// the photo is the persistent visual.
+export const ABOUT_PORTRAIT_PHOTO = {
+  src: '/images/nathan-portrait.jpg',
+  alt: 'Nathan, cinematographer, Trinidad & Tobago',
+} as const
+
+export const ABOUT_PORTRAIT_TIMECODE = '// SHOT 01 · PORTRAIT'
+export const ABOUT_PORTRAIT_REC_LABEL = 'REC'

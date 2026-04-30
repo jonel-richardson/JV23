@@ -18,6 +18,23 @@
   --font-display: var(--font-bebas-neue);
   --font-body: var(--font-inter);
   --font-mono: var(--font-jetbrains-mono);
+
+  /* Custom REC indicator pulse. Tailwind's default animate-pulse fades
+     opacity 0.5 → 1, which is too soft for the cinema-tech REC dot. This
+     mirrors the mockup's keyframe (1 → 0.3 → 1) so the dot reads as an
+     active recording cue rather than a gentle wash. Pair with motion-safe:
+     to honor prefers-reduced-motion. */
+  --animate-pulse-rec: pulse-rec 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse-rec {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
 }
 
 .frame {

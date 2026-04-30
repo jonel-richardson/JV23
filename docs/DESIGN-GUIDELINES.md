@@ -153,11 +153,15 @@ Only `brand` projects get the blue accent. Everything else is muted gray. This i
 
 ### REC / Timecode UI (About portrait card)
 
-The portrait card is framed as a director's monitor:
-- Top-left label: `// SHOT 01 · PORTRAIT` in mono
-- Top-right: red `#00ffa3` dot + "REC" text in mono
-- Optional gradient overlay fading bottom edge to dark for text legibility
-- Border: 0.5px solid `#1a1a1a`
+The portrait card is framed as a director's monitor over Nathan's photo. The photo is the persistent visual content; the viewfinder overlays are cinematic framing layered on top. Phase 9 adds a one-time scroll-triggered camera-pan animation as an intro flourish.
+
+- Image: `next/image` with `fill`, `object-cover object-top`, `priority` (above-the-fold on desktop). Card background gradient (`#0a0a0a` → `#050505`) shows briefly while the image loads.
+- Top-left label: `// SHOT 01 · PORTRAIT` in mono `#00ffa3`
+- Top-right: pulsing `#00ffa3` dot (custom `pulse-rec` keyframe, 1.5s) + `REC` text in mono `#00ffa3`. Pulse wrapped in `motion-safe:` so reduced-motion users see a static dot.
+- Glow: radial gradient at 30% 30%, `rgba(0,102,255,0.18)` → transparent at 65%, layered above the image (z-10) for atmosphere
+- Fade: bottom-half linear gradient transparent → `#050505`, layered above the image (z-10) for cinematic gravitas
+- Corner brackets: 14×14px, 1px solid `#333`, two-edge L-shapes at each card corner (z-20)
+- Border: 0.5px solid `#1a1a1a`, rounded 12px, aspect 4/5
 
 This is one of the strongest aesthetic motifs. Reuse the same pattern (REC indicator + corner timecode) for any other "live" element — never introduce a different "live" treatment.
 
@@ -391,6 +395,8 @@ The decision is logged in the change log below regardless of outcome.
 | 2026-04-30 | /work copy refinement | Eyebrow "// COMPLETE PORTFOLIO" + title "ALL WORK" | Eyebrow "// PORTFOLIO" + title "THE WORK" | "Complete" was filler; "Portfolio" alone is cleaner. "The Work" reads more editorial than "All Work" — definite article frames it as a body of work rather than a filtered category. Better fits cinema-tech aesthetic. |
 | 2026-04-30 | Standard scene top padding | py-15 mobile / py-20 tablet / py-24 desktop (symmetric vertical) | pt-10 / pt-14 / pt-16 top, pb-15 / pb-20 / pb-24 bottom (asymmetric) | Symmetric vertical padding pushed scene content too far below the nav on every standard scene at every viewport. Top padding tightened across all three breakpoints. Bottom padding kept unchanged so scene-to-scene transitions retain breathing room. Hero scene unaffected — its bigger pattern is documented separately. |
 | 2026-04-30 | Hero scene top padding | Symmetric with bottom (py-20 / py-30 / py-[140px]) | Asymmetric (pt-10 pb-20 / pt-14 pb-30 / pt-16 pb-[140px]) | After tightening standard scene top padding, Hero felt disproportionately top-heavy compared to other scenes. Aligning Hero's top padding with standard scenes (pt-10/pt-14/pt-16) restores consistent visual rhythm. Hero's distinctness still comes from drone illustration, glow effect, 88vh min-height, and scene-meta label — top padding doesn't need to carry that weight. |
+| 2026-04-30 | REC indicator pulse animation | Tailwind default `animate-pulse` (opacity 0.5 → 1 → 0.5, soft wash) | Custom `pulse-rec` keyframe (opacity 1 → 0.3 → 1, 1.5s ease-in-out) registered as `--animate-pulse-rec` in the @theme block of globals.css | Tailwind's default animate-pulse is tuned for skeleton loaders — its softer 0.5/1 range doesn't read as a deliberate cinema-tech "live" cue. The mockup specifies a sharper 1 → 0.3 → 1 fade so the REC dot looks like an active recording indicator, not a gentle wash. One custom keyframe is small overhead and identifies the REC pulse as part of the system's voice. Paired with motion-safe: modifier so prefers-reduced-motion shows a static dot. |
+| 2026-04-30 | About portrait card content | Static cinema-tech card with placeholder copy "Camera intro animation reveals here." | Real photo of Nathan (`public/images/nathan-portrait.jpg`) filling the card with `object-top` anchoring, viewfinder-style overlays (corner brackets, REC indicator, top-left timecode, glow, fade) layered on top. No bottom info block. | Section title "MEET NATHAN." promises a person; visitors should actually see him. The viewfinder overlays serve as cinematic framing for the photo, not a replacement for it. Phase 9 adds a one-time camera-pan animation as a scroll-triggered intro flourish on top of the photo. The photo is persistent; the animation is the flourish. |
 
 > After logging a change here, update the relevant section above so the current spec is always accurate.
 
