@@ -43,6 +43,22 @@ export const project = defineType({
       type: 'boolean',
       initialValue: false,
       description: 'Show on homepage. Max 3 enforced.',
+      validation: (Rule) =>
+        Rule.custom(async (featured, context) => {
+          if (!featured) return true
+          const { getClient, document } = context
+          const client = getClient({ apiVersion: '2024-01-01' })
+          const publishedId = document?._id?.replace(/^drafts\./, '') ?? ''
+          const draftId = `drafts.${publishedId}`
+          const count = await client.fetch<number>(
+            'count(*[_type == "project" && featured == true && !(_id in [$publishedId, $draftId])])',
+            { publishedId, draftId },
+          )
+          if (count >= 3) {
+            return 'Only 3 projects can be featured at a time. Unfeature another project first.'
+          }
+          return true
+        }),
     }),
   ],
 })
