@@ -61,7 +61,7 @@ src/
 │   │   ├── CategoryTag.tsx     — Color-coded category pill
 │   │   └── VideoEmbed.tsx      — Auto-detects Vimeo vs YouTube from URL
 │   ├── animations/
-│   │   ├── CameraScan.tsx      — Scroll-driven camera animation (Phase 8 decision gate)
+│   │   ├── CameraScan.tsx      — Scroll-driven camera animation (Phase 8 decision gate, hosted in Kit scene)
 │   │   └── IntroAnimation.tsx  — First-load intro sequence (Phase 9)
 │   └── forms/
 │       ├── InquireForm.tsx     — Formspree-backed contact form
@@ -234,7 +234,7 @@ Reference `PROJECT-CHECKLIST.md` for the operational steps Jo runs between phase
 - [ ] REC overlay on portrait: green dot + "REC" mono label top-right
 - [ ] `// SHOT 01 · PORTRAIT` mono label top-left of portrait
 - [ ] `// PORT OF SPAIN · TRINIDAD & TOBAGO` location footer
-- [ ] Camera animation NOT included here yet — that's Phase 8
+- [ ] Camera animation NOT included here — moved to the Kit scene per the 2026-04-30 change log entry. About ships as photo + static viewfinder overlays only.
 
 ### Phase 6 — Trusted By + Kit + Services
 - [ ] `TrustedBy.tsx` (Scene 04) — fetches all `trustedBy` ordered, renders logo grid
@@ -286,11 +286,11 @@ Reference `PROJECT-CHECKLIST.md` for the operational steps Jo runs between phase
   - [ ] Featured project validation warning works (>3 featured triggers warning)
   - [ ] Nathan tested adding a project, service, trustedBy, kit, and review approval
 - [ ] **Camera animation decision gate (criteria in DESIGN-GUIDELINES):**
-  - [ ] Implement camera scan-wipe animation in About → Featured Work transition
+  - [ ] Implement camera scan-wipe animation at the top of the Kit scene, before the gear list (relocated from About → Featured Work transition per 2026-04-30 change log entry)
   - [ ] Test on iPhone 14 — must hold 60fps
   - [ ] Subjective check: does it match cinema-tech aesthetic, or feel like leftover ornament?
   - [ ] Decision logged in DESIGN-GUIDELINES change log: KEEP or DROP
-  - [ ] If DROP: replace with static photo + simple fade transition
+  - [ ] If DROP: replace with static gear hero shot + simple fade
   - [ ] `prefers-reduced-motion` always respected
 
 ### Phase 9 — Video Hosting Decision + Embed + SEO + Intro Animation

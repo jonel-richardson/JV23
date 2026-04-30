@@ -153,7 +153,7 @@ Only `brand` projects get the blue accent. Everything else is muted gray. This i
 
 ### REC / Timecode UI (About portrait card)
 
-The portrait card is framed as a director's monitor over Nathan's photo. The photo is the persistent visual content; the viewfinder overlays are cinematic framing layered on top. Phase 9 adds a one-time scroll-triggered camera-pan animation as an intro flourish.
+The portrait card is framed as a director's monitor over Nathan's photo. The photo is the persistent visual content; the viewfinder overlays are cinematic framing layered on top. The portrait card stands as the final v2 visual — Phase 9's camera-pan animation moved to the Kit scene per the 2026-04-30 change log.
 
 - Image: `next/image` with `fill`, `object-cover object-top`, `priority` (above-the-fold on desktop). Card background gradient (`#0a0a0a` → `#050505`) shows briefly while the image loads.
 - Top-left label: `// SHOT 01 · PORTRAIT` in mono `#00ffa3`
@@ -209,7 +209,7 @@ This is one of the strongest aesthetic motifs. Reuse the same pattern (REC indic
 | 02 | About | `#050505` | Bio + portrait static | Two-column desktop, single-column mobile. REC card on portrait. |
 | 03 | Featured Work | `#000` | Yes (3 featured projects) | 3-column grid desktop, horizontal scroll mobile. Category tags color-coded. |
 | 04 | Trusted By | `#050505` | Yes (logos) | Grid of client logos. Grayscale → color on hover. |
-| 05 | Kit | `#000` | Yes (kit items) | "THE GEAR BEHIND THE SHOTS." Equipment grid. |
+| 05 | Kit | `#000` | Yes (kit items) | "THE GEAR BEHIND THE SHOTS." Equipment grid. Hosts the Phase 9 camera-pan animation as a hero element at the top of the section, before the gear list (relocated from About per 2026-04-30 change log). |
 | 06 | Services | `#050505` | Yes (services) | List or grid of service offerings. |
 | 07 | Words | `#050505` | Yes (approved reviews only) | Carousel of client testimonials. |
 | 08 | Inquire | `#000` | No (Formspree only) | Two-column desktop. Form + footer. |
@@ -357,11 +357,11 @@ These are the schemas that will be created in Phase 1. Schema files live in `san
 
 ## Camera Animation Decision Gate (Phase 8)
 
-The camera scan-wipe animation from v1 is being evaluated against the new aesthetic. Decision criteria:
+The camera scan-wipe animation from v1 is being evaluated against the new aesthetic. As of the 2026-04-30 change log, the animation is planned for the **top of the Kit scene** (before the gear list), not the About → Featured Work transition. Decision criteria:
 
 **Keep the animation if:**
 - It feels like part of the cinema-tech motif (REC indicators, scene meta, etc.)
-- It enhances the About → Featured Work transition without slowing perceived load
+- It gives the Kit scene a hero element it would otherwise lack and reads as demonstrative (gear in use) rather than ornamental
 - Mobile performance is acceptable (60fps on iPhone 14)
 
 **Drop in favor of static photo if:**
@@ -396,7 +396,8 @@ The decision is logged in the change log below regardless of outcome.
 | 2026-04-30 | Standard scene top padding | py-15 mobile / py-20 tablet / py-24 desktop (symmetric vertical) | pt-10 / pt-14 / pt-16 top, pb-15 / pb-20 / pb-24 bottom (asymmetric) | Symmetric vertical padding pushed scene content too far below the nav on every standard scene at every viewport. Top padding tightened across all three breakpoints. Bottom padding kept unchanged so scene-to-scene transitions retain breathing room. Hero scene unaffected — its bigger pattern is documented separately. |
 | 2026-04-30 | Hero scene top padding | Symmetric with bottom (py-20 / py-30 / py-[140px]) | Asymmetric (pt-10 pb-20 / pt-14 pb-30 / pt-16 pb-[140px]) | After tightening standard scene top padding, Hero felt disproportionately top-heavy compared to other scenes. Aligning Hero's top padding with standard scenes (pt-10/pt-14/pt-16) restores consistent visual rhythm. Hero's distinctness still comes from drone illustration, glow effect, 88vh min-height, and scene-meta label — top padding doesn't need to carry that weight. |
 | 2026-04-30 | REC indicator pulse animation | Tailwind default `animate-pulse` (opacity 0.5 → 1 → 0.5, soft wash) | Custom `pulse-rec` keyframe (opacity 1 → 0.3 → 1, 1.5s ease-in-out) registered as `--animate-pulse-rec` in the @theme block of globals.css | Tailwind's default animate-pulse is tuned for skeleton loaders — its softer 0.5/1 range doesn't read as a deliberate cinema-tech "live" cue. The mockup specifies a sharper 1 → 0.3 → 1 fade so the REC dot looks like an active recording indicator, not a gentle wash. One custom keyframe is small overhead and identifies the REC pulse as part of the system's voice. Paired with motion-safe: modifier so prefers-reduced-motion shows a static dot. |
-| 2026-04-30 | About portrait card content | Static cinema-tech card with placeholder copy "Camera intro animation reveals here." | Real photo of Nathan (`public/images/nathan-portrait.jpg`) filling the card with `object-top` anchoring, viewfinder-style overlays (corner brackets, REC indicator, top-left timecode, glow, fade) layered on top. No bottom info block. | Section title "MEET NATHAN." promises a person; visitors should actually see him. The viewfinder overlays serve as cinematic framing for the photo, not a replacement for it. Phase 9 adds a one-time camera-pan animation as a scroll-triggered intro flourish on top of the photo. The photo is persistent; the animation is the flourish. |
+| 2026-04-30 | About portrait card content | Static cinema-tech card with placeholder copy "Camera intro animation reveals here." | Real photo of Nathan (`public/images/nathan-portrait.jpg`) filling the card with `object-top` anchoring, viewfinder-style overlays (corner brackets, REC indicator, top-left timecode, glow, fade) layered on top. No bottom info block. | Section title "MEET NATHAN." promises a person; visitors should actually see him. The viewfinder overlays serve as cinematic framing for the photo, not a replacement for it. The portrait card stands as the final v2 visual. Phase 9's camera intro animation moves to the Kit scene where it serves a demonstrative purpose (gear in use) rather than atmospheric purpose (cinematizing an already-cinematic photo). See dedicated change log entry on the animation move. |
+| 2026-04-30 | Camera intro animation location | Phase 9 plan: scroll-driven camera-pan animation plays over Nathan's photo in About scene | Phase 9 plan: animation moves to Kit scene, plays over gear/production hero shot | The About photo (Nathan with camera) is already cinematic on its own, with viewfinder overlays providing cinema-tech framing. Adding scroll-driven motion on top would be three layers competing for attention. The camera-pan-viewfinder.mp4 source is named for and specifically evokes a viewfinder POV effect — that reads conceptually clean over gear (we see gear THROUGH the camera that uses it) rather than over a portrait (we see Nathan THROUGH a camera POV we don't physically have). Animation in Kit also serves portfolio purpose better — demonstrative (showing tools in use) rather than atmospheric (cinematizing what's already cinematic). |
 
 > After logging a change here, update the relevant section above so the current spec is always accurate.
 
