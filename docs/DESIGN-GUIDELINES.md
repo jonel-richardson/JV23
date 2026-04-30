@@ -2,7 +2,7 @@
 
 > Visual and UX decisions for this project. Reference this before building any UI component.
 > Hand this to Claude Code alongside CLAUDE.md so it builds to spec, not defaults.
-> Source: `Jack_Visuals_-_Standalone_1_.html` mockup (v2). Repo: `jonel-richardson/JV23`.
+> Source: `docs/mockup.html` (v2). Repo: `jonel-richardson/JV23`.
 
 ## Brand / Visual Direction
 
@@ -11,7 +11,7 @@
 **One-liner:** "Director's monitor, not a marketing page."
 
 **References:**
-- The mockup itself (`Jack_Visuals_-_Standalone_1_.html`) — single source of truth
+- The mockup itself (`docs/mockup.html`) — single source of truth
 - Aesthetic adjacent: A24 film studio sites, Apple's product launch microsites, professional camera UI (Blackmagic, ARRI)
 
 **Anti-patterns (do not build like):**
@@ -83,8 +83,9 @@ Use Tailwind's default scale (4px base unit). Container queries are used inside 
 - Desktop (`@container frame (min-width: 1024px)`): `py-24 px-12` (96px / 48px)
 
 **Hero gets extra:**
-- Mobile: `py-20 px-6` (80px / 24px)
-- Desktop: `py-36 px-12` (140px / 48px)
+- Mobile (default): `py-20 px-6` (80px / 24px), `min-h-screen` (100vh)
+- Tablet (`@container frame (min-width: 768px)`): `py-30 px-8` (120px / 32px), auto-height (`min-h-0` overrides the mobile `min-h-screen`)
+- Desktop (`@container frame (min-width: 1024px)`): `py-[140px] px-12` (140px / 48px), `min-h-[88vh]`
 
 **Element gaps:**
 - Between label and headline: `mb-5` (20px)
@@ -217,9 +218,11 @@ Container queries on `.frame`, not viewport media queries. The frame is the cont
 
 | Breakpoint | Container query | Layout change |
 |---|---|---|
-| Mobile (default) | `< 768px` | Single column, vertical button stacks, 2-col logo grid, horizontal-scroll featured work |
-| Tablet | `@container frame (min-width: 768px)` | 2-col about, 3-col featured grid, 3-col logos, horizontal buttons |
-| Desktop | `@container frame (min-width: 1024px)` | Full padding, larger type, 4-5 col logos, sticky about column |
+| Mobile (default) | `< 768px` | Single column, vertical button stacks, 2-col logo grid, horizontal-scroll featured work. Hero is `min-h-screen`. |
+| Tablet | `@container frame (min-width: 768px)` | 2-col about, 3-col featured grid, 3-col logos, horizontal buttons. Hero auto-heights (overrides mobile `min-h-screen`). |
+| Desktop | `@container frame (min-width: 1024px)` | Full padding, larger type, 4-5 col logos, sticky about column. Hero caps at `min-h-[88vh]`. |
+
+**Frame max-width cap:** The `.frame` element is capped at `max-width: 1280px` and centered with `mx-auto`. On viewports >1280px, content renders in a centered column with letterbox space on the sides — this matches the cinematic aesthetic and ensures every scene renders at its tested width regardless of viewport.
 
 Viewport media queries are still used for things outside the frame (nav, mobile menu).
 
@@ -363,6 +366,11 @@ The decision is logged in the change log below regardless of outcome.
 | 2026-04-29 | Reviews | None | New `review` schema with auto-publish + approval gate | Social proof scene added to design |
 | 2026-04-29 | Video field | `vimeoUrl` | `videoUrl` (platform-agnostic) | Hosting decision deferred to Phase 9, schema does not change either way |
 | 2026-04-29 | Layout system | Viewport media queries | Container queries on `.frame` | Mockup uses container queries; portable, iframe-safe |
+| 2026-04-29 | Hero drone asset | `public/images/drone-hero.png` (planned PNG) | Inline SVG component (`src/components/scenes/HeroDrone.tsx`) | Mockup ships the drone as detailed inline SVG — no PNG export exists, and inline SVG matches the cinema-tech motif while keeping the asset payload zero. Accent fills (`#0066ff`, `#00ffa3`) are raw hex per the SVG fill-attribute compatibility constraint, mapped to `--color-accent-primary` and `--color-accent-secondary` in inline comments. |
+| 2026-04-29 | Frame max-width | None (frame stretched to viewport width) | `max-width: 1280px` on desktop, centered with `mx-auto` | The mockup specifies `vp-desktop max-width: 1280px`. Initial Phase 1 scaffold dropped this cap. Without it, all scenes drift proportionally at viewports >1280px. Restoring the cap means every scene renders at the design's tested width regardless of viewport size. Letterbox space at >1280px matches cinematic aesthetic. |
+| 2026-04-29 | Hero breakpoint structure | 2 steps (mobile + 1024) | 3 steps (mobile + 768 + 1024) | Phase 3 implementation collapsed three mockup breakpoints to two. The intermediate 768px values aren't just "halfway" between mobile and desktop — they're tuned for the 768–1023 range specifically (tablet/small laptop). Restoring all three steps so layout matches design at every target device size. |
+| 2026-04-29 | Hero min-height | 100vh at all sizes | 100vh mobile/tablet, 88vh at 1024+ | The mockup uses 88vh on desktop to leave the bottom edge ambiguous (visual cue that more content exists below the fold). 100vh on desktop creates rigid framing that doesn't match the cinematic aesthetic. |
+| 2026-04-29 | Hero min-height (tablet) | `min-h-screen` at all sizes < 1024 | `min-h-screen` mobile, auto-height (`min-h-0`) at 768+, `88vh` at 1024+ | Tablet at 100vh creates excessive empty space below content. The drone is absolutely positioned from `top`, so vertical centering of content via `justify-center` created a visible gap between drone and content at narrower-but-tall viewports (820×1180). Auto-height at tablet eliminates the gap and matches the design's tested ranges. |
 
 > After logging a change here, update the relevant section above so the current spec is always accurate.
 
