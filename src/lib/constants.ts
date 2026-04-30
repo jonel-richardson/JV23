@@ -118,3 +118,23 @@ export const HERO_GLOW = {
   left: -100,
   gradient: 'radial-gradient(circle, rgba(0,102,255,0.12) 0%, transparent 70%)',
 } as const
+
+// --- Phase 4: Featured Work + /work archive -----------------------------
+
+export const WORK_FILTER_CATEGORIES = [
+  'All',
+  'Brand',
+  'Event',
+  'Music',
+  'Drone',
+  'Commercial',
+] as const
+
+export type WorkFilterCategory = (typeof WORK_FILTER_CATEGORIES)[number]
+
+export const FEATURED_PROJECTS_LIMIT = 3
+
+export const FEATURED_VIEW_ALL_LABEL = 'All Projects →'
+export const FEATURED_VIEW_ALL_HREF = '/work'
+
+export const FEATURED_EMPTY_STATE = 'Featured work coming soon.'

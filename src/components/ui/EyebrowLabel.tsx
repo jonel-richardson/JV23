@@ -1,5 +1,5 @@
 interface EyebrowLabelProps {
-  number: string
+  number?: string
   label: string
   className?: string
 }
@@ -8,7 +8,7 @@ export default function EyebrowLabel({ number, label, className }: EyebrowLabelP
   const base = 'font-mono text-[10px] tracking-[0.20em] text-[var(--color-text-quiet)]'
   return (
     <div className={className ? `${base} ${className}` : base}>
-      // {number} — {label}
+      {number ? `// ${number} — ${label}` : `// ${label}`}
     </div>
   )
 }

@@ -77,15 +77,15 @@ Three families. No more, no less.
 
 Use Tailwind's default scale (4px base unit). Container queries are used inside the frame so scenes adapt to the viewport width, not the device width.
 
-**Scene padding:**
-- Mobile: `py-15 px-6` (60px / 24px)
-- Tablet (`@container frame (min-width: 768px)`): `py-20 px-8` (80px / 32px)
-- Desktop (`@container frame (min-width: 1024px)`): `py-24 px-12` (96px / 48px)
+**Scene padding (standard scenes, non-Hero):** asymmetric vertical — lighter top so content sits closer to the nav, full bottom so scene-to-scene transitions retain breathing room.
+- Mobile: `pt-10 pb-15 px-6` (40px top / 60px bottom / 24px sides)
+- Tablet (`@container frame (min-width: 768px)`): `pt-14 pb-20 px-8` (56px / 80px / 32px)
+- Desktop (`@container frame (min-width: 1024px)`): `pt-16 pb-24 px-12` (64px / 96px / 48px)
 
-**Hero gets extra:**
-- Mobile (default): `py-20 px-6` (80px / 24px), `min-h-screen` (100vh)
-- Tablet (`@container frame (min-width: 768px)`): `py-30 px-8` (120px / 32px), auto-height (`min-h-0` overrides the mobile `min-h-screen`)
-- Desktop (`@container frame (min-width: 1024px)`): `py-[140px] px-12` (140px / 48px), `min-h-[88vh]`
+**Hero gets extra (asymmetric):** top padding aligns with standard scenes for consistent rhythm; bottom padding stays larger for breathing room before the next scene. Hero's distinctness comes from the drone illustration, glow effect, `min-h-screen` / `min-h-[88vh]`, and scene-meta label — top padding doesn't need to carry that weight.
+- Mobile (default): `pt-10 pb-20 px-6` (40px top / 80px bottom / 24px sides), `min-h-screen` (100vh)
+- Tablet (`@container frame (min-width: 768px)`): `pt-14 pb-30 px-8` (56px / 120px / 32px), auto-height (`min-h-0` overrides the mobile `min-h-screen`)
+- Desktop (`@container frame (min-width: 1024px)`): `pt-16 pb-[140px] px-12` (64px / 140px / 48px), `min-h-[88vh]`
 
 **Element gaps:**
 - Between label and headline: `mb-5` (20px)
@@ -211,6 +211,21 @@ This is one of the strongest aesthetic motifs. Reuse the same pattern (REC indic
 | 08 | Inquire | `#000` | No (Formspree only) | Two-column desktop. Form + footer. |
 
 **Background alternation rule:** Scenes alternate between `#000` and `#050505` for visual rhythm. Do not change this without updating this doc.
+
+### Scene-Anchor Pattern
+
+Each scene renders with an HTML `id` attribute matching its nav target slug. The nav anchors point at these ids; in-page CTAs that navigate to a separate route use `<Link href="/route">` instead.
+
+| Scene | `id` | Reached via |
+|---|---|---|
+| Hero | `top` | Logo click (Phase 2) |
+| Featured Work | `work` | Nav "Work" anchor link (Phase 2) |
+| About | `about` | Nav "About" anchor link (Phase 2) |
+| Inquire | `inquire` | Nav "Inquire" CTA + Hero "Start a project" (Phase 2/3) |
+
+`/work` is a separate route (the full archive) reached via the Hero "View work →" CTA and Featured Work's "All Projects →" link. Anchor links scroll within the homepage; route links navigate away. Two distinct paths intentionally — homepage teaser vs full archive.
+
+When adding a new scene, give it an id matching its nav slug and document the entry here.
 
 ## Responsive Breakpoints
 
@@ -372,6 +387,10 @@ The decision is logged in the change log below regardless of outcome.
 | 2026-04-29 | Hero min-height | 100vh at all sizes | 100vh mobile/tablet, 88vh at 1024+ | The mockup uses 88vh on desktop to leave the bottom edge ambiguous (visual cue that more content exists below the fold). 100vh on desktop creates rigid framing that doesn't match the cinematic aesthetic. |
 | 2026-04-29 | Hero min-height (tablet) | `min-h-screen` at all sizes < 1024 | `min-h-screen` mobile, auto-height (`min-h-0`) at 768+, `88vh` at 1024+ | Tablet at 100vh creates excessive empty space below content. The drone is absolutely positioned from `top`, so vertical centering of content via `justify-center` created a visible gap between drone and content at narrower-but-tall viewports (820×1180). Auto-height at tablet eliminates the gap and matches the design's tested ranges. |
 | 2026-04-30 | Featured projects max-3 enforcement | Documented in schema description only ("Max 3 enforced") | Async Rule.custom() validator on `featured` field that counts other published+draft featured projects and rejects toggle when count ≥ 3 | DESIGN-GUIDELINES + NATHAN_GUIDE both stated max 3 featured but the schema only had the rule in description text. Empty validator allowed silent over-feature in Studio. Validator added now (early — originally Phase 8 acceptance criterion) so Phase 4's Featured Work query doesn't risk returning more than 3 results from Sanity. |
+| 2026-04-30 | Scene-anchor pattern documented | Pattern existed implicitly (Hero already had `id="top"`) but wasn't written down. | Documented as standard: each scene renders with an HTML `id` matching its nav target slug. Anchor links scroll within homepage; route links navigate away. | Phase 4 introduces FeaturedWork with `id="work"` matching Phase 2's nav link. Codifying the pattern now so future scenes (About `id="about"`, Inquire `id="inquire"`) follow the same rule without re-deciding each time. |
+| 2026-04-30 | /work copy refinement | Eyebrow "// COMPLETE PORTFOLIO" + title "ALL WORK" | Eyebrow "// PORTFOLIO" + title "THE WORK" | "Complete" was filler; "Portfolio" alone is cleaner. "The Work" reads more editorial than "All Work" — definite article frames it as a body of work rather than a filtered category. Better fits cinema-tech aesthetic. |
+| 2026-04-30 | Standard scene top padding | py-15 mobile / py-20 tablet / py-24 desktop (symmetric vertical) | pt-10 / pt-14 / pt-16 top, pb-15 / pb-20 / pb-24 bottom (asymmetric) | Symmetric vertical padding pushed scene content too far below the nav on every standard scene at every viewport. Top padding tightened across all three breakpoints. Bottom padding kept unchanged so scene-to-scene transitions retain breathing room. Hero scene unaffected — its bigger pattern is documented separately. |
+| 2026-04-30 | Hero scene top padding | Symmetric with bottom (py-20 / py-30 / py-[140px]) | Asymmetric (pt-10 pb-20 / pt-14 pb-30 / pt-16 pb-[140px]) | After tightening standard scene top padding, Hero felt disproportionately top-heavy compared to other scenes. Aligning Hero's top padding with standard scenes (pt-10/pt-14/pt-16) restores consistent visual rhythm. Hero's distinctness still comes from drone illustration, glow effect, 88vh min-height, and scene-meta label — top padding doesn't need to carry that weight. |
 
 > After logging a change here, update the relevant section above so the current spec is always accurate.
 

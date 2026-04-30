@@ -17,8 +17,8 @@ export default function Hero() {
   return (
     <section
       id="top"
-      /* @container frame: three-step responsive padding (mobile/768/1024) per mockup. Hero centers content vertically and caps at 88vh on desktop so the bottom edge stays visually ambiguous — cinematic cue that more content exists below the fold. */
-      className="relative min-h-screen overflow-hidden bg-[var(--color-bg-secondary)] px-6 py-20 flex flex-col justify-center @[768px]/frame:px-8 @[768px]/frame:py-30 @[768px]/frame:min-h-0 @[1024px]/frame:px-12 @[1024px]/frame:py-[140px] @[1024px]/frame:min-h-[88vh]"
+      /* @container frame: three-step responsive padding (mobile/768/1024) per mockup. Top padding is reduced to match standard scenes for consistent rhythm; bottom keeps the larger Hero values for breathing room. Hero centers content vertically and caps at 88vh on desktop so the bottom edge stays visually ambiguous — cinematic cue that more content exists below the fold. */
+      className="relative min-h-screen overflow-hidden bg-[var(--color-bg-secondary)] px-6 pt-10 pb-20 flex flex-col justify-center @[768px]/frame:px-8 @[768px]/frame:pt-14 @[768px]/frame:pb-30 @[768px]/frame:min-h-0 @[1024px]/frame:px-12 @[1024px]/frame:pt-16 @[1024px]/frame:pb-[140px] @[1024px]/frame:min-h-[88vh]"
     >
       <SceneMeta scene="01" label="HERO" />
 

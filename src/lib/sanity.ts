@@ -18,3 +18,7 @@ export const writeClient = createClient({
   useCdn: false,
   token: process.env.SANITY_WRITE_TOKEN,
 })
+
+export const FEATURED_PROJECTS_QUERY = `*[_type == "project" && featured == true] | order(date desc)[0...3]`
+
+export const ALL_PROJECTS_QUERY = `*[_type == "project"] | order(date desc)`

@@ -80,3 +80,5 @@ export interface Review extends SanitySystemFields {
   submittedAt?: string
   approved: boolean
 }
+
+export type { WorkFilterCategory } from './constants'
