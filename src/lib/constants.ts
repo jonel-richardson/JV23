@@ -104,8 +104,8 @@ export interface HeroDronePosition {
 // component classes in sync if either changes.
 export const HERO_DRONE_SIZE = {
   mobile: { width: 180, top: 100, right: -40, opacity: 0.5 },
-  tablet: { width: 220, top: 90, right: 0, opacity: 0.7 },
-  desktop: { width: 280, top: 80, right: 40, opacity: 0.85 },
+  tablet: { width: 220, top: 130, right: 32, opacity: 0.7 },
+  desktop: { width: 280, top: 140, right: 60, opacity: 0.85 },
 } as const satisfies Record<'mobile' | 'tablet' | 'desktop', HeroDronePosition>
 
 // rgba(0,102,255,...) is --color-accent-primary at 12% alpha. Position

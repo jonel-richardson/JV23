@@ -20,7 +20,7 @@ export default function HeroDrone() {
     <div
       aria-hidden="true"
       /* @container frame: drone shifts in-frame and grows at 768px+, fully anchored at 1024px+ */
-      className="absolute pointer-events-none top-[100px] -right-[40px] w-[180px] h-[180px] opacity-50 @[768px]/frame:top-[90px] @[768px]/frame:right-0 @[768px]/frame:w-[220px] @[768px]/frame:h-[220px] @[768px]/frame:opacity-70 @[1024px]/frame:top-[80px] @[1024px]/frame:right-[40px] @[1024px]/frame:w-[280px] @[1024px]/frame:h-[280px] @[1024px]/frame:opacity-[0.85]"
+      className="absolute pointer-events-none top-[100px] -right-[40px] w-[180px] h-[180px] opacity-50 @[768px]/frame:top-[130px] @[768px]/frame:right-8 @[768px]/frame:w-[220px] @[768px]/frame:h-[220px] @[768px]/frame:opacity-70 @[1024px]/frame:top-[140px] @[1024px]/frame:right-[60px] @[1024px]/frame:w-[280px] @[1024px]/frame:h-[280px] @[1024px]/frame:opacity-[0.85]"
     >
       <svg
         viewBox="0 0 320 320"

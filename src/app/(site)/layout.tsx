@@ -10,7 +10,7 @@ export default function SiteLayout({
     <>
       <Nav />
       <MobileMenu />
-      <div className="frame">{children}</div>
+      <div className="frame max-w-[1280px] mx-auto">{children}</div>
     </>
   )
 }
