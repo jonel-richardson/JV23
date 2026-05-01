@@ -14,7 +14,7 @@ Go to `https://jack-visuals-studio.sanity.studio` (or whatever URL Jonel sends y
 Go to `https://jackvisuals23.com/studio`
 
 1. Click **Login with Google**
-2. Use the email address we invited: `nathan@rjaonline.com`
+2. Use the email address we invited: `jackltd23@gmail.com`
 
 ---
 

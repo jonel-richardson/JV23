@@ -23,7 +23,7 @@ export const BREAKPOINTS = {
 
 export const SOCIAL_URLS = {
   instagram: 'https://instagram.com/jackvisuals23',
-  emailNathan: 'mailto:nathan@rjaonline.com',
+  emailNathan: 'mailto:jackltd23@gmail.com',
   emailSupport: 'mailto:jonelrichardson@gmail.com',
 } as const
 
@@ -230,7 +230,7 @@ export const INQUIRE_BODY =
 // Instagram second; we move it to last so the email lead doesn't compete
 // with social proof in the most prominent slot.
 export const INQUIRE_CONTACT_ITEMS: readonly ContactItem[] = [
-  { icon: 'arrow', value: 'nathan@rjaonline.com' },
+  { icon: 'arrow', value: 'jackltd23@gmail.com' },
   { icon: 'arrow', value: 'Trinidad & Tobago' },
   { icon: 'arrow', value: 'Available for travel' },
   {
@@ -269,7 +269,7 @@ export const INQUIRE_SUCCESS_BODY =
   'Your message is in. Nathan responds personally, usually within 24 hours.'
 
 export const INQUIRE_ERROR_MESSAGE =
-  'Something went wrong. Email nathan@rjaonline.com directly or try again.'
+  'Something went wrong. Email jackltd23@gmail.com directly or try again.'
 
 // Honeypot field name. Hidden from real users via off-screen positioning;
 // any non-empty value at submit time is a bot decoy and the submission is

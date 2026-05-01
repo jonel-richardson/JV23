@@ -43,7 +43,7 @@ Edits projects, services, and trusted-by clients through Sanity Studio. Does not
 - Review form collects every field the displayed review card needs (no hardcoded data on the front end), plus email + Turnstile token for verification only
 - Auto-publish with moderation gate: review lands in Sanity with `approved: false`, Nathan toggles `approved: true` in Studio to publish
 - Free spam protection: Cloudflare Turnstile (free, unlimited, invisible) + honeypot field + IP rate-limit via Vercel serverless
-- Formspree contact form routed to `nathan@rjaonline.com`
+- Formspree contact form routed to `jackltd23@gmail.com`
 - `/studio` route for Nathan's CMS access
 - SEO baseline (meta, OG, structured data, sitemap, robots) — see `SEO.md`
 - Mobile-first responsive at 375 / 390 / 430 / 768 / 1280 / 1440 / 1920
@@ -87,7 +87,7 @@ These are KPIs I will measure in the first 60 days post-launch, not vanity metri
 **Locked:**
 - Sanity Project ID `yqj0dj48` — keep, do not regenerate
 - Domain `jackvisuals23.com` — Nathan owns it
-- Nathan's editor email `nathan@rjaonline.com`
+- Nathan's editor email `jackltd23@gmail.com`
 - Vimeo Pro budget (~$20/mo, Nathan's account)
 - Free tier hosting (Vercel)
 
@@ -167,7 +167,7 @@ None remaining. Schemas are fully locked. Moving to DESIGN-GUIDELINES.
 - Nathan has uploaded a Trusted By logo and seen it render correctly
 - Review submission flow tested end-to-end: client submits via public form → review lands in Sanity as unapproved → Nathan toggles approved → review appears on live site
 - Spam protection verified: a submission with the honeypot field filled is rejected
-- Form submission test from real device → email arrives at `nathan@rjaonline.com`
+- Form submission test from real device → email arrives at `jackltd23@gmail.com`
 - Domain `jackvisuals23.com` is live with HTTPS
 - All 7 metrics in section 4 have a measurement plan in place (not all hit on day one — but measurable)
 

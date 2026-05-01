@@ -296,7 +296,7 @@ Reference `PROJECT-CHECKLIST.md` for the operational steps Jo runs between phase
 - [ ] **Sanity Studio deploy** (folded in from the original Phase 8 list — happens here so Nathan can moderate the first reviews live):
   - [ ] `/studio` route embedded in app
   - [ ] Studio deployed at `jackvisuals23.com/studio` (after domain connect, see SETUP.md)
-  - [ ] Nathan invited via `nathan@rjaonline.com` with Editor role
+  - [ ] Nathan invited via `jackltd23@gmail.com` with Editor role
   - [ ] Featured project validation warning works (>3 featured triggers warning)
   - [ ] Nathan tested adding a project, service, trustedBy, kit, and review approval
 - [ ] Camera animation decision gate is **already resolved** (Phase 6 shipped the camera as a continuous HTML5 video loop in the Kit scene; see DESIGN-GUIDELINES "Camera Animation Decision Gate" section).
@@ -334,7 +334,7 @@ Reference `PROJECT-CHECKLIST.md` for the operational steps Jo runs between phase
 - [ ] Sitemap accessible at /sitemap.xml
 - [ ] /studio/ blocked in robots.txt
 - [ ] All sections tested at all target breakpoints (375 / 390 / 430 / 768 / 1280 / 1440 / 1920)
-- [ ] Form submits → email arrives at nathan@rjaonline.com
+- [ ] Form submits → email arrives at jackltd23@gmail.com
 - [ ] Review form submits → review lands in Sanity unapproved → Nathan approves → appears on site
 - [ ] Spam test: honeypot-filled submission rejected; Turnstile-failed submission rejected
 - [ ] Vimeo/YouTube embeds playing correctly

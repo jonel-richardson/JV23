@@ -122,7 +122,7 @@ export default function StructuredData() {
     "url": "https://jackvisuals23.com",
     "logo": "https://jackvisuals23.com/images/jack-visuals-logo.png",
     "image": "https://jackvisuals23.com/images/og-cover.jpg",
-    "email": "nathan@rjaonline.com",
+    "email": "jackltd23@gmail.com",
     "sameAs": [
       "https://instagram.com/jackvisuals23",
       "https://vimeo.com/jackvisuals"

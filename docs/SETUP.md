@@ -133,7 +133,7 @@ Once the production domain is live, point Nathan at `jackvisuals23.com/studio` a
 
 **Invite Nathan as editor** (Phase 8 / launch):
 1. Go to sanity.io/manage → select the project
-2. Members → Invite → enter `nathan@rjaonline.com`
+2. Members → Invite → enter `jackltd23@gmail.com`
 3. Role: **Editor** (can manage content, cannot change schemas)
 4. Nathan receives an email invite, sets his own password
 5. Login URL after launch: `jackvisuals23.com/studio`
@@ -253,7 +253,7 @@ The `VideoEmbed.tsx` component built in Phase 9 handles both URL formats automat
 **Steps:**
 1. formspree.io → Sign up as Nathan
 2. New Form → "Jack Visuals Contact"
-3. Destination email: `nathan@rjaonline.com`
+3. Destination email: `jackltd23@gmail.com`
 4. Copy endpoint URL (looks like `https://formspree.io/f/xabcdefg`)
 5. Add to `.env.local` as `FORMSPREE_ENDPOINT=...`
 
