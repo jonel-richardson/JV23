@@ -67,3 +67,20 @@ export interface Review extends SanitySystemFields {
 }
 
 export type { WorkFilterCategory } from './constants'
+
+// Phase 7: Inquire contact list. Discriminated on `icon` — text items
+// render with an arrow prefix, link items render with the Instagram glyph
+// and open in a new tab. Constants array lives in lib/constants.ts so the
+// shape stays inspectable alongside the other locked-copy blocks.
+export interface ContactTextItem {
+  icon: 'arrow'
+  value: string
+}
+
+export interface ContactLinkItem {
+  icon: 'instagram'
+  value: string
+  href: string
+}
+
+export type ContactItem = ContactTextItem | ContactLinkItem

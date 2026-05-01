@@ -9,6 +9,7 @@ import Kit from '@/components/scenes/Kit'
 import KitSkeleton from '@/components/scenes/KitSkeleton'
 import Services from '@/components/scenes/Services'
 import ServicesSkeleton from '@/components/scenes/ServicesSkeleton'
+import Inquire from '@/components/scenes/Inquire'
 
 export const revalidate = 60
 
@@ -29,6 +30,7 @@ export default function HomePage() {
       <Suspense fallback={<ServicesSkeleton />}>
         <Services />
       </Suspense>
+      <Inquire />
     </main>
   )
 }

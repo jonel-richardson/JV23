@@ -167,8 +167,8 @@ Reference `PROJECT-CHECKLIST.md` for the operational steps Jo runs between phase
 | 4 | Featured Work scene + `/work` archive page | Not started |
 | 5 | About scene (Scene 02) | Not started |
 | 6 | Trusted By + Kit + Services scenes (Scenes 04, 05, 06) | Not started |
-| 7 | Words scene + public `/review` form + API route + Turnstile + moderation toggle | Not started |
-| 8 | Inquire scene + Sanity Studio deploy + Nathan invite + camera animation decision gate | Not started |
+| 7 | Inquire scene (Scene 08) + Formspree contact form | Not started |
+| 8 | Words scene + public `/review` form + API route + Turnstile + moderation toggle + Sanity Studio deploy + Nathan invite | Not started |
 | 9 | Video hosting decision (Vimeo vs YouTube confirmed with Nathan) → embed component → SEO + intro animation | Not started |
 | 10 | QA + launch | Not started |
 
@@ -250,7 +250,28 @@ Reference `PROJECT-CHECKLIST.md` for the operational steps Jo runs between phase
 - [ ] Display headline: "SERVICES"
 - [ ] Each service: title + description, simple list/grid layout
 
-### Phase 7 — Words Scene + Review Submission Flow
+### Phase 7 — Inquire Scene + Contact Form
+
+> Phase order swapped 2026-05-01: Inquire ships before Reviews because Inquire has no Sanity dependencies. Reviews requires public form submission, moderation flow, and Nathan onboarding which is more involved — landing the simpler scene first lets the homepage feel complete (Hero through Inquire) while the moderation infra spins up. See DESIGN-GUIDELINES change log entry of the same date.
+
+- [ ] `Inquire.tsx` (Scene 08, scene number unchanged) — server scene wrapper
+- [ ] Two-column at 768+ (intro + contact list left flex-1; form right flex-[1.3]); single-column under 768
+- [ ] Background `#000`, two decorative radial glows (top-right blue 13%, bottom-left green 7%); `overflow-hidden` contains them
+- [ ] Eyebrow `// 08 — INQUIRE`; SceneMeta `SCENE_08 · INQUIRE`
+- [ ] Display headline: "START A<br>CONVERSATION." in Bebas Neue
+- [ ] Body: "Tell us about your project. We respond within 24 hours, usually faster."
+- [ ] `ContactList.tsx` — 4 items (email, location, availability, Instagram in that order). First three text-only with green arrow prefix; Instagram is a link with the IG glyph, opens in new tab.
+- [ ] `InquireForm.tsx` (`'use client'`) — hand-rolled with `useState`, no react-hook-form. Form-card container, dashed-underline header, four fields (NAME, EMAIL, PROJECT TYPE pills, MESSAGE), footer (RESPONSE WITHIN 24H + submit button)
+- [ ] Project-type pills: Brand Films · Event Coverage · Drone Cinematography · Music Videos · Other. Single-select with default "Brand Films"; clicking the active pill is a no-op so projectType is always defined.
+- [ ] Honeypot field named `website` positioned at `left: -9999px`. Any value at submit → silent drop (UI shows success without POSTing).
+- [ ] Client-side validation: name required, email required + valid regex, message required. Inline mono 10px error text below failing field.
+- [ ] Submit posts JSON to `process.env.NEXT_PUBLIC_FORMSPREE_ENDPOINT` (form is client component, hence the public prefix). Error state shown on non-2xx or network failure; form fields preserved on error.
+- [ ] Success state replaces form inline: `// INQUIRY_RECEIVED` + "THANKS, [NAME]." + body. Terminal state — no retry button.
+- [ ] Vitest unit tests for pill toggle, honeypot silent-drop, email regex (3+ tests)
+- [ ] No new Sanity schema work (form data goes to Formspree, not Sanity)
+- [ ] **Spam test before phase complete:** fill honeypot via devtools → success state shows but no email arrives at Nathan's inbox.
+
+### Phase 8 — Words Scene + Review Submission Flow + Studio Deploy
 - [ ] `Words.tsx` (Scene 07) — fetches `*[_type == "review" && approved == true]` ordered by submittedAt desc
 - [ ] Carousel: one review visible at a time, dot navigation, progress bar, counter (`01 / 03`)
 - [ ] Card structure: oversized `"` mark (Bebas Neue), review text (Inter), attribution block (clientName / role / project line)
@@ -261,6 +282,7 @@ Reference `PROJECT-CHECKLIST.md` for the operational steps Jo runs between phase
   - [ ] `ReviewForm.tsx` — fields: clientName, role, project (dropdown of published Sanity projects), reviewText (max 280 chars with counter), email (not displayed), Turnstile widget, honeypot field
   - [ ] Project dropdown queries `*[_type == "project"]` ordered by date desc
   - [ ] Form posts to `/api/reviews` route
+  - [ ] Reuses the form-card pattern locked in Phase 7 (form-card / form-label / form-field / form-pills / form-foot)
 - [ ] **API route `/api/reviews/route.ts`:**
   - [ ] Validates Turnstile token server-side via Cloudflare API
   - [ ] Rejects if honeypot field is filled
@@ -271,27 +293,13 @@ Reference `PROJECT-CHECKLIST.md` for the operational steps Jo runs between phase
 - [ ] Success state: thank-you message, no redirect
 - [ ] Sanity: `approved` toggle visible to Nathan as Editor; he flips ON to publish
 - [ ] **Spam test before phase complete:** submit with honeypot filled → rejected. Submit without Turnstile token → rejected.
-
-### Phase 8 — Inquire + Studio Deploy + Camera Animation Decision
-- [ ] `Inquire.tsx` (Scene 08) — Formspree form
-- [ ] Mobile: eyebrow → headline → form → footer stack
-- [ ] Desktop: two columns (headline+sub left, form+button right)
-- [ ] Fields: name (required), email (required), message
-- [ ] Submit button: "Start a Conversation" with `clip-path` shape
-- [ ] Footer: Instagram + email links
-- [ ] **Sanity Studio deploy:**
+- [ ] **Sanity Studio deploy** (folded in from the original Phase 8 list — happens here so Nathan can moderate the first reviews live):
   - [ ] `/studio` route embedded in app
   - [ ] Studio deployed at `jackvisuals23.com/studio` (after domain connect, see SETUP.md)
   - [ ] Nathan invited via `nathan@rjaonline.com` with Editor role
   - [ ] Featured project validation warning works (>3 featured triggers warning)
   - [ ] Nathan tested adding a project, service, trustedBy, kit, and review approval
-- [ ] **Camera animation decision gate (criteria in DESIGN-GUIDELINES):**
-  - [ ] Implement camera scan-wipe animation at the top of the Kit scene, before the gear list (relocated from About → Featured Work transition per 2026-04-30 change log entry)
-  - [ ] Test on iPhone 14 — must hold 60fps
-  - [ ] Subjective check: does it match cinema-tech aesthetic, or feel like leftover ornament?
-  - [ ] Decision logged in DESIGN-GUIDELINES change log: KEEP or DROP
-  - [ ] If DROP: replace with static gear hero shot + simple fade
-  - [ ] `prefers-reduced-motion` always respected
+- [ ] Camera animation decision gate is **already resolved** (Phase 6 shipped the camera as a continuous HTML5 video loop in the Kit scene; see DESIGN-GUIDELINES "Camera Animation Decision Gate" section).
 
 ### Phase 9 — Video Hosting Decision + Embed + SEO + Intro Animation
 - [ ] **Decision gate: confirm Vimeo vs YouTube with Nathan.** Decision logged in DESIGN-GUIDELINES change log.

@@ -1,3 +1,5 @@
+import type { ContactItem } from './types'
+
 export const BRAND_COLORS = {
   bgBase: 'var(--color-bg-base)',
   bgSecondary: 'var(--color-bg-secondary)',
@@ -210,3 +212,66 @@ export const KIT_CAMERA_VIDEO = {
 
 // Services scene (Scene 06) -----------------------------------------------
 export const SERVICES_TITLE = 'SERVICES'
+
+// --- Phase 7: Inquire scene + contact form ------------------------------
+// Scene number stays 08 (locked scene order); ships in Phase 7 because
+// Inquire has no Sanity dependencies and a Formspree-only flow is simpler
+// to land before the moderation/Turnstile work in Phase 8 (Words/Reviews).
+
+export const INQUIRE_TITLE: readonly string[] = ['START A', 'CONVERSATION.'] as const
+
+export const INQUIRE_BODY =
+  'Tell us about your project. We respond within 24 hours, usually faster.'
+
+// Contact list order: email → location → availability → Instagram. Order
+// is intentional — the email is the action, the geography signals scope,
+// availability removes a common objection, and Instagram is the warm-pool
+// fallback for visitors who'd rather lurk than email. Mockup ordered
+// Instagram second; we move it to last so the email lead doesn't compete
+// with social proof in the most prominent slot.
+export const INQUIRE_CONTACT_ITEMS: readonly ContactItem[] = [
+  { icon: 'arrow', value: 'nathan@rjaonline.com' },
+  { icon: 'arrow', value: 'Trinidad & Tobago' },
+  { icon: 'arrow', value: 'Available for travel' },
+  {
+    icon: 'instagram',
+    value: '@jackvisuals23 on Instagram',
+    href: 'https://www.instagram.com/jackvisuals23',
+  },
+]
+
+// Project-type pills. Vocabulary intentionally decoupled from Sanity
+// service titles — these are inquiry-bucket labels, not catalog labels.
+// Default selection is the first entry; clicking the active pill is a
+// no-op so projectType is always defined.
+export const INQUIRE_PROJECT_TYPES = [
+  'Brand Films',
+  'Event Coverage',
+  'Drone Cinematography',
+  'Music Videos',
+  'Other',
+] as const
+
+export type InquireProjectType = (typeof INQUIRE_PROJECT_TYPES)[number]
+
+// Form chrome copy. Header line is mono-prefixed to match the cinema-tech
+// motif; the right-hand annotation reassures the visitor that the
+// submission isn't going into a void.
+export const INQUIRE_FORM_HEADER_LEFT = '// NEW_INQUIRY.FORM'
+export const INQUIRE_FORM_HEADER_RIGHT = 'SECURE · FORMSPREE'
+export const INQUIRE_FORM_FOOT_META = 'RESPONSE WITHIN 24H'
+
+export const INQUIRE_SUBMIT_LABEL = 'Send inquiry →'
+export const INQUIRE_SUBMIT_LABEL_SENDING = 'Sending...'
+
+export const INQUIRE_SUCCESS_HEADER = '// INQUIRY_RECEIVED'
+export const INQUIRE_SUCCESS_BODY =
+  'Your message is in. Nathan responds personally, usually within 24 hours.'
+
+export const INQUIRE_ERROR_MESSAGE =
+  'Something went wrong. Email nathan@rjaonline.com directly or try again.'
+
+// Honeypot field name. Hidden from real users via off-screen positioning;
+// any non-empty value at submit time is a bot decoy and the submission is
+// silently dropped (UI shows success to discourage retries).
+export const INQUIRE_HONEYPOT_FIELD = 'website'
