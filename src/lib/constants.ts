@@ -164,3 +164,49 @@ export const ABOUT_PORTRAIT_PHOTO = {
 
 export const ABOUT_PORTRAIT_TIMECODE = '// SHOT 01 · PORTRAIT'
 export const ABOUT_PORTRAIT_REC_LABEL = 'REC'
+
+// --- Phase 6: Trusted By + Kit + Services ------------------------------
+
+// Marquee animation durations (seconds for one full cycle). Slower duration
+// = items pass more slowly = more readable. Both marquees pace at a
+// readable speed; Services slightly slower since cards carry copy.
+export const MARQUEE_DEFAULT_DURATION = 30
+export const MARQUEE_TRUSTED_BY_DURATION = 30
+export const MARQUEE_SERVICES_DURATION = 40
+
+// Trusted By scene (Scene 04) ---------------------------------------------
+export const TRUSTED_BY_TITLE = "BRANDS WE'VE SHOT FOR."
+
+// Local-asset path for brand logos. Slug from Sanity must match the PNG
+// filename (verified at data-entry time). See NATHAN_GUIDE for the
+// new-brand workflow.
+export const TRUSTED_BY_LOGO_PATH = '/images/trusted-by'
+
+// Kit scene (Scene 05) ----------------------------------------------------
+// Display headline rendered one line per array entry.
+export const KIT_TITLE: readonly string[] = ['THE GEAR', 'BEHIND', 'THE SHOTS.'] as const
+
+// Order is intentional: category descriptor first ("editorial-grade gear" —
+// the credibility signal previously carried by the body paragraph), then
+// ownership facts. Pills carry the headline-adjacent data; LOADOUT carries
+// the specifics.
+export const KIT_PILLS: readonly string[] = [
+  'Editorial-grade gear',
+  'Owned outright',
+  'Insured',
+] as const
+
+export const KIT_LOADOUT_HEADER = '// LOADOUT.TXT'
+export const KIT_LOADOUT_VERSION = 'v2.4 · 2026'
+
+// Camera video. Decorative, autoplays + loops by default; reduced-motion
+// users see the still first frame (browser-native poster behavior when
+// autoplay is suppressed). Native dimensions 416×752 (boomerang re-encode,
+// 12s loop). Sizing/aspect is governed by the parent wrapper in Kit.tsx
+// — KitCameraVideo just fills its container with object-cover.
+export const KIT_CAMERA_VIDEO = {
+  src: '/videos/kit-camera.mp4',
+} as const
+
+// Services scene (Scene 06) -----------------------------------------------
+export const SERVICES_TITLE = 'SERVICES'

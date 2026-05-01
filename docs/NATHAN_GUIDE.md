@@ -89,43 +89,41 @@ Your project will appear on the site within 1 minute.
 
 This is where client and brand logos appear on the homepage.
 
-1. Click **Trusted By** in the left sidebar
-2. Click **+** to add a new client
+**Adding a new brand is a two-step process — you don't upload the logo yourself.** Brand logos need quality control (transparent backgrounds, consistent sizing, optimization), so I process them and ship them with the code. You then create the matching record in the Studio.
+
+### How to add a new brand
+
+1. **Message me with the brand name and logo** (any format — PNG, SVG, even a screenshot). I clean it up, save it as a transparent PNG in the right size, commit, and push. Auto-deploy makes the file available within a minute.
+2. **In the Studio, click Trusted By → +** to create a new record.
 3. Fill in:
-   - **Client / Brand Name:** The name (e.g., "Grey Goose"). This is also used as the alt text for accessibility.
-   - **Logo:** Upload the image (drag and drop, or click to browse)
-   - **Order:** A number — lower numbers appear first
-4. Click **Publish**
+   - **Client / Brand Name:** The exact brand name (e.g., "Grey Goose"). This is the alt text screen readers announce.
+   - **Slug:** Auto-generates from the name. **Verify it matches the filename I gave you** (e.g., `grey-goose`). If your brand has accents (e.g., "Patrón") or punctuation, the auto-slug may need a manual edit — I'll tell you what to enter when I send the file.
+   - **Order:** A number — lower numbers appear first.
+4. Click **Publish**. The logo appears on the homepage within a minute.
 
-### Logo file specs — important
+### Why no upload field?
 
-The site accepts any image format, but for the best result:
+Brand logos arrive in unpredictable formats and need real cleanup work — transparent backgrounds, even sizing, sharp edges at small dimensions. Asking you to handle that in the browser is a recipe for inconsistent walls. The "message Jonel, I commit, you publish" flow keeps the wall sharp without putting photo editing on your plate.
 
-- **Preferred format:** Transparent PNG **or** SVG
-- **Width:** At least 240 pixels wide (480px is even better)
-- **File size:** Under 500KB
-- **Background:** Transparent — the logo should sit cleanly on the dark page
+### Editing or removing a brand
 
-**Why this matters:**
-- Logos with white or colored backgrounds look like stickers stuck on the dark page
-- Logos under 240px wide pixelate on retina screens
-- The site renders logos in grayscale by default (full color on hover) — this only works well if the logo file has a transparent background
-
-**If you only have a low-quality PNG:** upload it and message me. I can usually clean it up or find a higher-res version online.
+- **Reorder:** Open the brand, change the **Order** number, Publish.
+- **Rename:** Open the brand, edit **Client / Brand Name**. Don't touch the slug — that ties to the file on disk.
+- **Remove:** Three-dot menu (⋯) → Delete → Publish.
 
 ---
 
 ## Managing Kit ("The Gear Behind The Shots")
 
-This is where you manage your equipment list. Each kit item is its own card on the site.
+This is where you manage your equipment list. The site renders the kit as a terminal-style loadout — one row per item, category on the left, item name on the right.
 
 1. Click **Kit** in the left sidebar
 2. Click **+** to add a new piece of gear
 3. Fill in:
-   - **Name:** What it is (e.g., "DJI Avata", "Sony FX3", "DZOFilm Vespid 75mm")
-   - **Description:** A short note on how you use it (one or two sentences)
-   - **Image:** Upload a photo of the gear (transparent background ideal but not required)
-   - **Order:** Lower numbers appear first
+   - **Category:** A short, all-caps key shown on the left of the row (e.g., `CAMERA`, `LENS`, `DRONE`, `AUDIO`, `RECORDER`, `FILTERS`). Reuse existing categories so the loadout reads consistent.
+   - **Item:** The gear name shown on the right of the row (e.g., "Sony FX3", "24-70mm f/2.8 GM II").
+   - **Accent:** Toggle ON to highlight this item with the green secondary color. Use sparingly — one or two items max — to draw attention to a recent or signature piece of kit.
+   - **Order:** Lower numbers appear first. Group by category in the order field (cameras 10–19, lenses 20–29, etc.) so additions slot in cleanly.
 4. Click **Publish**
 
 Treat this like a working list. Add new gear when you buy it, remove gear when you sell it.

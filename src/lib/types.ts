@@ -6,26 +6,6 @@ interface SanitySystemFields {
   _rev: string
 }
 
-export interface SanityImageAsset {
-  _type: 'image'
-  asset: {
-    _ref: string
-    _type: 'reference'
-  }
-  hotspot?: {
-    x: number
-    y: number
-    height: number
-    width: number
-  }
-  crop?: {
-    top: number
-    bottom: number
-    left: number
-    right: number
-  }
-}
-
 export interface SanityReference {
   _type: 'reference'
   _ref: string
@@ -55,18 +35,23 @@ export interface Service extends SanitySystemFields {
   order: number
 }
 
-export interface TrustedBy extends SanitySystemFields {
-  _type: 'trustedBy'
+// Projected shape returned by TRUSTED_BY_QUERY (slug.current → slug). The raw
+// Sanity doc has slug as { _type: 'slug', current: string } but the query
+// flattens it. Logo image lives locally at /public/images/trusted-by/{slug}.png.
+export interface TrustedBy {
+  _id: string
   name: string
-  logo: SanityImageAsset
+  slug: string
   order: number
 }
 
-export interface Kit extends SanitySystemFields {
-  _type: 'kit'
-  name: string
-  description?: string
-  image?: SanityImageAsset
+// Projected shape returned by KIT_QUERY. Schema simplified to four fields
+// in Phase 6 — see DESIGN-GUIDELINES change log.
+export interface Kit {
+  _id: string
+  category: string
+  item: string
+  accent: boolean
   order: number
 }
 

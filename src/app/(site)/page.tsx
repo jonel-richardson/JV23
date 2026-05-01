@@ -3,6 +3,12 @@ import Hero from '@/components/scenes/Hero'
 import About from '@/components/scenes/About'
 import FeaturedWork from '@/components/scenes/FeaturedWork'
 import FeaturedWorkSkeleton from '@/components/scenes/FeaturedWorkSkeleton'
+import TrustedBy from '@/components/scenes/TrustedBy'
+import TrustedBySkeleton from '@/components/scenes/TrustedBySkeleton'
+import Kit from '@/components/scenes/Kit'
+import KitSkeleton from '@/components/scenes/KitSkeleton'
+import Services from '@/components/scenes/Services'
+import ServicesSkeleton from '@/components/scenes/ServicesSkeleton'
 
 export const revalidate = 60
 
@@ -13,6 +19,15 @@ export default function HomePage() {
       <About />
       <Suspense fallback={<FeaturedWorkSkeleton />}>
         <FeaturedWork />
+      </Suspense>
+      <Suspense fallback={<TrustedBySkeleton />}>
+        <TrustedBy />
+      </Suspense>
+      <Suspense fallback={<KitSkeleton />}>
+        <Kit />
+      </Suspense>
+      <Suspense fallback={<ServicesSkeleton />}>
+        <Services />
       </Suspense>
     </main>
   )

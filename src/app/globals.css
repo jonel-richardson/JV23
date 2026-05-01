@@ -1,5 +1,12 @@
 @import "tailwindcss";
 
+/* Tailwind v4 scans the project for candidate utility classes by default,
+   including Markdown files. Session logs and design docs occasionally
+   reference Tailwind syntax as prose (e.g. `motion-safe:[animation:var(...)]`),
+   which Tailwind would otherwise compile into malformed CSS. Documentation
+   should never drive emitted styles — exclude all Markdown from scanning. */
+@source not "../../**/*.md";
+
 @theme {
   --color-bg-base: #050505;
   --color-bg-secondary: #000000;
@@ -25,6 +32,13 @@
      active recording cue rather than a gentle wash. Pair with motion-safe:
      to honor prefers-reduced-motion. */
   --animate-pulse-rec: pulse-rec 1.5s ease-in-out infinite;
+
+  /* Reusable marquee track for Trusted By and Services. Default duration
+     of 30s is a placeholder — callers override animation-duration via
+     inline style for per-instance pacing (Trusted By 14s, Services 40s).
+     Keyframe shifts the track from 0 to -50% so a duplicated child set
+     creates a seamless loop with no visible jump. */
+  --animate-scroll-marquee: scroll-marquee 30s linear infinite;
 }
 
 @keyframes pulse-rec {
@@ -34,6 +48,15 @@
   }
   50% {
     opacity: 0.3;
+  }
+}
+
+@keyframes scroll-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
   }
 }
 

@@ -8,7 +8,7 @@ export default defineConfig({
   workers: 1,
   reporter: 'html',
   use: {
-    baseURL: 'http://localhost:3002',
+    baseURL: process.env.PW_BASE_URL ?? 'http://localhost:3002',
     trace: 'on-first-retry',
   },
   projects: [
@@ -21,10 +21,12 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'] },
     },
   ],
-  webServer: {
-    command: 'npm run dev -- -H 0.0.0.0 -p 3002',
-    url: 'http://localhost:3002',
-    timeout: 120 * 1000,
-    reuseExistingServer: !process.env.CI,
-  },
+  webServer: process.env.PW_BASE_URL
+    ? undefined
+    : {
+        command: 'npm run dev -- -H 0.0.0.0 -p 3002',
+        url: 'http://localhost:3002',
+        timeout: 120 * 1000,
+        reuseExistingServer: !process.env.CI,
+      },
 })

@@ -22,3 +22,12 @@ export const writeClient = createClient({
 export const FEATURED_PROJECTS_QUERY = `*[_type == "project" && featured == true] | order(date desc)[0...3]`
 
 export const ALL_PROJECTS_QUERY = `*[_type == "project"] | order(date desc)`
+
+// Phase 6 queries. Each projects only the fields the rendering component
+// reads — slug.current is unwrapped to a flat string so consumers don't
+// have to dig through Sanity's slug object shape.
+export const TRUSTED_BY_QUERY = `*[_type == "trustedBy"] | order(order asc) { _id, name, "slug": slug.current, order }`
+
+export const KIT_QUERY = `*[_type == "kit"] | order(order asc) { _id, category, item, accent, order }`
+
+export const SERVICES_QUERY = `*[_type == "service"] | order(order asc) { _id, title, description, order }`

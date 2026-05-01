@@ -82,8 +82,8 @@ Use Tailwind's default scale (4px base unit). Container queries are used inside 
 - Tablet (`@container frame (min-width: 768px)`): `pt-14 pb-20 px-8` (56px / 80px / 32px)
 - Desktop (`@container frame (min-width: 1024px)`): `pt-16 pb-24 px-12` (64px / 96px / 48px)
 
-**Hero gets extra (asymmetric):** top padding aligns with standard scenes for consistent rhythm; bottom padding stays larger for breathing room before the next scene. Hero's distinctness comes from the drone illustration, glow effect, `min-h-screen` / `min-h-[88vh]`, and scene-meta label — top padding doesn't need to carry that weight.
-- Mobile (default): `pt-10 pb-20 px-6` (40px top / 80px bottom / 24px sides), `min-h-screen` (100vh)
+**Hero gets extra (asymmetric):** top padding aligns with standard scenes for consistent rhythm; bottom padding stays larger on tablet/desktop for breathing room before the next scene. Mobile bottom padding is tighter (pb-12) so the Hero→About transition doesn't sit on a dead band — tablet/desktop don't need this trim because the 88vh min-height gives content vertical room to spread into. Hero's distinctness comes from the drone illustration, glow effect, `min-h-screen` / `min-h-[88vh]`, and scene-meta label — top padding doesn't need to carry that weight.
+- Mobile (default): `pt-10 pb-12 px-6` (40px top / 48px bottom / 24px sides), `min-h-screen` (100vh)
 - Tablet (`@container frame (min-width: 768px)`): `pt-14 pb-30 px-8` (56px / 120px / 32px), auto-height (`min-h-0` overrides the mobile `min-h-screen`)
 - Desktop (`@container frame (min-width: 1024px)`): `pt-16 pb-[140px] px-12` (64px / 140px / 48px), `min-h-[88vh]`
 
@@ -184,13 +184,45 @@ This is one of the strongest aesthetic motifs. Reuse the same pattern (REC indic
 - The `// PROJECT:` line uses mono, project name uses accent green `#00ffa3`
 - Pull quote uses Bebas Neue for the opening `"` mark (oversized), Inter for the review text body
 
-### Trusted By (Logo Grid)
+### Trusted By (Marquee)
 
-- Logos rendered inside fixed-aspect containers (`aspect-ratio: 16/9`)
-- Container background: `#0a0a0a`, border 0.5px `#1a1a1a`
-- Logo image: `object-fit: contain`, max 75% of container width
-- Grayscale by default (`filter: grayscale(1) brightness(0.85)`), full color on hover
-- Grid: 2 cols mobile, 3 cols tablet, 4-5 cols desktop
+- Infinite horizontal scroll via the shared `<Marquee>` primitive (see Marquee pattern below)
+- 30s cycle duration — paced so logos can be recognized before leaving the visible window
+- Per logo: fixed height 28px mobile / 36px desktop, width auto, `flex-shrink-0`
+- Filter chain: `brightness-0 invert opacity-60` — converts every logo (regardless of native palette) to uniform white-on-dark; opacity 1 on hover
+- 4px round separator dot (`#2a2a2a`) between every logo, mx-6 mobile / mx-8 desktop
+- Edge fades: 80px mobile / 120px desktop, gradient from `var(--color-bg-base)` to transparent on each side
+- Source: `<img src="/images/trusted-by/{slug}.png" alt={brand.name} loading="lazy">` — plain `<img>`, not Next.js `<Image>`. Slug from Sanity must match the local filename.
+- No footer or header annotation — the marquee speaks for itself.
+
+### Marquee (reusable primitive)
+
+Used by Trusted By and Services. Shape:
+- Track div with `flex w-max`, `motion-safe:animate-scroll-marquee`, `hover:[animation-play-state:paused]`
+- Animation token `--animate-scroll-marquee` registered in `@theme` with default 30s; per-instance duration via inline `style={{ animationDuration }}`
+- Children rendered twice in sequence so the duplicate set is on-screen when the first set scrolls fully off-left — keyframe shifts 0 → -50% for a seamless loop with no jump
+- Second child set marked `aria-hidden="true"` so screen readers announce the content once
+- Two pairs of edge-fade overlays (mobile + desktop), toggled via container query, so prop-driven px widths can vary per breakpoint without a CSS variable dance
+- `prefers-reduced-motion`: `motion-safe:` prefix skips the animation; track sits at translateX(0) showing the original child set static
+
+### Loadout (Kit gear list)
+
+Terminal-styled card. The kit reads as a manifest, not a feature card.
+- Container: `bg-[#0a0a0a]`, border 0.5px `#1a1a1a`, rounded-2xl, padding 24px mobile / 32px desktop
+- Header row (mb-5): `// LOADOUT.TXT` in mono 11px `#00ffa3` (left) + version stamp `v2.4 · 2026` in mono 11px `#666` (right)
+- Item rows: `flex justify-between py-3`, border-bottom 0.5px `#1a1a1a` (none on last row)
+- Left of row: `category` in mono 11px `#666`, letter-spacing 0.15em
+- Right of row: `item` in mono 13px `#fff` (or `#00ffa3` if `accent: true`)
+
+### Service Card
+
+One card per offering in the Services marquee.
+- Container: 280px wide, min-height 220px, gradient `#1a1a1a` → `#0a0a0a`, border 0.5px `#2a2a2a`, rounded-2xl, padding 24px
+- Hover: border `#0066ff`, `-translate-y-0.5`, transition 250ms ease-out
+- Top: number badge `01` in mono 11px `#0066ff`. No arrow, no link affordance — cards aren't clickable until service detail pages exist (post-v2).
+- Title: Bebas Neue 24px, line-height 1.0, letter-spacing 0.02em, uppercase
+- Body: Inter 14px `#aaa`, line-height 1.5, mt-3
+- Numbers derived from sort position (`String(idx + 1).padStart(2, '0')`), not stored on the schema
 
 ### Forms (Inquire + Review submission)
 
@@ -208,9 +240,9 @@ This is one of the strongest aesthetic motifs. Reuse the same pattern (REC indic
 | 01 | Hero | `#000` | Stats hardcoded | 100vh min-height. Drone image floating top-right. Blue glow bottom-left. |
 | 02 | About | `#050505` | Bio + portrait static | Two-column desktop, single-column mobile. REC card on portrait. |
 | 03 | Featured Work | `#000` | Yes (3 featured projects) | 3-column grid desktop, horizontal scroll mobile. Category tags color-coded. |
-| 04 | Trusted By | `#050505` | Yes (logos) | Grid of client logos. Grayscale → color on hover. |
-| 05 | Kit | `#000` | Yes (kit items) | "THE GEAR BEHIND THE SHOTS." Equipment grid. Hosts the Phase 9 camera-pan animation as a hero element at the top of the section, before the gear list (relocated from About per 2026-04-30 change log). |
-| 06 | Services | `#050505` | Yes (services) | List or grid of service offerings. |
+| 04 | Trusted By | `#050505` | Yes (metadata only — logos local) | Infinite-scroll marquee of brand logos (30s cycle). All logos rendered uniformly white-on-dark via `brightness-0 invert opacity-60`; opacity 1 on hover. Logo files live at `/public/images/trusted-by/{slug}.png`. |
+| 05 | Kit | `#000` | Yes (kit items) | "THE GEAR BEHIND THE SHOTS." Dual composition driven by container queries. Order at every viewport: title → LOADOUT → 3 pills (Editorial-grade gear · Owned outright · Insured), pills as film-credit footer. **Mobile + Tablet (<1024px):** camera hero at top (full content width, h-[280px], object-cover) → title (centered) → LOADOUT → pills. Tablet uses the mobile composition because at narrow desktop widths the camera's right:12% offset would overlap the text column. **Desktop (1024px+):** camera floats absolutely on the right at z-0 (`top: 0, right: 12%, w: 320px, max-h: 400px` — top values intentionally above the geometric headline top so the camera's visual mass pairs with the headline; aspect-ratio overridden by the dual cap, video uses object-cover and crops ~89px from top + bottom of the source); title constrained to `max-w-[60%]` so it doesn't wrap under the camera; full-width terminal-styled `<Loadout>` at `relative z-10` so it covers the camera where they overlap (magazine editorial pattern, video keeps animating in the unhidden portion); pills below LOADOUT with `mt-8` flat at every breakpoint. Camera video replaces the original Phase 9 scroll-driven plan with a continuous HTML5 video loop (boomerang re-encoded for seamless loop). |
+| 06 | Services | `#050505` | Yes (services) | Horizontal-scroll marquee of service cards (4 offerings, 40s cycle). Slower than Trusted By so card copy is readable. Numbers (01–04) derived from sort position, not stored. |
 | 07 | Words | `#050505` | Yes (approved reviews only) | Carousel of client testimonials. |
 | 08 | Inquire | `#000` | No (Formspree only) | Two-column desktop. Form + footer. |
 
@@ -285,11 +317,13 @@ These are the schemas that will be created in Phase 1. Schema files live in `san
   type: 'document',
   fields: [
     { name: 'name',  type: 'string', validation: Rule => Rule.required(), description: 'Used as alt text and screen reader label' },
-    { name: 'logo',  type: 'image',  options: { hotspot: true }, validation: Rule => Rule.required() },
+    { name: 'slug',  type: 'slug',   options: { source: 'name', maxLength: 96 }, validation: Rule => Rule.required(), description: 'Auto-generates from Name. Must match the PNG filename in /public/images/trusted-by/.' },
     { name: 'order', type: 'number', initialValue: 0, description: 'Lower numbers appear first' }
   ]
 }
 ```
+
+Brand logos live locally at `/public/images/trusted-by/{slug}.png`. Sanity stores only metadata. See NATHAN_GUIDE for the new-brand workflow.
 
 ### kit
 ```js
@@ -297,10 +331,10 @@ These are the schemas that will be created in Phase 1. Schema files live in `san
   name: 'kit',
   type: 'document',
   fields: [
-    { name: 'name',        type: 'string', validation: Rule => Rule.required() },
-    { name: 'description', type: 'text' },
-    { name: 'image',       type: 'image',  options: { hotspot: true } },
-    { name: 'order',       type: 'number', initialValue: 0 }
+    { name: 'category', type: 'string',  validation: Rule => Rule.required(), description: 'All-caps key shown left of the row, e.g. CAMERA, LENS, DRONE.' },
+    { name: 'item',     type: 'string',  validation: Rule => Rule.required(), description: 'Gear name shown right of the row, e.g. Sony FX3.' },
+    { name: 'accent',   type: 'boolean', initialValue: false, description: 'Highlight this item with the secondary accent color.' },
+    { name: 'order',    type: 'number',  initialValue: 0 }
   ]
 }
 ```
@@ -333,11 +367,11 @@ These are the schemas that will be created in Phase 1. Schema files live in `san
 // Services — ordered
 *[_type == "service"] | order(order asc)
 
-// Trusted By — ordered, with logo URL
-*[_type == "trustedBy"] | order(order asc) { name, "logoUrl": logo.asset->url }
+// Trusted By — ordered, slug unwrapped to flat string (logo file lives at /public/images/trusted-by/{slug}.png)
+*[_type == "trustedBy"] | order(order asc) { _id, name, "slug": slug.current, order }
 
 // Kit — ordered
-*[_type == "kit"] | order(order asc)
+*[_type == "kit"] | order(order asc) { _id, category, item, accent, order }
 
 // Approved reviews only — homepage Words scene
 *[_type == "review" && approved == true] | order(submittedAt desc) { clientName, role, reviewText, "project": project->{ title, date } }
@@ -355,21 +389,18 @@ These are the schemas that will be created in Phase 1. Schema files live in `san
 - Focus rings visible on tab navigation — use `outline: 2px solid #0066ff; outline-offset: 2px`
 - `prefers-reduced-motion` respected on all scroll animations and the camera scan-wipe
 
-## Camera Animation Decision Gate (Phase 8)
+## Camera Animation Decision Gate (Resolved — Phase 6)
 
-The camera scan-wipe animation from v1 is being evaluated against the new aesthetic. As of the 2026-04-30 change log, the animation is planned for the **top of the Kit scene** (before the gear list), not the About → Featured Work transition. Decision criteria:
+**Decision: KEEP**, but as a continuous HTML5 video loop rather than a 181-frame scroll-driven scene. Shipped in Phase 6 (not Phase 8/9 as originally planned).
 
-**Keep the animation if:**
-- It feels like part of the cinema-tech motif (REC indicators, scene meta, etc.)
-- It gives the Kit scene a hero element it would otherwise lack and reads as demonstrative (gear in use) rather than ornamental
-- Mobile performance is acceptable (60fps on iPhone 14)
+The asset (`/public/videos/kit-camera.mp4`, ~6 sec, 416×752, ~1MB) auto-plays muted on a loop in the Kit scene's right column, opposite the title + body + pills. Reduced-motion users get the same `<video>` without autoplay/loop, so the browser shows the first frame natively — no separate poster image needed.
 
-**Drop in favor of static photo if:**
-- It feels like leftover ornament from the v1 Apple aesthetic
-- It conflicts with the new design language
-- Mobile performance suffers
+**Why a video loop instead of scroll-driven frames:**
+- Same visual result with zero scroll-coupling complexity, no JavaScript scroll listener, no frame-by-frame asset
+- Camera video sits beside the title + body, demonstrating "the gear, in use" rather than "the gear, on display" — the demonstrative purpose the change log called for
+- Eliminates the Phase 9 camera-animation work entirely; Phase 9 becomes "video hosting decision + embed + SEO + intro animation" only
 
-The decision is logged in the change log below regardless of outcome.
+**Performance:** native `<video autoplay loop muted playsInline preload="metadata">` is GPU-decoded by the browser; iPhone 14 holds 60fps without scroll-listener overhead.
 
 ## Change Log
 
@@ -398,6 +429,33 @@ The decision is logged in the change log below regardless of outcome.
 | 2026-04-30 | REC indicator pulse animation | Tailwind default `animate-pulse` (opacity 0.5 → 1 → 0.5, soft wash) | Custom `pulse-rec` keyframe (opacity 1 → 0.3 → 1, 1.5s ease-in-out) registered as `--animate-pulse-rec` in the @theme block of globals.css | Tailwind's default animate-pulse is tuned for skeleton loaders — its softer 0.5/1 range doesn't read as a deliberate cinema-tech "live" cue. The mockup specifies a sharper 1 → 0.3 → 1 fade so the REC dot looks like an active recording indicator, not a gentle wash. One custom keyframe is small overhead and identifies the REC pulse as part of the system's voice. Paired with motion-safe: modifier so prefers-reduced-motion shows a static dot. |
 | 2026-04-30 | About portrait card content | Static cinema-tech card with placeholder copy "Camera intro animation reveals here." | Real photo of Nathan (`public/images/nathan-portrait.jpg`) filling the card with `object-top` anchoring, viewfinder-style overlays (corner brackets, REC indicator, top-left timecode, glow, fade) layered on top. No bottom info block. | Section title "MEET NATHAN." promises a person; visitors should actually see him. The viewfinder overlays serve as cinematic framing for the photo, not a replacement for it. The portrait card stands as the final v2 visual. Phase 9's camera intro animation moves to the Kit scene where it serves a demonstrative purpose (gear in use) rather than atmospheric purpose (cinematizing an already-cinematic photo). See dedicated change log entry on the animation move. |
 | 2026-04-30 | Camera intro animation location | Phase 9 plan: scroll-driven camera-pan animation plays over Nathan's photo in About scene | Phase 9 plan: animation moves to Kit scene, plays over gear/production hero shot | The About photo (Nathan with camera) is already cinematic on its own, with viewfinder overlays providing cinema-tech framing. Adding scroll-driven motion on top would be three layers competing for attention. The camera-pan-viewfinder.mp4 source is named for and specifically evokes a viewfinder POV effect — that reads conceptually clean over gear (we see gear THROUGH the camera that uses it) rather than over a portrait (we see Nathan THROUGH a camera POV we don't physically have). Animation in Kit also serves portfolio purpose better — demonstrative (showing tools in use) rather than atmospheric (cinematizing what's already cinematic). |
+| 2026-04-30 | Tailwind v4 content scanning | Default scan (all project files including Markdown) | Markdown excluded via `@source not "../../**/*.md"` in globals.css | Session logs and design docs reference Tailwind syntax as prose (e.g. literal `motion-safe:[animation:var(...)]`). Tailwind v4 picked these up as candidate classes and emitted malformed CSS rules that crashed the browser parser, blocking the Studio. Markdown should never drive emitted styles — explicitly excluded so future log entries can describe class shapes without breaking the build. |
+| 2026-04-30 | REC dot animation class | `motion-safe:[animation:var(--animate-pulse-rec)]` (arbitrary-property syntax) | `motion-safe:animate-pulse-rec` (named utility from @theme token) | Tailwind v4 auto-generates `animate-X` utilities from `--animate-X` tokens registered in @theme. Named utility is the canonical form — cleaner, less brittle, and doesn't tempt content scanners to misparse the arbitrary-value variant. |
+| 2026-04-30 | Kit schema | `name` (string) + `description` (text) + `image` (image) + `order` (number) | `category` (string, required) + `item` (string, required) + `accent` (boolean, default false) + `order` (number) | Phase 6 design renders kit as a terminal-styled loadout — one row per item with the category prefix on the left and item name on the right. The single `name` field couldn't carry the prefix/name split, and the `image` field was unused (loadout is text-only by design). Renamed `name` → `item` for clarity, added `category` and `accent`, dropped `description` and `image`. Field rename approved with explicit Rule 12 sign-off. |
+| 2026-04-30 | TrustedBy schema | `name` (string) + `logo` (image upload) + `order` (number) | `name` (string) + `slug` (slug, source: name) + `order` (number) — image upload removed | Brand logos arrive in unpredictable formats and require real cleanup (transparent backgrounds, even sizing, sharp edges at small dimensions). Asking Nathan to handle that in the browser produces inconsistent walls. New workflow: Nathan messages Jonel, Jonel processes and commits to `/public/images/trusted-by/{slug}.png`, Nathan creates the matching Studio record. Slug ties the Sanity record to the local file. NATHAN_GUIDE updated with the new flow. |
+| 2026-04-30 | Trusted By logo treatment | Per-logo grayscale → color on hover (preserved brand color) | All logos rendered through `brightness-0 invert opacity-60` (uniform white-on-dark, opacity 1 on hover) | A logo wall fights itself when each brand carries its own palette — the eye reads color before name. Forcing visual uniformity makes the wall read as a single texture (Trinidad's commercial brand network), with hover restoring opacity for individual recognition. Aligns with the "logo wall over individual brand fidelity" instinct that drives the cinema-tech aesthetic elsewhere. |
+| 2026-04-30 | Marquee component | None (Phase 4 used static grids) | Reusable `<Marquee>` primitive in `components/ui/`, used by Trusted By and Services | Both scenes need infinite horizontal scroll with seamless looping, edge fades, hover-pause, and `prefers-reduced-motion` respect. Same shape, different content + duration — extract once. Track translates 0 → -50% over a duration prop (linear, infinite); children rendered twice for seamless loop; second copy is `aria-hidden` so screen readers announce content once. Animation registered as `--animate-scroll-marquee` token in @theme; per-instance duration via inline `animationDuration`. |
+| 2026-04-30 | Kit scene composition | "Equipment grid with image, name, description per item" (Phase 1 PRD draft) | Top row: text-left (title + body + pills) / video-right (looping camera rotation). Bottom row: full-width terminal-styled `<Loadout>` gear list. | Grid-of-cards reads as a product showcase, which the kit isn't. Loadout-as-manifest reads as inventory — borrows the shape of CLI tool output (filename header, version stamp, monospace rows) and matches the cinema-tech motif. Camera video sits beside the title to demonstrate "the gear, in use" rather than "the gear, on display". Loadout is full-width below, not in a column, because it IS the demonstrative content — making it a sidebar afterthought would invert the hierarchy. |
+| 2026-04-30 | Kit camera animation implementation | Phase 9 plan: 181-frame scroll-driven camera animation hooked to scroll progress | Continuous HTML5 video loop (`/public/videos/kit-camera.mp4`, autoPlay + loop + muted + playsInline). Reduced-motion users get the video without autoplay/loop — browser shows the still first frame natively via `preload="metadata"`. | The 181-frame scroll-driven plan was always overkill for what the asset is — a 6-second 416×752 vertical clip of a camera rotating. A native `<video>` loop ships in Phase 6 with zero scroll-coupling complexity, no JavaScript scroll listener, and the same visual result. Eliminates the Phase 9 camera-animation work entirely; Phase 9 becomes "video hosting decision + embed + SEO + intro animation" only. Reduced-motion fallback uses no separate poster image — suppressing autoplay leaves the video frozen on its first frame natively. |
+| 2026-04-30 | Trusted By footer copy | `// SCROLLING MARQUEE · INFINITE LOOP` rendered below the marquee | Removed entirely | Mockup designer annotation, not visitor-facing copy. The line described the component's behavior to whoever was reading the mockup file, but on a live site it reads as either jargon or noise. Removed during Phase 6 smoke-test polish. |
+| 2026-04-30 | Services header meta line | `// 4 OFFERINGS · DYNAMIC FROM SANITY` rendered to the right of the SERVICES title at desktop | Removed entirely | Same reasoning as the Trusted By footer — internal annotation describing the data source, not content for visitors. Removed during Phase 6 smoke-test polish. |
+| 2026-04-30 | Trusted By marquee duration | 14s | 30s | 14s read as aggressive — logos passed faster than visitors could register them. 30s gives logos time to be recognized before they leave the visible window, while staying perceptibly faster than the Services marquee at 40s (which carries readable copy). |
+| 2026-04-30 | Kit scene composition (revised) | Two-column top (text + camera) above a full-width loadout below | Two-column at 768+ with loadout nested inside the left column (under the pills) and the camera in a max-w-[320px] capped container in the right column. items-start aligns column tops. Mobile flow: title → body → pills → loadout → camera. | Original full-width-loadout-below structure produced two large dead zones at desktop: (1) eyebrow→title gap inflated by `items-center` shifting the short text column down to vertically center against the tall camera column (~317px offset); (2) pills→loadout gap inflated because the loadout sat below the flex container, which inherited the camera column's full ~1000px height. Capping the camera at max-w-[320px] tames its height to ~580px, and nesting the loadout inside the left column means the loadout flows directly under the pills with a clean mt-10 (40px) gap. Mobile order changes to end with the camera as a cinematic coda after the gear list. |
+| 2026-04-30 | Kit loadout placement (final) | Nested inside the left column at all viewports (under the pills) | Full-width sibling row below the two-column flex (mt-10 = 40px from the bottom of whichever column extends lower) | Nesting the loadout in the left column made the gear list compete with the title for left-column real estate at desktop and pushed the camera into a vertically off-balance partner. The loadout deserves its own row — it's the demonstrative content of the scene, and a full-width row signals "the kit, in detail" rather than reading as a sidebar to the title. items-start (kept from prior fix) and the max-w-[320px] camera cap (also kept) still hold the eyebrow→title gap to mb-5 = 20px. Mobile flow returns to title → body → pills → camera → loadout. |
+| 2026-04-30 | ServiceCard arrow | `→` rendered top-right of every card at 18px white opacity 0.5 | Removed entirely; only the number badge remains at the top of the card | Cards have no link target in Phase 6 — there are no service detail pages yet. The arrow promised navigation that didn't happen, which is a small visual lie. Removing it is honest. Hover still lifts the border + the card itself for a hint of interactivity, but doesn't promise anywhere to go. The arrow can come back in a future phase if service detail pages or modal interactions are added. |
+| 2026-04-30 | Kit camera cap (final) | max-w-[320px] → camera ~320 × 580 | max-w-[244px] → camera ~244 × 441 | The 320×580 camera dominated its column (~580px tall vs the text column's ~370px), pushing the flex container's bottom 210px below the pills on the left side. Adding the loadout's mt-10 (40px) made the visible left-side gap from pills→Loadout read as ~250px — a dead zone. Target dimensions of 244×440 (cap by height was the spoken intent; expressed as max-w because `w-full` + `aspect-ratio` + `max-h` over-constrains both dimensions and breaks the aspect ratio — capping width lets the aspect-ratio derive height naturally). Camera still reads as a substantial cinema-tech specimen, but the right column is now only ~70px taller than the left, dropping the visible left-side gap to ~110px — natural editorial breathing room. |
+| 2026-04-30 | Kit scene composition | Two-column flex layout (text-left, camera-right, items-start) with full-width LOADOUT below — caused asymmetric column heights creating ~110px dead space below the text column on desktop. | Absolute-positioned camera on desktop (no longer a flex column), full-width camera at top on mobile. Text and LOADOUT flow naturally with no dead space at narrow desktop widths. Two compositions, one component set, viewport-driven via container queries. KitCameraVideo simplified to fill its parent (parent governs size); KIT_CAMERA_VIDEO.aspectRatio constant dropped (orphaned after the refactor). KitSkeleton mirrored to the same dual structure to prevent layout shift on Suspense resolve. | Column-height matching is fundamentally fighting against asymmetric content (text content is ~370px tall, camera at 244×441 is taller). Absolute positioning takes the camera out of normal flow so it stops defining row height. Text + LOADOUT can then flow with their natural heights at narrow desktop widths (820–1024px), where text wraps long enough that LOADOUT lands below camera bottom naturally. At wider viewports (1280px+) text is shortest and LOADOUT would overlap the camera bottom — graduated `@[1280px]/frame:mt-16` (64px instead of 32px) provides the additional clearance only where the math demands it. Mobile gets a different composition entirely because horizontal space is too precious to share — camera-first hero pattern works better than constrained side-by-side. |
+| 2026-04-30 | Kit camera dimensions + LOADOUT clearance (tuning) | Camera 244 × ~441 (width-driven via aspect); LOADOUT mt graduates to 64px at 1280+ | Camera 320 × 400 (width-fixed + max-h cap; aspect-ratio overridden so the source is cropped via object-cover ~89px top + ~89px bottom — black background mostly, camera body centered remains visible); LOADOUT mt graduates to 80px at 1280+ | The 244-wide camera read as a thumbnail rather than a focal element. 320 wide gives the camera presence on desktop. Capping height at 400px (rather than letting aspect derive ~578) keeps the camera close to the text-block height range so the layout stays balanced — the aspect mismatch is paid for in cropping (acceptable: source has black breathing room top + bottom that's safe to lose). LOADOUT mt bumped from 64px to 80px at 1280+ as buffer for edge cases where intermediate widths produce a slightly shorter text wrap; the math at 1280 (camera bottom 96+400=496 vs LOADOUT top 94+~348+80=522) gives ~26px clearance — comfortable but tight, the extra 16px is insurance. |
+| 2026-04-30 | Kit body copy + pill set | Body paragraph + 2 pills (Owned outright, Insured) | 3 pills only (Editorial-grade gear, Owned outright, Insured) | Body paragraph was creating visual weight between headline and gear list. Consolidating "editorial-grade gear" into a pill preserves the credibility signal in the existing design pattern. Reduces scene height. Pills carry the data; LOADOUT carries the specifics; headline carries the punch. |
+| 2026-04-30 | Kit desktop camera horizontal position | right:5% — camera floats near the section's outer right edge | right:12% — camera pulls horizontally closer to the text column | At 5% the camera read as drifting away from the text, especially at the wider frame widths (1280px) where the inset is largest in absolute px. 12% creates a tighter relationship between text and camera while preserving the desktop's "camera floats free" character. Doesn't affect the mobile composition. |
+| 2026-04-30 | Kit pill placement + camera z-layering | Pills between title and LOADOUT; camera positioned to avoid overlap with LOADOUT via graduated margin-top | Pills below LOADOUT (footer pattern); camera positioned absolute z-0 with LOADOUT z-10 (camera bleeds behind LOADOUT where they overlap) | Pill-as-footer reads as a film-credit pattern — scene ends with metadata about the data above. Camera-behind-LOADOUT is a magazine editorial pattern (photo behind text block) — solves overlap problem permanently without fighting CSS margin math. Visual hierarchy: LOADOUT is foreground data, camera is background atmosphere. |
+| 2026-04-30 | Kit camera vertical position + mobile centering + Hero mobile padding | Camera top:86px/96px (calibrated when body paragraph existed); headline left-aligned mobile; Hero pb-20 mobile (created excessive Hero→About gap) | Camera top recalculated to align with headline top after body paragraph removal (top:96px at 768+, top:104px at 1024+ — section pt + eyebrow + mb-5); headline centered on mobile only; Hero pb tightened to pb-12 mobile to reduce Hero→About transition gap | Camera position needs to track actual rendered headline position when content changes. Mobile-only headline centering improves visual hierarchy when scene is camera-first composition. Hero pb tightening targets a specific layout issue without affecting desktop where the larger bottom padding reads correctly. |
+| 2026-04-30 | Kit camera vertical offset | Camera at top:96px/104px (mathematically aligned with headline top edge) but visually reads as middle of headline due to camera's visual mass distribution | Camera at top:64px/72px (mathematically above headline top, visually aligned with upper portion of headline) | Camera body/lens visual mass anchors low, so geometric top-edge alignment with headline reads as "camera lower than headline." Negative offset pushes camera up so visual mass aligns with headline rather than top edges. Cinema-tech atmospheric element should feel paired with the title, not floating below it. |
+| 2026-04-30 | Kit camera vertical offset (further) | top:64px/72px still read as too low | top:24px/32px (additional -40px shift; camera top sits at or above the EyebrowLabel level) | First offset pass under-corrected. The camera's lens+body visual mass weighs heavier than estimated; pushing the top values to be near or above the eyebrow row lets the camera's center-of-mass sit at the headline mid-line, where the eye reads "camera and headline horizontal-aligned." If smoke test reveals collision with the eyebrow, back off to top:32/40. |
+| 2026-04-30 | Kit camera vertical offset (final tuning) | top:24px/32px still read as slightly low | top:8px/16px (-16px) | Visual-mass offset still converging — camera nudged closer to the section's padding-box top edge so the lens+body weight aligns with the EyebrowLabel + headline composition. |
+| 2026-04-30 | Kit camera vertical offset (final, top:0) | top:8px/16px still read low | top:0 — camera flush with the section's padding-box top at every desktop breakpoint | Final landed value. Camera's heavy lower mass now reads horizontally paired with the headline; further negative values would overlap the previous scene above. Single `top-0` class replaces the breakpoint-specific arbitrary values. |
+| 2026-04-30 | Kit composition breakpoint | Desktop floating-camera composition activated at @[768px]/frame: causing horizontal overlap between camera (at right:12%) and text column (at max-w-[60%]) at 820px viewport | Desktop composition activated at @[1024px]/frame:; tablet falls back to mobile camera-first hero | At 820px viewport, right:12% percentage math puts camera left edge at ~402px while text right edge is at ~524px, creating ~120px horizontal overlap. Real desktop viewports (1024+) have enough horizontal room for both. Tablet doesn't, so it uses the simpler mobile composition. |
+| 2026-04-30 | Kit mobile camera width cap at tablet | Mobile camera at full content width (h-[280px] w-full) — fine at 390px (~342px wide camera) but stretched awkwardly at 820px tablet (~756px wide × 280px tall, dominating the section) | Camera capped at max-w-[440px] centered at @[768px]/frame:; mobile (under 768) effectively unchanged since natural width fits | The mobile composition was designed for 390-580px viewports where full-width camera reads as hero. At tablet width the same composition produces an oversized camera that overwhelms the section. Capping width at tablet preserves the camera-first hero pattern at proportional size. |
 
 > After logging a change here, update the relevant section above so the current spec is always accurate.
 

@@ -42,7 +42,7 @@ export default function AboutPortraitCard() {
         aria-hidden="true"
         className="absolute top-4 right-4 z-20 flex items-center gap-1.5"
       >
-        <span className="block h-[5px] w-[5px] rounded-full bg-[var(--color-accent-secondary)] motion-safe:[animation:var(--animate-pulse-rec)]" />
+        <span className="block h-[5px] w-[5px] rounded-full bg-[var(--color-accent-secondary)] motion-safe:animate-pulse-rec" />
         <span className="font-mono text-[9px] text-[var(--color-accent-secondary)]">
           {ABOUT_PORTRAIT_REC_LABEL}
         </span>
