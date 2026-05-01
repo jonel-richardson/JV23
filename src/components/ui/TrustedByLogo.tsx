@@ -18,7 +18,7 @@ export default function TrustedByLogo({ brand }: TrustedByLogoProps) {
       alt={brand.name}
       loading="lazy"
       /* @container frame: logo height steps up at desktop so the wall reads heavier on wide viewports */
-      className="block h-7 w-auto flex-shrink-0 brightness-0 invert opacity-60 motion-safe:transition-opacity motion-safe:duration-200 hover:opacity-100 @[1024px]/frame:h-9"
+      className="block h-14 w-auto flex-shrink-0 brightness-0 invert opacity-60 motion-safe:transition-opacity motion-safe:duration-200 hover:opacity-100 @[1024px]/frame:h-16"
     />
   )
 }
