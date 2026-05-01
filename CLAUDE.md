@@ -44,7 +44,6 @@ src/
 │   ├── Nav.tsx                 — Sticky nav + mobile menu
 │   ├── scenes/
 │   │   ├── Hero.tsx            — Scene 01
-│   │   ├── HeroDrone.tsx       — Inline SVG quadcopter for Hero
 │   │   ├── About.tsx           — Scene 02
 │   │   ├── FeaturedWork.tsx    — Scene 03
 │   │   ├── TrustedBy.tsx       — Scene 04
@@ -200,7 +199,7 @@ Reference `PROJECT-CHECKLIST.md` for the operational steps Jo runs between phase
 ### Phase 3 — Hero Scene
 - [ ] `Hero.tsx` built — full viewport (`min-height: 100vh`)
 - [ ] `#000` background
-- [ ] Drone image floating top-right, blue glow bottom-left
+- [ ] Blue glow bottom-left
 - [ ] Eyebrow: `// 01 — TRINIDAD & TOBAGO` in mono
 - [ ] Display headline: "CINEMATIC STORYTELLING" in Bebas Neue, line-height 0.92
 - [ ] Body: "Where every frame tells a story."

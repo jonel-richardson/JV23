@@ -278,7 +278,7 @@ The Phase 8 review-submission form reuses every primitive above and adds three t
 
 | # | Scene | Background | Sanity-driven? | Notes |
 |---|---|---|---|---|
-| 01 | Hero | `#000` | Stats hardcoded | 100vh min-height. Drone image floating top-right. Blue glow bottom-left. |
+| 01 | Hero | `#000` | Stats hardcoded | 100vh min-height. Blue glow bottom-left. |
 | 02 | About | `#050505` | Bio + portrait static | Two-column desktop, single-column mobile. REC card on portrait. |
 | 03 | Featured Work | `#000` | Yes (3 featured projects) | 3-column grid desktop, horizontal scroll mobile. Category tags color-coded. |
 | 04 | Trusted By | `#050505` | Yes (metadata only — logos local) | Infinite-scroll marquee of brand logos (30s cycle). All logos rendered uniformly white-on-dark via `brightness-0 invert opacity-60`; opacity 1 on hover. Logo files live at `/public/images/trusted-by/{slug}.png`. |

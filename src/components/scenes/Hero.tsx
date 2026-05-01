@@ -2,7 +2,6 @@ import EyebrowLabel from '@/components/ui/EyebrowLabel'
 import SceneMeta from '@/components/ui/SceneMeta'
 import ButtonPrimary from '@/components/ui/ButtonPrimary'
 import ButtonSecondary from '@/components/ui/ButtonSecondary'
-import HeroDrone from './HeroDrone'
 import { HERO_GLOW, HERO_STATS } from '@/lib/constants'
 
 export default function Hero() {
@@ -27,7 +26,6 @@ export default function Hero() {
         className="absolute pointer-events-none rounded-full"
         style={glowStyle}
       />
-      <HeroDrone />
 
       <div className="relative z-[2] w-full mx-auto max-w-[1440px]">
         <EyebrowLabel number="01" label="TRINIDAD & TOBAGO" className="mb-5" />
