@@ -67,7 +67,7 @@ Gives a temporary public URL. No domain or deployment required.
 - **service** — title, description, order
 - **trustedBy** — name, logo (image), order
 - **kit** — name, description, image, order
-- **review** — clientName, role, project (reference), reviewText, email, submittedAt, approved
+- **review** — name, roleCompany, brand, project (string), projectType, review, email, slug, submittedAt, approved
 
 **Initialize Sanity in the project (embedded studio pattern — no Sanity CLI):**
 
@@ -338,4 +338,75 @@ FORMSPREE_ENDPOINT=https://formspree.io/f/your_form_id
 
 ---
 
-*End of SETUP.md — v2.0*
+## Deployment (Vercel)
+
+> Permanent reference for the Vercel deployment workflow. Land on this section when you're shipping a new branch to production, configuring environment variables, or onboarding a new contributor who needs to deploy.
+
+### Vercel project setup
+
+1. Sign in to vercel.com with the GitHub account that owns the `jonel-richardson/JV23` repo.
+2. **New Project** → Import the JV23 repo. Vercel auto-detects Next.js and sets the build/output settings correctly — no manual config needed.
+3. **Framework preset:** Next.js (auto-detected).
+4. **Build command:** `npm run build` (default, leave alone).
+5. **Output directory:** `.next` (default, leave alone).
+6. **Install command:** `npm install` (default, leave alone).
+7. Click **Deploy**. The first deployment will fail or render an empty Sanity-driven scene if env vars aren't set yet — that's expected. Set env vars next, then redeploy.
+
+### Environment variables checklist
+
+Set these in **Vercel project → Settings → Environment Variables**. All six must be present before the first successful production deploy.
+
+| Variable | Scope | Value source | Notes |
+|---|---|---|---|
+| `NEXT_PUBLIC_SANITY_PROJECT_ID` | Production + Preview + Development | `yqj0dj48` | Public — also hardcoded as a fallback in `lib/sanity.ts` |
+| `NEXT_PUBLIC_SANITY_DATASET` | Production + Preview + Development | `production` | Public |
+| `SANITY_WRITE_TOKEN` | Production + Preview | Sanity dashboard → API → Tokens → Create new token with **Editor** permissions | Server-side ONLY. Used by `/api/submit-review` to write moderation-pending reviews. Never expose to the client. |
+| `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | Production + Preview + Development | Cloudflare dashboard → Turnstile → site config | Public — embedded in the LeaveReviewForm widget |
+| `TURNSTILE_SECRET_KEY` | Production + Preview | Cloudflare dashboard → Turnstile → same site config | Server-side ONLY. Used by `/api/submit-review` to validate the token via Cloudflare's siteverify endpoint. |
+| `NEXT_PUBLIC_FORMSPREE_ENDPOINT` | Production + Preview + Development | Formspree dashboard (after Nathan completes account verification) | Public — the Inquire form posts directly from the client. URL looks like `https://formspree.io/f/xabcdefg`. |
+
+**After adding env vars:** Trigger a redeploy via **Deployments → ⋯ → Redeploy** so the values take effect.
+
+### Custom domain configuration
+
+The site lives at **jackvisuals23.com**. Connect the domain after the first successful deploy.
+
+1. **Vercel project → Settings → Domains → Add**.
+2. Enter `jackvisuals23.com`. Vercel will show DNS records to configure at your registrar.
+3. **At the registrar (where the domain is registered):**
+   - Add an `A` record for the apex pointing at Vercel's IP (`76.76.21.21` at time of writing — Vercel will tell you the current value).
+   - Add a `CNAME` record for `www` pointing at `cname.vercel-dns.com`.
+4. **Back in Vercel:** wait for the green checkmark next to the domain (DNS propagation can take up to 24h, usually <1h).
+5. **Set primary domain:** mark `jackvisuals23.com` as the primary; configure `www` to redirect to apex (or vice versa, your call).
+6. SSL is automatic via Let's Encrypt — no manual certificate work.
+
+### Studio access verification
+
+After the first successful production deploy with the domain connected:
+
+1. Open `https://jackvisuals23.com/studio` in a browser.
+2. Sign in with the Google account that was invited to the Sanity project (`jackltd23@gmail.com` for Nathan).
+3. Confirm all five content types appear in the left sidebar: Project, Service, Trusted By, Kit, Review.
+4. Create a throwaway test record in any type, publish, then delete it. Verifies write permissions are working.
+5. **Block `/studio` from search engines:** ensure `/studio` is in the Disallow list in `robots.ts` (handled in Phase 9 SEO work — flag if Studio is publicly indexed by accident).
+
+### First-deploy validation checklist
+
+Walk through this list on the first production deploy after Phase 8 ships, and again after any deploy that touches env vars or routing.
+
+- [ ] Homepage loads at `https://jackvisuals23.com` — all eight scenes render (Hero, About, Featured Work, Trusted By, Kit, Services, Words From Set, Inquire)
+- [ ] `/work` archive loads with all projects; category filter works
+- [ ] `/reviews` archive loads with all approved reviews; project-type filter works
+- [ ] `/leave-review` form submits successfully — review lands in Sanity Studio under Reviews with `Approved: false`
+- [ ] Turnstile widget renders on `/leave-review` and challenges as expected
+- [ ] `/studio` loads and Nathan can sign in
+- [ ] Nathan can approve a test review in Studio and see it appear on the homepage carousel within ~1 minute (revalidate window)
+- [ ] Inquire form submits successfully (Formspree-side check — email arrives at `jackltd23@gmail.com`)
+- [ ] Sitemap accessible at `/sitemap.xml` (Phase 9)
+- [ ] `robots.txt` blocks `/studio` (Phase 9)
+- [ ] No console errors in DevTools on any page
+- [ ] Lighthouse Performance > 80 on mobile (Phase 10 final check)
+
+---
+
+*End of SETUP.md — v2.1*

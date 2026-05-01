@@ -65,15 +65,21 @@ export interface NavLink {
   number: string
 }
 
+// Hrefs are absolute (`/#about`, not bare `#about`) so they navigate to
+// the homepage AND scroll to the anchor when clicked from any sub-page
+// (/reviews, /work, /leave-review). Bare `#about` only resolves on the
+// homepage itself — silent no-op everywhere else. Paired with next/link
+// in Nav.tsx so cross-page transitions are soft client-side nav rather
+// than full reloads.
 export const NAV_LINKS: readonly NavLink[] = [
-  { label: 'Work', href: '#work', number: '01' },
-  { label: 'About', href: '#about', number: '02' },
-  { label: 'Inquire', href: '#inquire', number: '03' },
+  { label: 'Work', href: '/#work', number: '01' },
+  { label: 'About', href: '/#about', number: '02' },
+  { label: 'Inquire', href: '/#inquire', number: '03' },
 ] as const
 
 export const NAV_CTA = {
   label: 'Start a project',
-  href: '#inquire',
+  href: '/#inquire',
 } as const
 
 // --- Phase 3: Hero Scene -------------------------------------------------
@@ -275,3 +281,93 @@ export const INQUIRE_ERROR_MESSAGE =
 // any non-empty value at submit time is a bot decoy and the submission is
 // silently dropped (UI shows success to discourage retries).
 export const INQUIRE_HONEYPOT_FIELD = 'website'
+
+// --- Phase 8: Words From Set + /reviews + /leave-review --------------------
+
+// Homepage carousel scene (Scene 07). Locked literal copy below; edits go
+// through DESIGN-GUIDELINES change log.
+export const WORDS_TITLE: readonly string[] = ['WORDS', 'FROM SET'] as const
+export const WORDS_EYEBROW_NUMBER = '07'
+export const WORDS_EYEBROW_LABEL = 'WHAT CLIENTS SAY'
+
+// Auto-advance cadence for the review carousel. 7s gives a long-enough
+// dwell to read a 280-character pull quote at typical reading speed.
+// After any user interaction (dot click), advance pauses and resumes
+// after RESUME_AFTER_MS so the visitor isn't fighting the timer.
+export const WORDS_AUTO_ADVANCE_MS = 7000
+export const WORDS_RESUME_AFTER_MS = 30000
+
+// Cap the homepage carousel at 5 most recent. Full archive is on /reviews.
+export const WORDS_HOMEPAGE_LIMIT = 5
+
+// Carousel exit-point CTA. Mirrors FEATURED_VIEW_ALL_* shape — locked
+// literal copy + locked href so the same constants drive the link.
+export const WORDS_SEE_ALL_LABEL = 'SEE ALL REVIEWS →'
+export const WORDS_SEE_ALL_HREF = '/reviews'
+
+// /reviews archive page (Scene-adjacent, lighter-dark palette per the
+// 2026-05-01 change log entry).
+export const REVIEWS_PAGE_TITLE: readonly string[] = ['WORDS', 'FROM EVERY SET.'] as const
+export const REVIEWS_PAGE_EYEBROW = 'COMPLETE REVIEWS'
+export const REVIEWS_PAGE_BODY =
+  'Real responses from real shoots. Filter by project type.'
+export const REVIEWS_EMPTY_FOR_CATEGORY =
+  'No reviews in this category yet. Try another filter.'
+export const REVIEWS_EMPTY_ALL = 'Reviews coming soon.'
+
+// /leave-review submission page. Verb-based URL so it doesn't collide
+// with the /reviews archive in URL space.
+export const LEAVE_REVIEW_TITLE: readonly string[] = ['LEAVE', 'A REVIEW.'] as const
+export const LEAVE_REVIEW_EYEBROW = 'SHARE YOUR EXPERIENCE'
+export const LEAVE_REVIEW_BODY =
+  'Worked with Nathan on a shoot? Tell others what to expect. Reviews go live after a quick check.'
+
+// Filter pill vocabulary for /reviews. "All" prepended to the Inquire
+// project-type vocab; remaining values come from INQUIRE_PROJECT_TYPES so
+// the two surfaces stay coupled — see types.ts ReviewProjectType alias.
+export const REVIEW_FILTER_CATEGORIES = [
+  'All',
+  ...INQUIRE_PROJECT_TYPES,
+] as const
+
+export type ReviewFilterCategory = (typeof REVIEW_FILTER_CATEGORIES)[number]
+
+// LeaveReviewForm chrome. Mirrors INQUIRE_FORM_HEADER_* shape.
+export const LEAVE_REVIEW_FORM_HEADER_LEFT = '// NEW_REVIEW.FORM'
+export const LEAVE_REVIEW_FORM_HEADER_RIGHT = 'SECURE · TURNSTILE'
+export const LEAVE_REVIEW_FORM_FOOT_META = 'MODERATED · 24-48H'
+export const LEAVE_REVIEW_SUBMIT_LABEL = 'Submit review →'
+export const LEAVE_REVIEW_SUBMIT_LABEL_SENDING = 'Submitting...'
+export const LEAVE_REVIEW_SUCCESS_HEADER = '// REVIEW_RECEIVED'
+export const LEAVE_REVIEW_SUCCESS_BODY =
+  'Your review is in. Nathan reviews each submission personally and approves them within a day or two.'
+export const LEAVE_REVIEW_ERROR_MESSAGE =
+  "Something went wrong. We didn't save your review. Try again, or email jackltd23@gmail.com directly."
+
+// Field-level helper text. The brand field is the most-likely-to-confuse
+// field — its purpose (logo lookup) isn't obvious without explanation.
+// The email helper explicitly states the privacy treatment so the visitor
+// has zero ambiguity about whether their email will appear on the site.
+export const LEAVE_REVIEW_BRAND_HELPER =
+  "Just the brand name. We'll show the logo if we've worked with them."
+
+export const LEAVE_REVIEW_EMAIL_HELPER =
+  'Never displayed publicly. Only used if Nathan needs to verify your review.'
+
+// Max review length matches the schema validation (Rule.required().max(280))
+// and the carousel's pull-quote sizing budget. Counter shown in the form.
+export const LEAVE_REVIEW_MAX_LENGTH = 280
+
+// Known Trusted By logo slugs. Source of truth is /public/images/trusted-by/
+// — keep this list synced when Nathan adds a brand. getBrandLogoSlug()
+// uses this to gate the logo lookup so we never render a broken-image
+// icon for an unknown brand.
+export const TRUSTED_BY_LOGO_SLUGS: readonly string[] = [
+  'cantine-maschio',
+  'diplomatico',
+  'gin-mare',
+  'grey-goose',
+  'jp-chenet',
+  'patron',
+  'tribe',
+] as const

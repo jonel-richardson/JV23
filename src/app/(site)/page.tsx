@@ -9,6 +9,8 @@ import Kit from '@/components/scenes/Kit'
 import KitSkeleton from '@/components/scenes/KitSkeleton'
 import Services from '@/components/scenes/Services'
 import ServicesSkeleton from '@/components/scenes/ServicesSkeleton'
+import WordsFromSet from '@/components/scenes/WordsFromSet'
+import WordsFromSetSkeleton from '@/components/scenes/WordsFromSetSkeleton'
 import Inquire from '@/components/scenes/Inquire'
 
 export const revalidate = 60
@@ -29,6 +31,9 @@ export default function HomePage() {
       </Suspense>
       <Suspense fallback={<ServicesSkeleton />}>
         <Services />
+      </Suspense>
+      <Suspense fallback={<WordsFromSetSkeleton />}>
+        <WordsFromSet />
       </Suspense>
       <Inquire />
     </main>

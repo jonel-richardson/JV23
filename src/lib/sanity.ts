@@ -31,3 +31,16 @@ export const TRUSTED_BY_QUERY = `*[_type == "trustedBy"] | order(order asc) { _i
 export const KIT_QUERY = `*[_type == "kit"] | order(order asc) { _id, category, item, accent, order }`
 
 export const SERVICES_QUERY = `*[_type == "service"] | order(order asc) { _id, title, description, order }`
+
+// Phase 8 review queries. Both project the new schema's display fields
+// (no email — that's private and never reaches the client). Sort uses
+// coalesce(submittedAt, _createdAt) so reviews entered manually in
+// Studio (which can't set the readOnly submittedAt field) fall back to
+// their creation timestamp instead of sorting as null. Real public
+// submissions go through /api/submit-review which sets submittedAt
+// explicitly, so they sort by submission time as intended.
+const REVIEW_PROJECTION = `{ _id, name, roleCompany, brand, project, projectType, review }`
+
+export const WORDS_QUERY = `*[_type == "review" && approved == true] | order(coalesce(submittedAt, _createdAt) desc)[0...5] ${REVIEW_PROJECTION}`
+
+export const REVIEWS_QUERY = `*[_type == "review" && approved == true] | order(coalesce(submittedAt, _createdAt) desc) ${REVIEW_PROJECTION}`

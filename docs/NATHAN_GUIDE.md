@@ -1,7 +1,7 @@
 # How to Update Your Portfolio — Jack Visuals
 
 > Your guide to managing the Jack Visuals website.
-> Last updated: April 2026 · v2.0
+> Last updated: May 2026 · v2.1
 
 ---
 
@@ -15,6 +15,10 @@ Go to `https://jackvisuals23.com/studio`
 
 1. Click **Login with Google**
 2. Use the email address we invited: `jackltd23@gmail.com`
+
+`[SCREENSHOT: Sanity Studio login screen with the "Login with Google" button highlighted]`
+
+`[SCREENSHOT: Studio dashboard immediately after login, showing the left sidebar with the five content types]`
 
 ---
 
@@ -46,6 +50,8 @@ Each section works the same way: click the **+** button to add, click an existin
 4. Click **Publish** at the bottom
 
 Your project will appear on the site within 1 minute.
+
+`[SCREENSHOT: New Project form in Studio with all fields filled out and the Publish button highlighted]`
 
 ---
 
@@ -101,6 +107,8 @@ This is where client and brand logos appear on the homepage.
    - **Order:** A number — lower numbers appear first.
 4. Click **Publish**. The logo appears on the homepage within a minute.
 
+`[SCREENSHOT: New Trusted By record in Studio, showing the auto-generated slug matching the on-disk filename]`
+
 ### Why no upload field?
 
 Brand logos arrive in unpredictable formats and need real cleanup work — transparent backgrounds, even sizing, sharp edges at small dimensions. Asking you to handle that in the browser is a recipe for inconsistent walls. The "message Jonel, I commit, you publish" flow keeps the wall sharp without putting photo editing on your plate.
@@ -128,6 +136,8 @@ This is where you manage your equipment list. The site renders the kit as a term
 
 Treat this like a working list. Add new gear when you buy it, remove gear when you sell it.
 
+`[SCREENSHOT: Kit list in Studio with several items, one of them with the Accent toggle ON]`
+
 ---
 
 ## Managing Reviews — Auto-Publish with Approval Gate
@@ -136,28 +146,40 @@ Reviews work differently from everything else. Clients submit their own reviews 
 
 ### How the flow works
 
-1. **You finish a project and publish it in the Studio** (Project section, fully filled out, Featured ON or OFF, doesn't matter)
-2. **You send your client this link:** `jackvisuals23.com/review`
+1. **You finish a project** (the project does NOT need to be in the Studio first — clients can review NDA work, off-site projects, or anything else they engaged you for).
+2. **You send your client this link:** `jackvisuals23.com/leave-review`
 3. **The client fills out the form:**
-   - Their name
-   - Their role and company (e.g., "Brand Director · Grey Goose Caribbean")
-   - Which project they're reviewing — they pick from a dropdown of your published projects
-   - Their review text (up to 280 characters — keep it punchy)
-   - Their email (used for verification only, never displayed)
-   - A spam check (Cloudflare Turnstile — usually invisible to them)
+   - **Name** (required) — their name as it'll appear on the site
+   - **Role / Company** (optional) — e.g., "Brand Director, Grey Goose Caribbean" — used as the line under their name on the homepage carousel
+   - **Brand** (optional) — just the brand name, e.g., "Grey Goose" — used to show the brand logo on the review card if we've shot for that brand. (Why a separate field? It keeps the logo lookup unambiguous — no parsing of "Brand Director, Grey Goose Caribbean" into "Grey Goose".)
+   - **Project Type** (optional, pick one) — Brand Films · Event Coverage · Drone Cinematography · Music Videos · Other. Used for the filter on the `/reviews` archive page.
+   - **Project Name** (optional) — free text, e.g., "Grey Goose Launch 2025". Shown on the review card as `// PROJECT: GREY GOOSE LAUNCH 2025`.
+   - **Review** (required, max 280 characters) — keep it pull-quote sized; the form shows a live counter so the client can see how much room they have left
+   - **Email** (optional) — used by you only if you need to verify the review came from a real client. Never displayed publicly.
+   - A Cloudflare Turnstile spam check (usually invisible — clients won't see it unless they're flagged as a bot)
 4. **The review lands in your Studio under Reviews, marked "Not Approved"**
 5. **You read it. If you like it, you toggle "Approved" ON and Publish.**
-6. **It appears on your homepage in the "Words From Set" section.**
+6. **It appears on the site in two places: the homepage "Words From Set" carousel (5 most recent) and the `/reviews` archive page (full set, filterable by Project Type).**
+
+`[SCREENSHOT: A pending review in the Studio, with the "Approved" toggle in the OFF position]`
 
 ### How to approve a review
 
 1. Click **Review** in the left sidebar
 2. Open the review you want to approve
-3. Read it carefully
+3. Read it carefully — feel free to fix typos, trim trailing whitespace, or correct names. Anything you save here is what goes live.
 4. Toggle **Approved** ON
 5. Click **Publish**
 
-The review is now live on the homepage.
+The review is now live within a minute.
+
+`[SCREENSHOT: The same review with "Approved" toggled ON and the Publish button highlighted]`
+
+### Brand logos on reviews
+
+If a review's **Brand** field matches one of the logos in your Trusted By section (e.g., "Grey Goose" → `grey-goose.png`), the brand logo automatically appears on the review card on the `/reviews` archive page. If the brand doesn't match (because we haven't shot for them, or they're a one-off), the card simply renders without a logo — no broken image, no placeholder.
+
+The matching is automatic but **the brand needs to be in your Trusted By list AND I need to have committed the logo file** (see "Managing Trusted By Logos" above). If you have a brand logo on disk but no Trusted By record, the review match still works as long as the brand spelling slugifies cleanly — but it's tidier to keep the two in sync.
 
 ### How to reject or delete a review
 
@@ -172,10 +194,13 @@ You're not obligated to approve every review you receive. Be picky — your home
 
 ### Rules of thumb for sending the review link
 
-- **Send it AFTER the project is published** in your Studio. The client needs to be able to pick the project from the dropdown.
+- **You can send the link before, during, or after a project is in the Studio.** The form is decoupled from your project list — clients describe their project in free text, so NDA work, off-site projects, and unpublished work all flow through the same form.
 - **Send it within a week of project delivery** while the experience is fresh
-- **A short personal message helps:** "Hey [client], thanks for trusting us with [project]. If you're up for it, mind dropping a quick line on jackvisuals23.com/review? It really helps."
+- **A short personal message helps:** "Hey [client], thanks for trusting us with [project]. If you're up for it, mind dropping a quick line at jackvisuals23.com/leave-review? It really helps."
+- **Pre-fill expectations:** "Up to 280 characters — pull-quote sized. Just a sentence or two about what worked."
 - **You're in full control.** No review goes live without you approving it.
+
+`[SCREENSHOT: The /leave-review form on a desktop browser, showing all seven fields and the Turnstile widget]`
 
 ---
 
@@ -191,6 +216,15 @@ You're not obligated to approve every review you receive. Be picky — your home
 
 ---
 
+## Common Gotchas
+
+- **Drafts vs Published:** Sanity auto-saves drafts as you type. Drafts are visible in Studio with an orange "Draft" badge but are NOT live on the site. Always click **Publish** when you're done editing.
+- **The "Approved" toggle is the publish gate, not the Publish button.** A published review with `Approved: false` is still hidden from the public site. Both must be ON for a review to appear.
+- **Slugs and filenames are case-sensitive on production.** If a Trusted By slug is `grey-goose` but the file is `Grey-Goose.png`, the logo won't load. Stick with all-lowercase auto-slugs.
+- **Image upload size limits:** Sanity itself accepts up to 100MB per file, but anything over 1MB slows the site down for visitors. For Trusted By logos this isn't a concern (you don't upload logos directly), but for the Project thumbnails Vimeo/YouTube generates, you have nothing to worry about — those are external.
+
+---
+
 ## Need Help?
 
 Contact **Jonel Richardson** at **jonelrichardson@gmail.com**
@@ -200,4 +234,4 @@ For urgent issues (site down, data missing): text Jonel directly.
 
 ---
 
-*Last updated: April 2026*
+*Last updated: May 2026*

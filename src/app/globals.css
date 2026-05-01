@@ -70,3 +70,19 @@ body {
   color: var(--color-text-primary);
   font-family: var(--font-body), system-ui, sans-serif;
 }
+
+/* Sticky-nav anchor offset. The nav at top:0 covers the first 52px of the
+   viewport on mobile and 72px on desktop (NAV_HEIGHT_* in constants.ts).
+   Without this rule, fragment navigation (#about, #work, #inquire) and
+   cross-page Link clicks that scroll to anchors land with the destination
+   title hidden behind the nav. The added ~18px buffer keeps section
+   eyebrows from sitting flush against the nav's bottom edge. Breakpoint
+   matches the md: token Nav.tsx uses to swap heights. */
+html {
+  scroll-padding-top: 70px;
+}
+@media (min-width: 768px) {
+  html {
+    scroll-padding-top: 90px;
+  }
+}

@@ -55,18 +55,37 @@ export interface Kit {
   order: number
 }
 
-export interface Review extends SanitySystemFields {
-  _type: 'review'
-  clientName: string
-  role?: string
-  project: SanityReference
-  reviewText: string
-  email?: string
-  submittedAt?: string
-  approved: boolean
+// Phase 8 schema rewrite — see src/sanity/schemas/review.ts header comment
+// and DESIGN-GUIDELINES change log entry of 2026-05-01 for rationale. The
+// previous shape (clientName / role / reviewText / project-as-reference)
+// assumed every review tied to a published Sanity Project; the new shape
+// supports public submission of free-text project names, brand-for-logo
+// derivation, and a controlled projectType filter vocabulary.
+//
+// projectType reuses the Inquire vocabulary directly so the two forms stay
+// coupled — if Inquire's pills evolve, Review's filter follows. See
+// constants.ts INQUIRE_PROJECT_TYPES for the source list.
+export type { InquireProjectType as ReviewProjectType } from './constants'
+
+// Projected shape returned by WORDS_QUERY and REVIEWS_QUERY. The full
+// Sanity document also carries email + slug + submittedAt + approved, but
+// those don't reach the client — email is private, the rest are query
+// filters / sort keys.
+import type { InquireProjectType } from './constants'
+
+export interface Review {
+  _id: string
+  name: string
+  roleCompany?: string
+  brand?: string
+  project?: string
+  projectType?: InquireProjectType
+  review: string
 }
 
 export type { WorkFilterCategory } from './constants'
+
+export type { ReviewFilterCategory } from './constants'
 
 // Phase 7: Inquire contact list. Discriminated on `icon` — text items
 // render with an arrow prefix, link items render with the Instagram glyph

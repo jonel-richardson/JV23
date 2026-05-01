@@ -132,10 +132,10 @@ None remaining. Schemas are fully locked. Moving to DESIGN-GUIDELINES.
 - ✅ Kit section is a Sanity document type (Nathan can add gear)
 - ✅ Trusted By logos uploaded to Sanity. Image field accepts any format. NATHAN_GUIDE recommends transparent PNG or SVG, ~240px wide, under 500KB. No URL field for v2.
 - ✅ Video hosting decision deferred to Phase 9 — schema is platform-agnostic so build is not blocked
-- ✅ Review URL: `jackvisuals23.com/review` (generic, single link)
-- ✅ Review form fields match the displayed card 1:1 (clientName, role, project reference, reviewText) plus email + Turnstile token for verification
+- ✅ Submission URL: `jackvisuals23.com/leave-review` (verb-based to disambiguate from the `/reviews` archive — generic `/review` would have collided with the plural archive page in URL space)
+- ✅ Submission form fields: name, roleCompany, brand, project (free-text string), projectType (controlled vocab matching Inquire pills), review, email + Turnstile token + honeypot
 - ✅ Reviews auto-publish with `approved: false` default, Nathan toggles to publish
-- ✅ Reviews are sent AFTER project is published — no "project not yet uploaded" edge case
+- ✅ Project field is free-text — public reviewers can describe NDA / off-site / unpublished work without being constrained to the published-projects list. Schema rewrite landed in Phase 8 (see DESIGN-GUIDELINES change log 2026-05-01).
 - ✅ Spam protection: Cloudflare Turnstile (free) + honeypot + IP rate-limit
 - ✅ Categories: fixed enum — Brand · Event · Music · Drone · Commercial
 

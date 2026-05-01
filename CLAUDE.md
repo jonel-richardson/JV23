@@ -271,28 +271,38 @@ Reference `PROJECT-CHECKLIST.md` for the operational steps Jo runs between phase
 - [ ] No new Sanity schema work (form data goes to Formspree, not Sanity)
 - [ ] **Spam test before phase complete:** fill honeypot via devtools → success state shows but no email arrives at Nathan's inbox.
 
-### Phase 8 — Words Scene + Review Submission Flow + Studio Deploy
-- [ ] `Words.tsx` (Scene 07) — fetches `*[_type == "review" && approved == true]` ordered by submittedAt desc
-- [ ] Carousel: one review visible at a time, dot navigation, progress bar, counter (`01 / 03`)
-- [ ] Card structure: oversized `"` mark (Bebas Neue), review text (Inter), attribution block (clientName / role / project line)
+### Phase 8 — Words From Set Scene + Review Submission Flow + Studio Deploy
+
+> Schema rewrite landed at the start of Phase 8 — see DESIGN-GUIDELINES change log 2026-05-01. Old field names (clientName / role / reviewText / project-as-reference) have been replaced with name / roleCompany / brand / project (string) / projectType / review. References below use the new names.
+
+- [ ] `WordsFromSet.tsx` (Scene 07) — fetches `WORDS_QUERY` (5 most recent approved reviews ordered by submittedAt desc, sliced `[0...5]`)
+- [ ] `ReviewCarousel.tsx` (`'use client'`): one review visible at a time, dot navigation, progress bar, counter (`01 / 03`)
+- [ ] `ReviewQuote.tsx`: oversized `"` mark (Bebas Neue), review text (Inter), attribution block (name / roleCompany / project line)
 - [ ] Project line uses mono with `#00ffa3` accent on project name
-- [ ] Auto-advance every 7s, pause on hover
+- [ ] Auto-advance every 7s, pause on user interaction (any dot click), resume after 30s of no interaction
 - [ ] Keyboard arrow navigation, `aria-live="polite"` on active quote
-- [ ] **Public review form at `/review`:**
-  - [ ] `ReviewForm.tsx` — fields: clientName, role, project (dropdown of published Sanity projects), reviewText (max 280 chars with counter), email (not displayed), Turnstile widget, honeypot field
-  - [ ] Project dropdown queries `*[_type == "project"]` ordered by date desc
-  - [ ] Form posts to `/api/reviews` route
+- [ ] `prefers-reduced-motion`: disable auto-advance, no transition animation between reviews (instant swap), default to first review on load, dots remain functional for manual nav
+- [ ] **Public submission form at `/leave-review`** (verb-based URL to disambiguate from the `/reviews` archive):
+  - [ ] `LeaveReviewForm.tsx` — fields: NAME (required), ROLE / COMPANY (optional), BRAND (optional, used for logo lookup), PROJECT TYPE (optional pills, single-select from Inquire vocab), PROJECT NAME (optional free-text), REVIEW (required, max 280 chars), EMAIL (optional, hidden from display) + Turnstile widget + honeypot field
+  - [ ] No project dropdown — `project` is now a free-text string so off-site / NDA / unpublished work can be reviewed
+  - [ ] Form posts to `/api/submit-review` route
   - [ ] Reuses the form-card pattern locked in Phase 7 (form-card / form-label / form-field / form-pills / form-foot)
-- [ ] **API route `/api/reviews/route.ts`:**
-  - [ ] Validates Turnstile token server-side via Cloudflare API
-  - [ ] Rejects if honeypot field is filled
-  - [ ] Rate-limits by IP (Vercel built-in or simple in-memory if cold-starts allow)
+- [ ] **`/reviews` archive page** (lighter dark palette: page bg `#0d0d0d`, card bg `#1a1a1a`, body text `#e0e0e0`):
+  - [ ] Server fetches `REVIEWS_QUERY` (full set, ordered by submittedAt desc, no slice)
+  - [ ] `ReviewsCategoryFilter.tsx` — pills: All · Brand Films · Event Coverage · Drone Cinematography · Music Videos · Other
+  - [ ] `useReviewsFilterStore` (Zustand at `src/stores/`, mirrors `useWorkFilterStore` shape)
+  - [ ] `ReviewCard.tsx` — magazine pull-quote layout with brand logo when `review.brand` matches a Trusted By slug; no logo placeholder when no match
+  - [ ] `getBrandLogoSlug.ts` helper — slugifies the brand string and checks against the hardcoded known-brand list (sourced from `/public/images/trusted-by/` filenames)
+- [ ] **API route `/api/submit-review/route.ts`:**
+  - [ ] Validates Turnstile token server-side via Cloudflare's `siteverify` endpoint
+  - [ ] Rejects if honeypot field is filled (silent 200 → success UI to discourage retries)
+  - [ ] Server-side validation: name + review required, max 280 chars on review, email regex if provided
   - [ ] Writes to Sanity using `SANITY_WRITE_TOKEN` (server-side env var ONLY, never client)
   - [ ] Sets `approved: false`, `submittedAt: now()`
   - [ ] Returns `{ ok: true }` on success, descriptive error otherwise
-- [ ] Success state: thank-you message, no redirect
+- [ ] Success state: form replaced inline with `// REVIEW_RECEIVED` thank-you (mirrors Inquire's success-state pattern), no redirect
 - [ ] Sanity: `approved` toggle visible to Nathan as Editor; he flips ON to publish
-- [ ] **Spam test before phase complete:** submit with honeypot filled → rejected. Submit without Turnstile token → rejected.
+- [ ] **Spam test before phase complete:** submit with honeypot filled → silent drop. Submit without Turnstile token → 400 reject. Submit with valid Turnstile + honeypot empty → review lands in Sanity unapproved.
 - [ ] **Sanity Studio deploy** (folded in from the original Phase 8 list — happens here so Nathan can moderate the first reviews live):
   - [ ] `/studio` route embedded in app
   - [ ] Studio deployed at `jackvisuals23.com/studio` (after domain connect, see SETUP.md)

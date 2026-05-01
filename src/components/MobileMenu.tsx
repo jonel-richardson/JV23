@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { useNavStore } from '@/stores/useNavStore'
 import {
@@ -93,7 +94,7 @@ export default function MobileMenu() {
         onClick={(e) => e.stopPropagation()}
       >
         {NAV_LINKS.map((link, i) => (
-          <a
+          <Link
             key={link.href}
             href={link.href}
             onClick={closeMenu}
@@ -106,7 +107,7 @@ export default function MobileMenu() {
             <span className="font-display text-[44px] tracking-[0.02em] leading-[0.92]">
               {link.label.toUpperCase()}
             </span>
-          </a>
+          </Link>
         ))}
       </nav>
 
@@ -114,14 +115,14 @@ export default function MobileMenu() {
         className="mt-auto px-6 pb-10 pt-8"
         onClick={(e) => e.stopPropagation()}
       >
-        <a
+        <Link
           href={NAV_CTA.href}
           onClick={closeMenu}
           style={itemStyle(NAV_LINKS.length)}
           className="block bg-[var(--color-accent-primary)] text-white font-body font-medium text-[15px] rounded-lg py-3.5 px-5 text-center hover:opacity-90 focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2"
         >
           {NAV_CTA.label} →
-        </a>
+        </Link>
 
         <div
           className="mt-6 flex items-center justify-between"

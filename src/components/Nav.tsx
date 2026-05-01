@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 import { useNavStore } from '@/stores/useNavStore'
 import {
@@ -82,8 +83,8 @@ export default function Nav() {
       className="sticky top-0 z-50 w-full h-[var(--nav-h)] md:h-[var(--nav-h-md)] border-b-[0.5px] border-[var(--color-surface-raised)]"
     >
       <div className="mx-auto flex h-full max-w-[1440px] items-center justify-between px-6 md:px-12">
-        <a
-          href="#top"
+        <Link
+          href="/"
           aria-label="Jack Visuals — home"
           className="inline-flex items-center focus-visible:outline-2 focus-visible:outline-[var(--color-accent-primary)] focus-visible:outline-offset-4 rounded"
         >
@@ -96,7 +97,7 @@ export default function Nav() {
             style={logoStyle}
             className="h-[var(--logo-h)] md:h-[var(--logo-h-md)] w-auto"
           />
-        </a>
+        </Link>
 
         <nav
           aria-label="Primary"
@@ -105,21 +106,21 @@ export default function Nav() {
           <ul className="flex items-center gap-7">
             {NAV_LINKS.map((link) => (
               <li key={link.href}>
-                <a
+                <Link
                   href={link.href}
                   className="font-body text-[13px] leading-none text-[var(--color-text-primary)] hover:text-[var(--color-text-body)] transition-colors focus-visible:outline-2 focus-visible:outline-[var(--color-accent-primary)] focus-visible:outline-offset-4 rounded"
                 >
                   {link.label}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
-          <a
+          <Link
             href={NAV_CTA.href}
             className="font-body font-medium text-[14px] leading-none text-white bg-[var(--color-accent-primary)] rounded-lg px-5 py-2.5 transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2"
           >
             {NAV_CTA.label}
-          </a>
+          </Link>
         </nav>
 
         <button
