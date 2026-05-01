@@ -37,7 +37,7 @@ export default function ReviewQuote({ review, active }: ReviewQuoteProps) {
       <div>
         <div
           aria-hidden="true"
-          className="mb-1 font-display text-[120px] leading-[0.7] text-[var(--color-accent-primary)]"
+          className="mb-1 font-display text-[120px] leading-[0.4] text-[var(--color-accent-primary)]"
         >
           &ldquo;
         </div>
