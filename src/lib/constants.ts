@@ -74,11 +74,11 @@ export interface NavLink {
 export const NAV_LINKS: readonly NavLink[] = [
   { label: 'Work', href: '/#work', number: '01' },
   { label: 'About', href: '/#about', number: '02' },
-  { label: 'Inquire', href: '/#inquire', number: '03' },
+  { label: 'Reviews', href: '/reviews', number: '03' },
 ] as const
 
 export const NAV_CTA = {
-  label: 'Start a project',
+  label: 'Inquire',
   href: '/#inquire',
 } as const
 
@@ -288,7 +288,7 @@ export const WORDS_SEE_ALL_HREF = '/reviews'
 // /reviews archive page (Scene-adjacent, lighter-dark palette per the
 // 2026-05-01 change log entry).
 export const REVIEWS_PAGE_TITLE: readonly string[] = ['WORDS', 'FROM EVERY SET.'] as const
-export const REVIEWS_PAGE_EYEBROW = 'COMPLETE REVIEWS'
+export const REVIEWS_PAGE_EYEBROW = 'REVIEWS'
 export const REVIEWS_PAGE_BODY =
   'Real responses from real shoots. Filter by project type.'
 export const REVIEWS_EMPTY_FOR_CATEGORY =

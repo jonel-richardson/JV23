@@ -21,7 +21,15 @@ export default async function FeaturedWork() {
     >
       <SceneMeta scene="03" label="FEATURED WORK" />
 
-      <EyebrowLabel number="03" label="SELECTED PROJECTS" className="mb-5" />
+      <div className="mb-5 flex items-center justify-between gap-4">
+        <EyebrowLabel number="03" label="SELECTED PROJECTS" />
+        <Link
+          href={FEATURED_VIEW_ALL_HREF}
+          className="font-mono text-[11px] tracking-[0.15em] uppercase text-[#888] motion-safe:transition-colors motion-safe:duration-150 hover:text-[var(--color-accent-secondary)] focus-visible:text-[var(--color-accent-secondary)] focus-visible:outline-none"
+        >
+          {FEATURED_VIEW_ALL_LABEL}
+        </Link>
+      </div>
 
       <h2
         /* @container frame: section title scales smoothly within the 48px–96px range from DESIGN-GUIDELINES */
@@ -58,14 +66,6 @@ export default async function FeaturedWork() {
             ))}
           </div>
 
-          <div className="mt-10 @[1024px]/frame:mt-12">
-            <Link
-              href={FEATURED_VIEW_ALL_HREF}
-              className="inline-block font-mono text-[12px] tracking-[0.15em] uppercase text-[var(--color-text-primary)] motion-safe:transition-colors motion-safe:duration-150 hover:text-[var(--color-accent-primary)]"
-            >
-              {FEATURED_VIEW_ALL_LABEL}
-            </Link>
-          </div>
         </>
       )}
     </section>

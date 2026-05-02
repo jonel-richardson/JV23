@@ -28,7 +28,23 @@ export default async function ReviewsPage() {
       /* @container frame: standard scene padding mirrors /work, with the lighter `#0d0d0d` page bg locked in the change log */
       className="relative bg-[#0d0d0d] px-6 pt-10 pb-15 @[768px]/frame:px-8 @[768px]/frame:pt-14 @[768px]/frame:pb-20 @[1024px]/frame:px-12 @[1024px]/frame:pt-16 @[1024px]/frame:pb-24"
     >
-      <EyebrowLabel label={REVIEWS_PAGE_EYEBROW} className="mb-5" />
+      <div className="mb-5 flex items-center justify-between gap-4">
+        <EyebrowLabel label={REVIEWS_PAGE_EYEBROW} />
+        <div className="flex flex-col items-end gap-2 @[768px]/frame:flex-row @[768px]/frame:items-center @[768px]/frame:gap-6">
+          <Link
+            href="/"
+            className="font-mono text-[11px] tracking-[0.15em] uppercase text-[#888] motion-safe:transition-colors motion-safe:duration-150 hover:text-[var(--color-accent-secondary)] focus-visible:text-[var(--color-accent-secondary)] focus-visible:outline-none"
+          >
+            ← BACK TO HOME
+          </Link>
+          <Link
+            href="/leave-review"
+            className="font-mono text-[11px] tracking-[0.15em] uppercase text-[#888] motion-safe:transition-colors motion-safe:duration-150 hover:text-[var(--color-accent-secondary)] focus-visible:text-[var(--color-accent-secondary)] focus-visible:outline-none"
+          >
+            LEAVE A REVIEW →
+          </Link>
+        </div>
+      </div>
 
       <h1
         /* @container frame: title scales smoothly within the 48–96px range from DESIGN-GUIDELINES */
@@ -47,26 +63,6 @@ export default async function ReviewsPage() {
 
       <ReviewsCategoryFilter />
       <ReviewsGrid reviews={reviews} />
-
-      {/* Footer transition row. Both links use the editorial text-link
-         pattern (mono uppercase, #888 → #00ffa3 on hover) — same shape
-         as the Words From Set "see all reviews" link. Solid CTA buttons
-         are reserved for primary actions inside scenes; transition
-         rows between sections / pages stay quiet. */}
-      <div className="mt-6 flex flex-wrap items-center justify-between gap-6 border-t-[0.5px] border-[#1a1a1a] pt-6">
-        <Link
-          href="/"
-          className="font-mono text-[11px] tracking-[0.15em] uppercase text-[#888] motion-safe:transition-colors motion-safe:duration-150 hover:text-[var(--color-accent-secondary)] focus-visible:text-[var(--color-accent-secondary)] focus-visible:outline-none"
-        >
-          ← BACK TO HOME
-        </Link>
-        <Link
-          href="/leave-review"
-          className="font-mono text-[11px] tracking-[0.15em] uppercase text-[#888] motion-safe:transition-colors motion-safe:duration-150 hover:text-[var(--color-accent-secondary)] focus-visible:text-[var(--color-accent-secondary)] focus-visible:outline-none"
-        >
-          LEAVE A REVIEW →
-        </Link>
-      </div>
     </main>
   )
 }
