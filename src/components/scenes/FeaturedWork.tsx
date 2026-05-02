@@ -25,7 +25,7 @@ export default async function FeaturedWork() {
         <EyebrowLabel number="03" label="SELECTED PROJECTS" />
         <Link
           href={FEATURED_VIEW_ALL_HREF}
-          className="font-mono text-[11px] tracking-[0.15em] uppercase text-[#888] motion-safe:transition-colors motion-safe:duration-150 hover:text-[var(--color-accent-secondary)] focus-visible:text-[var(--color-accent-secondary)] focus-visible:outline-none"
+          className="hidden @[1024px]/frame:inline-block font-mono text-[11px] tracking-[0.15em] uppercase text-[#888] motion-safe:transition-colors motion-safe:duration-150 hover:text-[var(--color-accent-secondary)] focus-visible:text-[var(--color-accent-secondary)] focus-visible:outline-none"
         >
           {FEATURED_VIEW_ALL_LABEL}
         </Link>
@@ -68,6 +68,15 @@ export default async function FeaturedWork() {
 
         </>
       )}
+
+      <div className="mt-10 flex justify-center @[1024px]/frame:hidden">
+        <Link
+          href={FEATURED_VIEW_ALL_HREF}
+          className="font-mono text-[11px] tracking-[0.15em] uppercase text-[#888] motion-safe:transition-colors motion-safe:duration-150 hover:text-[var(--color-accent-secondary)] focus-visible:text-[var(--color-accent-secondary)] focus-visible:outline-none"
+        >
+          {FEATURED_VIEW_ALL_LABEL}
+        </Link>
+      </div>
     </section>
   )
 }
