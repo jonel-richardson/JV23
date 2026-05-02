@@ -38,7 +38,7 @@ Edits projects, services, and trusted-by clients through Sanity Studio. Does not
 - Single-page homepage with 8 scenes in this locked order: Hero → About → Featured Work → Trusted By → Kit → Services → Words (Reviews) → Inquire
 - Standalone `/work` page with full project archive and category filtering
 - Sanity-driven content for: projects, services, trusted-by (with logo upload), kit, reviews
-- Video embeds with platform-agnostic `videoUrl` field (works with Vimeo or YouTube). Final hosting choice deferred to a Phase 9 decision gate, confirmed with Nathan before launch. Schema does not change either way.
+- Video embeds with platform-agnostic `videoUrl` field (works with Vimeo or YouTube). Final hosting choice deferred to a Phase 10 decision gate, confirmed with Nathan before launch. Schema does not change either way.
 - Public review submission flow at `jackvisuals23.com/review` — single generic URL, form includes a project dropdown referencing Nathan's published Sanity projects
 - Review form collects every field the displayed review card needs (no hardcoded data on the front end), plus email + Turnstile token for verification only
 - Auto-publish with moderation gate: review lands in Sanity with `approved: false`, Nathan toggles `approved: true` in Studio to publish
@@ -63,6 +63,7 @@ Edits projects, services, and trusted-by clients through Sanity Studio. Does not
 - Behind-the-scenes video log
 - Per-project case study pages
 - Equipment rental inquiry flow
+- First-load IntroAnimation (camera-photo clip-path layered intro that drifts and reveals the hero) — original Phase 9 plan, dropped from launch scope; not currently designed, not a launch blocker, will revisit post-launch
 
 ---
 
@@ -131,7 +132,7 @@ None remaining. Schemas are fully locked. Moving to DESIGN-GUIDELINES.
 - ✅ Camera animation reuses v1's `camera-pan-viewfinder.mp4`
 - ✅ Kit section is a Sanity document type (Nathan can add gear)
 - ✅ Trusted By logos uploaded to Sanity. Image field accepts any format. NATHAN_GUIDE recommends transparent PNG or SVG, ~240px wide, under 500KB. No URL field for v2.
-- ✅ Video hosting decision deferred to Phase 9 — schema is platform-agnostic so build is not blocked
+- ✅ Video hosting decision deferred to Phase 10 — schema is platform-agnostic so build is not blocked
 - ✅ Submission URL: `jackvisuals23.com/leave-review` (verb-based to disambiguate from the `/reviews` archive — generic `/review` would have collided with the plural archive page in URL space)
 - ✅ Submission form fields: name, roleCompany, brand, project (free-text string), projectType (controlled vocab matching Inquire pills), review, email + Turnstile token + honeypot
 - ✅ Reviews auto-publish with `approved: false` default, Nathan toggles to publish
@@ -149,27 +150,30 @@ None remaining. Schemas are fully locked. Moving to DESIGN-GUIDELINES.
 | 1 | Scaffold: Next.js 16, Tailwind v4, Sanity init, design tokens in globals.css | Not started |
 | 2 | Nav + mobile menu | Not started |
 | 3 | Hero scene | Not started |
-| 4 | Featured Work + `/work` page (placeholder embeds — real player swapped in Phase 9) | Not started |
+| 4 | Featured Work + `/work` page (placeholder embeds — real player swapped in Phase 10) | Not started |
 | 5 | About scene | Not started |
 | 6 | Trusted By + Kit + Services scenes (with logo upload, Sanity-driven kit) | Not started |
 | 7 | Words scene + public review form at `/review` + Sanity API route + Turnstile + moderation toggle | Not started |
 | 8 | Inquire + Sanity Studio deploy + Nathan invite + camera animation decision gate | Not started |
-| 9 | **Decision gate: confirm Vimeo vs YouTube with Nathan** → build the video embed component → SEO + intro animation | Not started |
-| 10 | QA + launch | Not started |
+| 9 | Polish + optimization (drone removal, carousel gap, Trusted By logo sizing, nav swap, responsive cross-link pattern) | Complete (393cf93) |
+| 10 | **Decision gate: confirm Vimeo vs YouTube with Nathan** → build the video embed component → SEO baseline (per-route metadata, OG/Twitter, OG image asset, JSON-LD, sitemap, robots, alt-text + heading audits). IntroAnimation deferred to v3. | Not started |
+| 11 | Launch QA (cross-device, accessibility, Lighthouse, Vercel deploy, custom domain DNS, Studio access verification, Nathan's first independent project add) | Not started |
 
 ---
 
 ## 8. Definition of Done (v2 ships when)
 
-- All 10 phases complete and signed off
-- Lighthouse Performance > 80, SEO > 90 on mobile
-- Nathan has logged into Sanity Studio, added a real project, and seen it appear on the live site without my help
-- Nathan has uploaded a Trusted By logo and seen it render correctly
-- Review submission flow tested end-to-end: client submits via public form → review lands in Sanity as unapproved → Nathan toggles approved → review appears on live site
-- Spam protection verified: a submission with the honeypot field filled is rejected
-- Form submission test from real device → email arrives at `jackltd23@gmail.com`
-- Domain `jackvisuals23.com` is live with HTTPS
-- All 7 metrics in section 4 have a measurement plan in place (not all hit on day one — but measurable)
+> Most of the bullets below are Phase 11 (Launch QA) acceptance — they validate the deployed site, not the codebase. The codebase is feature-complete after Phase 10. Phase 11 turns the codebase into a live site Nathan can use.
+
+- All 11 phases complete and signed off
+- Lighthouse Performance > 80, SEO > 90 on mobile *(Phase 11)*
+- Nathan has logged into Sanity Studio, added a real project, and seen it appear on the live site without my help *(Phase 11)*
+- Nathan has uploaded a Trusted By logo and seen it render correctly *(Phase 11 — note: per the 2026-04-30 schema rewrite, brand logos are committed by Jonel and Nathan creates the matching Studio record. "Uploaded" reads as "added the matching record and saw the logo render.")*
+- Review submission flow tested end-to-end: client submits via public form → review lands in Sanity as unapproved → Nathan toggles approved → review appears on live site *(Phase 11)*
+- Spam protection verified: a submission with the honeypot field filled is rejected *(Phase 11)*
+- Form submission test from real device → email arrives at `jackltd23@gmail.com` *(Phase 11)*
+- Domain `jackvisuals23.com` is live with HTTPS *(Phase 11)*
+- All 7 metrics in section 4 have a measurement plan in place (not all hit on day one — but measurable) *(Phase 11)*
 
 ---
 

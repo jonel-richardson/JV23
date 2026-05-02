@@ -153,7 +153,7 @@ Only `brand` projects get the blue accent. Everything else is muted gray. This i
 
 ### REC / Timecode UI (About portrait card)
 
-The portrait card is framed as a director's monitor over Nathan's photo. The photo is the persistent visual content; the viewfinder overlays are cinematic framing layered on top. The portrait card stands as the final v2 visual — Phase 9's camera-pan animation moved to the Kit scene per the 2026-04-30 change log.
+The portrait card is framed as a director's monitor over Nathan's photo. The photo is the persistent visual content; the viewfinder overlays are cinematic framing layered on top. The portrait card stands as the final v2 visual — the camera-pan animation that was originally planned for the About scene moved to the Kit scene per the 2026-04-30 change log.
 
 - Image: `next/image` with `fill`, `object-cover object-top`, `priority` (above-the-fold on desktop). Card background gradient (`#0a0a0a` → `#050505`) shows briefly while the image loads.
 - Top-left label: `// SHOT 01 · PORTRAIT` in mono `#00ffa3`
@@ -442,7 +442,7 @@ The asset (`/public/videos/kit-camera.mp4`, ~6 sec, 416×752, ~1MB) auto-plays m
 **Why a video loop instead of scroll-driven frames:**
 - Same visual result with zero scroll-coupling complexity, no JavaScript scroll listener, no frame-by-frame asset
 - Camera video sits beside the title + body, demonstrating "the gear, in use" rather than "the gear, on display" — the demonstrative purpose the change log called for
-- Eliminates the Phase 9 camera-animation work entirely; Phase 9 becomes "video hosting decision + embed + SEO + intro animation" only
+- Eliminates the planned camera-animation phase work entirely (originally on the Phase 9 list at the time of this decision; the video + SEO work the camera-animation removal made room for now lives in Phase 10 after the 2026-05-01 phase renumber)
 
 **Performance:** native `<video autoplay loop muted playsInline preload="metadata">` is GPU-decoded by the browser; iPhone 14 holds 60fps without scroll-listener overhead.
 

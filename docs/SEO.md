@@ -292,7 +292,7 @@ When someone taps the link in Nathan's Instagram bio, this is what they land on.
 
 ---
 
-## Build Phase — SEO Checklist (add to Phase 10 QA)
+## Build Phase — SEO Checklist (add to Phase 11 QA)
 
 - [ ] All meta title tags present on homepage and /work
 - [ ] All meta description tags present and under 160 characters

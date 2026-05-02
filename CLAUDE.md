@@ -60,8 +60,7 @@ src/
 │   │   ├── CategoryTag.tsx     — Color-coded category pill
 │   │   └── VideoEmbed.tsx      — Auto-detects Vimeo vs YouTube from URL
 │   ├── animations/
-│   │   ├── CameraScan.tsx      — Scroll-driven camera animation (Phase 8 decision gate, hosted in Kit scene)
-│   │   └── IntroAnimation.tsx  — First-load intro sequence (Phase 9)
+│   │   └── CameraScan.tsx      — Scroll-driven camera animation (Phase 8 decision gate, hosted in Kit scene)
 │   └── forms/
 │       ├── InquireForm.tsx     — Formspree-backed contact form
 │       └── ReviewForm.tsx      — Public review submission with Turnstile
@@ -168,8 +167,9 @@ Reference `PROJECT-CHECKLIST.md` for the operational steps Jo runs between phase
 | 6 | Trusted By + Kit + Services scenes (Scenes 04, 05, 06) | Not started |
 | 7 | Inquire scene (Scene 08) + Formspree contact form | Not started |
 | 8 | Words scene + public `/review` form + API route + Turnstile + moderation toggle + Sanity Studio deploy + Nathan invite | Not started |
-| 9 | Video hosting decision (Vimeo vs YouTube confirmed with Nathan) → embed component → SEO + intro animation | Not started |
-| 10 | QA + launch | Not started |
+| 9 | Polish + optimization (drone removal, carousel gap, Trusted By logo sizing, nav swap, responsive cross-link pattern) | Complete (393cf93) |
+| 10 | Video + SEO (VideoEmbed component, per-route metadata, OG/Twitter, OG image asset, JSON-LD, sitemap, robots, alt-text + heading audits — IntroAnimation deferred) | Not started |
+| 11 | Launch QA (cross-device, accessibility, Lighthouse, Vercel deploy, custom domain DNS, Studio access verification, Nathan's first independent project add) | Not started |
 
 ### Phase 1 — Scaffold
 - [ ] Next.js 16 project initialized with TypeScript and App Router
@@ -214,7 +214,7 @@ Reference `PROJECT-CHECKLIST.md` for the operational steps Jo runs between phase
 - [ ] Desktop: 3-column grid, hover reveals info + play button
 - [ ] `CategoryTag.tsx` reusable — Brand = `#0066ff`, all others = `#888`
 - [ ] "All Projects →" links to `/work`
-- [ ] **Embed strategy: PLACEHOLDER POSTERS ONLY.** Real video embed component is built in Phase 9 after Nathan confirms Vimeo vs YouTube. For now, render the project thumbnail with a play icon overlay; clicking does nothing yet.
+- [ ] **Embed strategy: PLACEHOLDER POSTERS ONLY.** Real video embed component is built in Phase 10 after Nathan confirms Vimeo vs YouTube. For now, render the project thumbnail with a play icon overlay; clicking does nothing yet.
 - [ ] `/work` page: fetches all projects ordered by date desc
 - [ ] Filter tabs: All · Brand · Event · Music · Drone · Commercial (matches the fixed enum from DESIGN-GUIDELINES)
 - [ ] `useWorkFilterStore` for filter state
@@ -310,32 +310,51 @@ Reference `PROJECT-CHECKLIST.md` for the operational steps Jo runs between phase
   - [ ] Nathan tested adding a project, service, trustedBy, kit, and review approval
 - [ ] Camera animation decision gate is **already resolved** (Phase 6 shipped the camera as a continuous HTML5 video loop in the Kit scene; see DESIGN-GUIDELINES "Camera Animation Decision Gate" section).
 
-### Phase 9 — Video Hosting Decision + Embed + SEO + Intro Animation
+### Phase 9 — Polish + Optimization
+
+> Complete on main at 393cf93. Phase 9 was used as a polish-only phase after Phase 8 closed the structural feature set. Six commits shipped across two sessions on 2026-05-01 — none of which were in the original Phase 9 scope (the original Phase 9 = video + SEO has moved to Phase 10).
+
+- [x] Hero drone SVG removed; typography (Bebas Neue display headline, mono eyebrow, mono stats grid) carries the scene with the bottom-left blue glow as the single decorative anchor (`ff5dfad`)
+- [x] ReviewQuote carousel quote-to-body gap tightened via line-box leading fix (`leading-[0.7]` → `leading-[0.4]` on the oversized Bebas Neue quote-mark wrapper) (`ef9f876`)
+- [x] Trusted By logos sized at h-14/h-16 (~2x original baseline) so brands read with presence in the marquee (`e704e37`)
+- [x] Nav CTA label `Start a project` → `Inquire` (action verb → destination noun, paired with the new Reviews nav slot — `eadc5b1`)
+- [x] Nav link `Inquire` → `Reviews` so the nav row reads as four destinations: Work / About / Reviews / Inquire (`eadc5b1`)
+- [x] Cross-link relocation pattern: `/work` and `/reviews` place cross-links inline-with-eyebrow at the top-right at all viewports (`eadc5b1`)
+- [x] Featured Work + Words From Set use responsive cross-link placement: eyebrow-inline at 1024+, footer-position below 1024 — sub-routes get inline at all viewports because their page header has structural authority; homepage scenes don't (`393cf93`)
+
+### Phase 10 — Video + SEO
+
+> Pre-work: Nathan confirms Vimeo vs YouTube. The schema is platform-agnostic (`videoUrl` field), so the component build isn't blocked by the decision, but the choice affects which player chrome the component is tested against.
+
 - [ ] **Decision gate: confirm Vimeo vs YouTube with Nathan.** Decision logged in DESIGN-GUIDELINES change log.
 - [ ] `lib/videoEmbed.ts` — parser detects platform from URL pattern, extracts video ID
-- [ ] `VideoEmbed.tsx` — renders correct iframe (Vimeo or YouTube) based on detected platform
+- [ ] `VideoEmbed.tsx` — platform-agnostic component, renders correct iframe based on detected platform
 - [ ] Vimeo URLs: `https://player.vimeo.com/video/{id}?title=0&byline=0&portrait=0`
 - [ ] YouTube URLs: `https://www.youtube.com/embed/{id}?modestbranding=1&rel=0`
-- [ ] Plug into `ProjectCard.tsx` (replaces Phase 4 placeholder)
+- [ ] Click-to-play pattern: poster + play button → iframe swap on click (no autoplay)
+- [ ] 16:9 aspect ratio default, mobile-responsive
+- [ ] Plug into `ProjectCard.tsx` (replaces the Phase 4 placeholder posters)
 - [ ] Test: paste a Vimeo URL → embed renders. Paste a YouTube URL → embed renders. Bad URL → fallback poster.
 - [ ] **SEO (full spec in SEO.md):**
-  - [ ] `app/layout.tsx` metadata export configured
-  - [ ] OG image at `/public/images/og-cover.jpg` (1200×630, under 200KB)
-  - [ ] `StructuredData.tsx` JSON-LD on homepage
-  - [ ] `app/sitemap.ts` and `app/robots.ts`
+  - [ ] Per-route metadata via Next.js `generateMetadata` (page titles, descriptions)
+  - [ ] Open Graph tags + Twitter Card tags
+  - [ ] OG image asset at `/public/images/og-cover.jpg` (1200×630, hero composition + brand mark, under 200KB — Nathan or Jonel to deliver before this phase claims complete)
+  - [ ] JSON-LD structured data (Person for Nathan, CreativeWork for projects, Review for testimonials)
+  - [ ] Auto-generated sitemap via `app/sitemap.ts`
+  - [ ] `robots.txt` via `app/robots.ts` — `/studio` in Disallow list
   - [ ] Canonical tags
   - [ ] Bebas Neue preloaded
   - [ ] Sanity fetches use `next: { revalidate: 3600 }`
-  - [ ] All images have descriptive alt text
-- [ ] **Intro animation (`IntroAnimation.tsx`):**
-  - [ ] First-load only (sessionStorage flag prevents re-trigger)
-  - [ ] Real camera photo sliced via CSS clip-path layers
-  - [ ] Layers drift apart, fly off screen, hero revealed
-  - [ ] Skipped if `prefers-reduced-motion`
+  - [ ] Alt text audit — every image has descriptive alt text
+  - [ ] Heading hierarchy audit — h1/h2/h3 ordering coherent across all routes
+- [ ] **IntroAnimation: OUT OF SCOPE.** First-load camera-photo clip-path layered intro is deferred to a potential v3 enhancement after launch. Not a launch blocker, not currently designed.
 
-### Phase 10 — QA + Launch
-- [ ] All unit + integration tests passing
-- [ ] All E2E tests passing (Playwright)
+### Phase 11 — Launch QA
+- [ ] All unit + integration tests passing (Vitest)
+- [ ] All E2E tests passing (Playwright Chromium + WebKit)
+- [ ] Cross-device test on real hardware (phone, tablet, laptop)
+- [ ] Real-device mobile audit — verify the deferred Phase 9 Trusted By headline / logo size pixel inversion at 390 against Jonel's eye on real iPhone (one-line fix available in `TrustedBy.tsx:28` if it visually misreads)
+- [ ] Accessibility audit (keyboard nav, screen reader basics, color contrast)
 - [ ] Lighthouse Performance > 80 on mobile
 - [ ] Lighthouse SEO > 90
 - [ ] OG tested at developers.facebook.com/tools/debug
@@ -343,14 +362,17 @@ Reference `PROJECT-CHECKLIST.md` for the operational steps Jo runs between phase
 - [ ] Sitemap accessible at /sitemap.xml
 - [ ] /studio/ blocked in robots.txt
 - [ ] All sections tested at all target breakpoints (375 / 390 / 430 / 768 / 1280 / 1440 / 1920)
+- [ ] Vercel deployment with full env var setup (6 vars per `docs/SETUP.md` Deployment section)
+- [ ] Custom domain DNS for jackvisuals23.com (apex + www, see SETUP.md)
+- [ ] SSL active via Let's Encrypt (Vercel auto-provisioned)
+- [ ] Studio access verification at `jackvisuals23.com/studio` — Nathan invited to `jackltd23@gmail.com` with Editor role
 - [ ] Form submits → email arrives at jackltd23@gmail.com
 - [ ] Review form submits → review lands in Sanity unapproved → Nathan approves → appears on site
 - [ ] Spam test: honeypot-filled submission rejected; Turnstile-failed submission rejected
 - [ ] Vimeo/YouTube embeds playing correctly
 - [ ] Error states tested (embed fail, form fail, empty Sanity)
 - [ ] Real iPhone + Android tested
-- [ ] Domain connected, SSL active
-- [ ] Nathan published a real project end-to-end without help
+- [ ] Nathan published a real project end-to-end without help (Definition of Done check from PRD section 8)
 
 ## 7. Read Before Write
 

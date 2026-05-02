@@ -17,7 +17,7 @@ PHASE 1: Local Development (NOW)
 
 PHASE 2: Pre-Launch Accounts (Before deploying)
   □ Vercel — hosting + auto-deploy from GitHub
-  □ Vimeo Pro OR YouTube — video hosting (Nathan picks at Phase 9)
+  □ Vimeo Pro OR YouTube — video hosting (Nathan picks at Phase 10)
   □ Formspree — contact form (Nathan's account)
   □ Sanity write token — for review submissions
 
@@ -163,7 +163,7 @@ Once the production domain is live, point Nathan at `jackvisuals23.com/studio` a
 
 **No domain yet — does Turnstile still work?** Yes. `localhost` is a valid domain for Turnstile during development. When Nathan buys `jackvisuals23.com`, just go back to the same Turnstile site config and add the new domain. No code changes needed.
 
-**Adding the production domain later (Phase 10):**
+**Adding the production domain later (Phase 11):**
 1. Cloudflare → Turnstile → click your site
 2. Add `jackvisuals23.com` to the domains list
 3. Save. The same site key now works on both localhost and production.
@@ -178,7 +178,7 @@ Once the production domain is live, point Nathan at `jackvisuals23.com/studio` a
 
 ### 3. Vercel
 
-**When to set up:** Phase 9 onward, when ready to deploy a preview.
+**When to set up:** Phase 10 onward, when ready to deploy a preview. Vercel project setup itself is part of Phase 11 launch QA.
 **Cost:** Free tier is enough.
 **Purpose:** Hosts the live site. Auto-deploys from GitHub.
 
@@ -209,9 +209,9 @@ Every push to `main` auto-deploys. Feature branches get preview URLs automatical
 
 ---
 
-### 4. Vimeo Pro OR YouTube (Decision deferred to Phase 9)
+### 4. Vimeo Pro OR YouTube (Decision deferred to Phase 10)
 
-**When to confirm with Nathan:** Phase 9 decision gate.
+**When to confirm with Nathan:** Phase 10 decision gate.
 **Why deferred:** The schema uses a generic `videoUrl` field. The embed component auto-detects the platform from the URL, so the choice doesn't affect any earlier phase.
 
 **Vimeo Pro option:**
@@ -238,7 +238,7 @@ Every push to `main` auto-deploys. Feature branches get preview URLs automatical
 2. Set each video to "Unlisted" or "Public" depending on Nathan's preference
 3. Copy URLs into Sanity (e.g., `https://www.youtube.com/watch?v=abc123`)
 
-The `VideoEmbed.tsx` component built in Phase 9 handles both URL formats automatically.
+The `VideoEmbed.tsx` component built in Phase 10 handles both URL formats automatically.
 
 ---
 
@@ -283,8 +283,8 @@ The `VideoEmbed.tsx` component built in Phase 9 handles both URL formats automat
 | Cloudflare (Turnstile) | Jonel | ✅ Account exists, □ Site to be configured | Free |
 | Sanity Editor (Nathan) | Nathan (invite) | □ Phase 8 | Free |
 | Sanity write token | Jonel | □ Phase 7 (when API route is built) | Free |
-| Vercel | Jonel | □ Phase 9 | Free |
-| Vimeo Pro OR YouTube | Nathan | □ Phase 9 (decision gate) | $20/mo OR Free |
+| Vercel | Jonel | □ Phase 11 | Free |
+| Vimeo Pro OR YouTube | Nathan | □ Phase 10 (decision gate) | $20/mo OR Free |
 | Formspree | Nathan | □ Phase 8 | Free |
 | Domain | Nathan | □ Pre-launch | ~$12/yr |
 
@@ -388,7 +388,7 @@ After the first successful production deploy with the domain connected:
 2. Sign in with the Google account that was invited to the Sanity project (`jackltd23@gmail.com` for Nathan).
 3. Confirm all five content types appear in the left sidebar: Project, Service, Trusted By, Kit, Review.
 4. Create a throwaway test record in any type, publish, then delete it. Verifies write permissions are working.
-5. **Block `/studio` from search engines:** ensure `/studio` is in the Disallow list in `robots.ts` (handled in Phase 9 SEO work — flag if Studio is publicly indexed by accident).
+5. **Block `/studio` from search engines:** ensure `/studio` is in the Disallow list in `robots.ts` (handled in Phase 10 SEO work — flag if Studio is publicly indexed by accident).
 
 ### First-deploy validation checklist
 
@@ -402,10 +402,10 @@ Walk through this list on the first production deploy after Phase 8 ships, and a
 - [ ] `/studio` loads and Nathan can sign in
 - [ ] Nathan can approve a test review in Studio and see it appear on the homepage carousel within ~1 minute (revalidate window)
 - [ ] Inquire form submits successfully (Formspree-side check — email arrives at `jackltd23@gmail.com`)
-- [ ] Sitemap accessible at `/sitemap.xml` (Phase 9)
-- [ ] `robots.txt` blocks `/studio` (Phase 9)
+- [ ] Sitemap accessible at `/sitemap.xml` (Phase 10)
+- [ ] `robots.txt` blocks `/studio` (Phase 10)
 - [ ] No console errors in DevTools on any page
-- [ ] Lighthouse Performance > 80 on mobile (Phase 10 final check)
+- [ ] Lighthouse Performance > 80 on mobile (Phase 11 final check)
 
 ---
 
