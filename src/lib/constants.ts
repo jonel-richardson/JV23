@@ -125,11 +125,11 @@ export const FEATURED_EMPTY_STATE = 'Featured work coming soon.'
 // avoids <br> in the source content per typography rules.
 export const ABOUT_TITLE: readonly string[] = ['MEET JACK.'] as const
 
-// Locked literal copy from docs/mockup.html. Two paragraphs, plain Inter
-// body, no inline styling. Edits go through DESIGN-GUIDELINES change log.
 export const ABOUT_BODY_PARAGRAPHS: readonly string[] = [
-  'A Trinidad-based cinematographer building cinematic stories for brands and events across the Caribbean. Single drone, small team, sharp eye for the moment.',
-  'Nine years behind the lens. Self-taught. Trained on weddings, refined on commercials, currently focused on brand films that move at the speed of a story.',
+  'Jack is a Trinidad-based drone operator and videographer, and the creative force behind Jack Visuals. With a passion for aerial cinematography that dates back to 2018, Jack has spent years mastering both traditional drone flight and FPV — bringing a level of skill and precision to his work that only comes with genuine dedication to the craft.',
+  'Since launching Jack Visuals in 2024, he has hit the ground running, building an impressive client roster that includes globally recognised brands such as Patrón, Grey Goose, Jack Daniel\'s, Gin Mare and Diplomático, as well as some of Trinidad\'s most celebrated carnival events.',
+  'Armed with a professional kit — including the Sony A7 IV, DJI Mini 5 Pro, DJI Avata 2, and DJI Ronin 5 — Jack shoots with the tools that match his ambition. Whether it\'s a high-energy event, a brand activation, or an aerial sequence that stops the scroll, Jack Visuals delivers content that is cinematic, intentional, and built to make an impact.',
+  'Ready to bring your vision to life? Let\'s create something worth watching.',
 ] as const
 
 export const ABOUT_LOCATION = '// PORT OF SPAIN · TRINIDAD & TOBAGO'
