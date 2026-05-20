@@ -123,7 +123,7 @@ export const FEATURED_EMPTY_STATE = 'Featured work coming soon.'
 
 // Display headline rendered one line per array entry — block layout in JSX
 // avoids <br> in the source content per typography rules.
-export const ABOUT_TITLE: readonly string[] = ['MEET', 'NATHAN.'] as const
+export const ABOUT_TITLE: readonly string[] = ['MEET JACK.'] as const
 
 // Locked literal copy from docs/mockup.html. Two paragraphs, plain Inter
 // body, no inline styling. Edits go through DESIGN-GUIDELINES change log.
