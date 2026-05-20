@@ -10,12 +10,12 @@ import {
   ABOUT_TITLE,
 } from '@/lib/constants'
 
-const GRADE_DURATION_MS = 2500
+const TRANSITION = 'filter 3500ms ease-out'
 const FILTER_INITIAL = 'grayscale(1) brightness(0.65) contrast(1.1)'
 const FILTER_FINAL = 'grayscale(0) brightness(1) contrast(1)'
 const TRIGGER_THRESHOLD = 0.2
 
-export default function VariantBColorGrade() {
+export default function VariantB1() {
   const sectionRef = useRef<HTMLElement | null>(null)
   const [triggered, setTriggered] = useState(false)
   const [reducedMotion, setReducedMotion] = useState(false)
@@ -47,13 +47,11 @@ export default function VariantBColorGrade() {
     return () => observer.disconnect()
   }, [])
 
-  // Reduced motion: render at full color from frame 1, no transition.
-  // Otherwise: start desaturated, ease to full color over 2.5s on section entry.
   const portraitWrapperStyle: React.CSSProperties = reducedMotion
     ? { filter: FILTER_FINAL }
     : {
         filter: triggered ? FILTER_FINAL : FILTER_INITIAL,
-        transition: `filter ${GRADE_DURATION_MS}ms ease-out`,
+        transition: TRANSITION,
       }
 
   return (

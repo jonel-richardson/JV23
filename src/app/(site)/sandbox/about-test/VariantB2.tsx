@@ -10,14 +10,15 @@ import {
   ABOUT_TITLE,
 } from '@/lib/constants'
 
-const STAGGER_MS = 600
-const FADE_DURATION_MS = 700
-const TRANSLATE_PX = 14
+// duration | timing | delay — 1s hold at initial filter, then 2.5s ease-out to final.
+const TRANSITION = 'filter 2500ms ease-out 1000ms'
+const FILTER_INITIAL = 'grayscale(1) brightness(0.65) contrast(1.1)'
+const FILTER_FINAL = 'grayscale(0) brightness(1) contrast(1)'
 const TRIGGER_THRESHOLD = 0.2
 
-export default function VariantAParagraphStagger() {
+export default function VariantB2() {
   const sectionRef = useRef<HTMLElement | null>(null)
-  const [visible, setVisible] = useState(false)
+  const [triggered, setTriggered] = useState(false)
   const [reducedMotion, setReducedMotion] = useState(false)
 
   useEffect(() => {
@@ -35,7 +36,7 @@ export default function VariantAParagraphStagger() {
       (entries) => {
         for (const entry of entries) {
           if (entry.isIntersecting) {
-            setVisible(true)
+            setTriggered(true)
             observer.disconnect()
             break
           }
@@ -47,15 +48,12 @@ export default function VariantAParagraphStagger() {
     return () => observer.disconnect()
   }, [])
 
-  const paragraphStyle = (idx: number): React.CSSProperties => {
-    if (reducedMotion) return {}
-    const delay = idx * STAGGER_MS
-    return {
-      opacity: visible ? 1 : 0,
-      transform: visible ? 'translateY(0)' : `translateY(${TRANSLATE_PX}px)`,
-      transition: `opacity ${FADE_DURATION_MS}ms ease-out ${delay}ms, transform ${FADE_DURATION_MS}ms ease-out ${delay}ms`,
-    }
-  }
+  const portraitWrapperStyle: React.CSSProperties = reducedMotion
+    ? { filter: FILTER_FINAL }
+    : {
+        filter: triggered ? FILTER_FINAL : FILTER_INITIAL,
+        transition: TRANSITION,
+      }
 
   return (
     <section
@@ -81,7 +79,6 @@ export default function VariantAParagraphStagger() {
             {ABOUT_BODY_PARAGRAPHS.map((paragraph, idx) => (
               <p
                 key={paragraph}
-                style={paragraphStyle(idx)}
                 className={
                   idx < ABOUT_BODY_PARAGRAPHS.length - 1 ? 'mb-3.5' : undefined
                 }
@@ -96,7 +93,7 @@ export default function VariantAParagraphStagger() {
           </div>
         </div>
 
-        <div className="@[768px]/frame:flex-1">
+        <div className="@[768px]/frame:flex-1" style={portraitWrapperStyle}>
           <AboutPortraitCard />
         </div>
       </div>

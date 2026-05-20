@@ -1,9 +1,10 @@
 import type { Metadata } from 'next'
-import VariantAParagraphStagger from './VariantAParagraphStagger'
-import VariantBColorGrade from './VariantBColorGrade'
+import VariantB1 from './VariantB1'
+import VariantB2 from './VariantB2'
 
-// Sandbox route — NOT FOR PRODUCTION. Compares two About-scene movement
-// options. Belt-and-braces noindex in case the branch ever ships to prod.
+// Sandbox route — NOT FOR PRODUCTION. Compares two color-grade timings
+// for the About portrait. Belt-and-braces noindex in case the branch
+// ever ships to prod.
 export const metadata: Metadata = {
   title: 'Sandbox — About Movement Comparison',
   robots: { index: false, follow: false },
@@ -24,10 +25,10 @@ export default function SandboxAboutMovementPage() {
 
       <div className="px-6 pt-10 pb-2 @[768px]/frame:px-8 @[1024px]/frame:px-12">
         <div className="font-mono text-[10px] tracking-[0.20em] text-[#ff3333]">
-          // SANDBOX A — PARAGRAPH STAGGER FADE
+          // SANDBOX B1 — 3.5s EASE
         </div>
       </div>
-      <VariantAParagraphStagger />
+      <VariantB1 />
 
       <div
         aria-hidden="true"
@@ -36,10 +37,10 @@ export default function SandboxAboutMovementPage() {
 
       <div className="px-6 pt-2 pb-2 @[768px]/frame:px-8 @[1024px]/frame:px-12">
         <div className="font-mono text-[10px] tracking-[0.20em] text-[#ff3333]">
-          // SANDBOX B — COLOR GRADE TRANSITION
+          // SANDBOX B2 — HOLD 1s, THEN 2.5s
         </div>
       </div>
-      <VariantBColorGrade />
+      <VariantB2 />
     </div>
   )
 }
