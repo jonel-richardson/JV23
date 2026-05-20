@@ -99,6 +99,20 @@ export const HERO_GLOW = {
   gradient: 'radial-gradient(circle, rgba(0,102,255,0.12) 0%, transparent 70%)',
 } as const
 
+// Cinematic atmosphere overlay. Static lines reference broadcast-monitor
+// and viewfinder texture; the pulse band sweeps top→bottom on a slow
+// 8s linear loop. Both layers live at z-1 in the Hero stack — above the
+// background glow (z-auto), below content (z-2). Static lines render
+// unconditionally; the pulse band is suppressed under reduced motion.
+export const HERO_SCAN_LINES = {
+  staticBg:
+    'repeating-linear-gradient(0deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 1px, transparent 1px, transparent 4px)',
+  pulseBg:
+    'linear-gradient(180deg, transparent 0%, rgba(0,102,255,0.06) 50%, transparent 100%)',
+  pulseHeight: 60,
+  pulseDurationMs: 8000,
+} as const
+
 // --- Phase 4: Featured Work + /work archive -----------------------------
 
 export const WORK_FILTER_CATEGORIES = [
