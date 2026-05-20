@@ -32,20 +32,12 @@ export const SOCIAL_URLS = {
 export const NAV_HEIGHT_MOBILE = 52
 export const NAV_HEIGHT_DESKTOP = 72
 
-// Logo PNG has ~30% transparent padding baked in. Container height is
-// roughly 1.5× the desired visible artwork height. When Nathan provides
-// a tighter-cropped PNG, reduce these values back to ~24/30px.
-export const LOGO_HEIGHT_MOBILE = 36
-export const LOGO_HEIGHT_DESKTOP = 44
-export const LOGO_INTRINSIC_WIDTH = 500
-export const LOGO_INTRINSIC_HEIGHT = 499
+export const LOGO_HEIGHT_MOBILE = 60
+export const LOGO_HEIGHT_DESKTOP = 72
+export const LOGO_INTRINSIC_WIDTH = 644
+export const LOGO_INTRINSIC_HEIGHT = 387
 
-// Logo PNG currently ships as solid black ink on a transparent canvas.
-// The nav background is rgba(5,5,5,0.92), so black ink would render
-// near-invisible. CSS inversion is a temporary measure until Nathan
-// provides a white-variant PNG. To swap to the real white logo: replace
-// /public/images/jack-visuals-logo.png and set LOGO_FILTER to 'none'.
-export const LOGO_FILTER = 'invert(1)'
+export const LOGO_FILTER = 'none'
 
 export const MOBILE_MENU_ID = 'jv-mobile-menu'
 
