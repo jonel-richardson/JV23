@@ -134,9 +134,6 @@ export const ABOUT_BODY_PARAGRAPHS: readonly string[] = [
 
 export const ABOUT_LOCATION = '// PORT OF SPAIN · TRINIDAD & TOBAGO'
 
-// Portrait card photo. Phase 9 will add a scroll-driven camera-pan
-// animation as a one-time intro flourish layered ON TOP of this image —
-// the photo is the persistent visual.
 export const ABOUT_PORTRAIT_PHOTO = {
   src: '/images/nathan-portrait.jpg',
   alt: 'Nathan, cinematographer, Trinidad & Tobago',

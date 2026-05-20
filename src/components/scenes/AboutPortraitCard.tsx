@@ -1,17 +1,61 @@
+'use client'
+
 import Image from 'next/image'
+import { useEffect, useRef, useState } from 'react'
 import {
   ABOUT_PORTRAIT_PHOTO,
   ABOUT_PORTRAIT_REC_LABEL,
   ABOUT_PORTRAIT_TIMECODE,
 } from '@/lib/constants'
+import { useReducedMotion } from '@/hooks/useReducedMotion'
 
-// Photo is the content. Viewfinder overlays (glow, fade, timecode, REC,
-// corner brackets) are cinematic framing layered on top. Phase 9 adds a
-// one-time scroll-triggered camera-pan animation over the photo — this
-// card is the persistent visual; the animation is the flourish.
+const FILTER_INITIAL = 'grayscale(1) brightness(0.65) contrast(1.1)'
+const FILTER_FINAL = 'grayscale(0) brightness(1) contrast(1)'
+const TRANSITION = 'filter 3500ms ease-out'
+const TRIGGER_THRESHOLD = 0.3
+
+// On viewport entry the whole card transitions from monochrome to full
+// color over 3.5s — references Jack's color-grading craft. Filter wraps
+// the card (not just the <Image>) so the viewfinder overlays settle in
+// alongside the portrait, reading as the look emerging rather than a
+// photo desaturation effect.
 export default function AboutPortraitCard() {
+  const cardRef = useRef<HTMLDivElement | null>(null)
+  const [hasEntered, setHasEntered] = useState(false)
+  const reducedMotion = useReducedMotion()
+
+  useEffect(() => {
+    const el = cardRef.current
+    if (!el) return
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            setHasEntered(true)
+            observer.disconnect()
+            break
+          }
+        }
+      },
+      { threshold: TRIGGER_THRESHOLD },
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+
+  const cardStyle: React.CSSProperties = reducedMotion
+    ? { filter: FILTER_FINAL }
+    : {
+        filter: hasEntered ? FILTER_FINAL : FILTER_INITIAL,
+        transition: TRANSITION,
+      }
+
   return (
-    <div className="relative aspect-[4/5] overflow-hidden rounded-xl border-[0.5px] border-[var(--color-surface-card)] bg-[linear-gradient(180deg,#0a0a0a_0%,#050505_100%)]">
+    <div
+      ref={cardRef}
+      style={cardStyle}
+      className="relative aspect-[4/5] overflow-hidden rounded-xl border-[0.5px] border-[var(--color-surface-card)] bg-[linear-gradient(180deg,#0a0a0a_0%,#050505_100%)]"
+    >
       <Image
         src={ABOUT_PORTRAIT_PHOTO.src}
         alt={ABOUT_PORTRAIT_PHOTO.alt}
