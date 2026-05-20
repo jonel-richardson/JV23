@@ -350,4 +350,8 @@ export const TRUSTED_BY_LOGO_SLUGS: readonly string[] = [
   'jp-chenet',
   'patron',
   'tribe',
+  'red-ants',
+  'barefoot',
+  'jack-daniels',
+  'd-usse',
 ] as const
