@@ -25,7 +25,7 @@ export default function SandboxHeroMovementPage() {
 
       <div className="px-6 pt-10 pb-2 @[768px]/frame:px-8 @[1024px]/frame:px-12">
         <div className="font-mono text-[10px] tracking-[0.20em] text-[#ff3333]">
-          // SANDBOX A — CURSOR-REACTIVE ONLY
+          // SANDBOX A — SUBTLE SCAN LINES
         </div>
       </div>
       <VariantA />
@@ -37,7 +37,7 @@ export default function SandboxHeroMovementPage() {
 
       <div className="px-6 pt-2 pb-2 @[768px]/frame:px-8 @[1024px]/frame:px-12">
         <div className="font-mono text-[10px] tracking-[0.20em] text-[#ff3333]">
-          // SANDBOX B — CURSOR-REACTIVE + SCAN LINES
+          // SANDBOX B — STRONGER SCAN LINES
         </div>
       </div>
       <VariantB />

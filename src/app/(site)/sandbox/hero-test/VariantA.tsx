@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import EyebrowLabel from '@/components/ui/EyebrowLabel'
 import SceneMeta from '@/components/ui/SceneMeta'
 import ButtonPrimary from '@/components/ui/ButtonPrimary'
@@ -8,62 +8,32 @@ import ButtonSecondary from '@/components/ui/ButtonSecondary'
 import { HERO_GLOW, HERO_STATS } from '@/lib/constants'
 import { useReducedMotion } from '@/hooks/useReducedMotion'
 
-const GLOW_SIZE = 360
-const GLOW_HALF = GLOW_SIZE / 2
-const DECAY_MS = 2500
-const CURSOR_TRANSITION = 'transform 250ms ease-out, opacity 200ms ease-out'
-const CURSOR_GLOW_BG =
-  'radial-gradient(circle, rgba(0,102,255,0.4) 0%, transparent 65%)'
+// Subtle treatment: 4px line interval, 0.03 white alpha, 60px / 8s pulse band, 0.06 blue center.
+const SCAN_LINES_BG =
+  'repeating-linear-gradient(0deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 1px, transparent 1px, transparent 4px)'
+const PULSE_BAND_HEIGHT = 60
+const PULSE_BAND_BG =
+  'linear-gradient(180deg, transparent 0%, rgba(0,102,255,0.06) 50%, transparent 100%)'
+const PULSE_BAND_DURATION_MS = 8000
 
 export default function VariantA() {
-  const sectionRef = useRef<HTMLElement>(null)
-  const decayTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
-  const [cursorPos, setCursorPos] = useState<{ x: number; y: number } | null>(
-    null,
-  )
-  const [sectionSize, setSectionSize] = useState({ w: 0, h: 0 })
-  const [canHover, setCanHover] = useState(false)
+  const pulseBandRef = useRef<HTMLDivElement>(null)
   const reducedMotion = useReducedMotion()
 
   useEffect(() => {
-    // Hover/pointer media query is more semantically correct than
-    // 'ontouchstart' for "can the user actually drive a cursor here" —
-    // it correctly classifies hybrid devices in mouse mode as hoverable.
-    setCanHover(
-      window.matchMedia('(hover: hover) and (pointer: fine)').matches,
-    )
-  }, [])
-
-  useEffect(() => {
-    const el = sectionRef.current
+    if (reducedMotion) return
+    const el = pulseBandRef.current
     if (!el) return
-    const update = () => {
-      const rect = el.getBoundingClientRect()
-      setSectionSize({ w: rect.width, h: rect.height })
-    }
-    update()
-    const ro = new ResizeObserver(update)
-    ro.observe(el)
-    return () => ro.disconnect()
-  }, [])
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
-    if (!canHover) return
-    const rect = e.currentTarget.getBoundingClientRect()
-    setCursorPos({ x: e.clientX - rect.left, y: e.clientY - rect.top })
-    if (decayTimerRef.current) clearTimeout(decayTimerRef.current)
-    decayTimerRef.current = setTimeout(() => setCursorPos(null), DECAY_MS)
-  }
-
-  const handleMouseLeave = () => {
-    if (decayTimerRef.current) clearTimeout(decayTimerRef.current)
-    setCursorPos(null)
-  }
-
-  const glowX = cursorPos?.x ?? sectionSize.w / 2
-  const glowY = cursorPos?.y ?? sectionSize.h / 2
-  const isReady = sectionSize.w > 0
-  const showCursorGlow = !reducedMotion && canHover
+    const animation = el.animate(
+      [{ top: `-${PULSE_BAND_HEIGHT}px` }, { top: '100%' }],
+      {
+        duration: PULSE_BAND_DURATION_MS,
+        iterations: Infinity,
+        easing: 'linear',
+      },
+    )
+    return () => animation.cancel()
+  }, [reducedMotion])
 
   const heroGlowStyle: React.CSSProperties = {
     width: HERO_GLOW.width,
@@ -75,9 +45,6 @@ export default function VariantA() {
 
   return (
     <section
-      ref={sectionRef}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
       /* @container frame: matches production Hero padding/min-height verbatim. */
       className="relative min-h-screen overflow-hidden bg-[var(--color-bg-secondary)] px-6 pt-10 pb-12 flex flex-col justify-center @[768px]/frame:px-8 @[768px]/frame:pt-14 @[768px]/frame:pb-30 @[768px]/frame:min-h-0 @[1024px]/frame:px-12 @[1024px]/frame:pt-16 @[1024px]/frame:pb-[140px] @[1024px]/frame:min-h-[88vh]"
     >
@@ -89,22 +56,30 @@ export default function VariantA() {
         style={heroGlowStyle}
       />
 
-      {showCursorGlow && (
+      <div
+        aria-hidden="true"
+        style={{
+          position: 'absolute',
+          inset: 0,
+          background: SCAN_LINES_BG,
+          pointerEvents: 'none',
+          zIndex: 1,
+        }}
+      />
+
+      {!reducedMotion && (
         <div
+          ref={pulseBandRef}
           aria-hidden="true"
           style={{
             position: 'absolute',
-            top: 0,
             left: 0,
-            width: GLOW_SIZE,
-            height: GLOW_SIZE,
-            borderRadius: '50%',
-            background: CURSOR_GLOW_BG,
+            right: 0,
+            top: `-${PULSE_BAND_HEIGHT}px`,
+            height: PULSE_BAND_HEIGHT,
+            background: PULSE_BAND_BG,
             pointerEvents: 'none',
             zIndex: 1,
-            opacity: isReady ? 1 : 0,
-            transform: `translate(${glowX - GLOW_HALF}px, ${glowY - GLOW_HALF}px)`,
-            transition: CURSOR_TRANSITION,
           }}
         />
       )}
